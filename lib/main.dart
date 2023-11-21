@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 
+import 'interfaces/themes/app_themes.dart';
 import 'interfaces/views/login_view.dart';
 
 void main() {
@@ -21,6 +22,9 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      theme: AppThemes.light,
+      darkTheme: AppThemes.dark,
+      themeMode: ThemeMode.dark,
       initialRoute: '/login',
       routes: {
         '/login': (context) => const LoginView(),
