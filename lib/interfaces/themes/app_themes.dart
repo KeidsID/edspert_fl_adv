@@ -7,7 +7,7 @@ abstract final class AppThemes {
       seedColor: _primaryColor,
       brightness: Brightness.light,
     ),
-    useMaterial3: true,
+    useMaterial3: _useMaterial3,
     textTheme: _textTheme,
   );
 
@@ -16,9 +16,11 @@ abstract final class AppThemes {
       seedColor: _primaryColor,
       brightness: Brightness.dark,
     ),
-    useMaterial3: true,
+    useMaterial3: _useMaterial3,
     textTheme: _textTheme,
   );
+
+  static const _useMaterial3 = true;
 
   static const _primaryColor = Color(0xff3a7fd5);
 
@@ -29,21 +31,23 @@ abstract final class AppThemes {
       GoogleFonts.roboto(fontWeight: FontWeight.w600);
   static final _robotoMedium = GoogleFonts.roboto(fontWeight: FontWeight.w500);
 
+  static const _textScale = 1.3; // text looks small on button without this
+
   static final _textTheme = TextTheme(
-    displayLarge: _poppinsBold.copyWith(fontSize: 30),
-    displayMedium: _poppinsBold.copyWith(fontSize: 24),
-    displaySmall: _poppinsBold.copyWith(fontSize: 20),
-    headlineLarge: _robotoSemiBold.copyWith(fontSize: 20),
-    headlineMedium: _robotoSemiBold.copyWith(fontSize: 18),
-    headlineSmall: _robotoSemiBold.copyWith(fontSize: 16),
-    titleLarge: _robotoMedium.copyWith(fontSize: 16),
-    titleMedium: _robotoMedium.copyWith(fontSize: 14),
-    titleSmall: _robotoMedium.copyWith(fontSize: 12),
-    bodyLarge: _robotoSemiBold.copyWith(fontSize: 14),
-    bodyMedium: _robotoSemiBold.copyWith(fontSize: 12),
-    bodySmall: _robotoSemiBold.copyWith(fontSize: 10),
-    labelLarge: _robotoMedium.copyWith(fontSize: 10),
-    labelMedium: _robotoSemiBold.copyWith(fontSize: 8),
-    labelSmall: _robotoMedium.copyWith(fontSize: 8),
+    displayLarge: _poppinsBold.copyWith(fontSize: 30 * _textScale),
+    displayMedium: _poppinsBold.copyWith(fontSize: 24 * _textScale),
+    displaySmall: _poppinsBold.copyWith(fontSize: 20 * _textScale),
+    headlineLarge: _robotoSemiBold.copyWith(fontSize: 20 * _textScale),
+    headlineMedium: _robotoSemiBold.copyWith(fontSize: 18 * _textScale),
+    headlineSmall: _robotoSemiBold.copyWith(fontSize: 16 * _textScale),
+    titleLarge: _robotoMedium.copyWith(fontSize: 16 * _textScale),
+    titleMedium: _robotoMedium.copyWith(fontSize: 14 * _textScale),
+    titleSmall: _robotoMedium.copyWith(fontSize: 12 * _textScale),
+    bodyLarge: _robotoSemiBold.copyWith(fontSize: 14 * _textScale),
+    bodyMedium: _robotoSemiBold.copyWith(fontSize: 12 * _textScale),
+    bodySmall: _robotoSemiBold.copyWith(fontSize: 10 * _textScale),
+    labelLarge: _robotoMedium.copyWith(fontSize: 10 * _textScale),
+    labelMedium: _robotoSemiBold.copyWith(fontSize: 8 * _textScale),
+    labelSmall: _robotoMedium.copyWith(fontSize: 8 * _textScale),
   );
 }
