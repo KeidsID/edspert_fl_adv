@@ -3,6 +3,7 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 import 'interfaces/themes/app_themes.dart';
 import 'interfaces/views/login_view.dart';
+import 'interfaces/views/register_view.dart';
 
 void main() {
   final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
@@ -27,7 +28,8 @@ class MainApp extends StatelessWidget {
       themeMode: ThemeMode.system,
       initialRoute: '/login',
       routes: {
-        '/login': (context) => const LoginView(),
+        '/login': (_) => const LoginView(),
+        '/register': (_) => const RegisterView(),
       },
     );
   }

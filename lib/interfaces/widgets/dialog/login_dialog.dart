@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import 'package:edspert_fl_adv/interfaces/widgets/text_field/outlined_text_field.dart';
+import 'package:edspert_fl_adv/interfaces/widgets/text_field/password_text_field.dart';
+
 class LoginDialog extends StatelessWidget {
   const LoginDialog({super.key});
 
@@ -11,19 +14,13 @@ class LoginDialog extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          TextField(
-            decoration: InputDecoration(
-              border: OutlineInputBorder(),
-              labelText: 'Email',
-            ),
+          OutlinedTextField(
+            decoration: InputDecoration(labelText: 'Email'),
             keyboardType: TextInputType.emailAddress,
           ),
           SizedBox(height: 16.0),
-          TextField(
-            decoration: InputDecoration(
-              border: OutlineInputBorder(),
-              labelText: 'Password',
-            ),
+          PasswordTextField(
+            decoration: InputDecoration(labelText: 'Password'),
           ),
         ],
       ),

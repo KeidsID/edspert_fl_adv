@@ -2,7 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import 'package:edspert_fl_adv/common/assets_paths.dart';
-import 'package:edspert_fl_adv/interfaces/widgets/login_dialog.dart';
+import 'package:edspert_fl_adv/interfaces/widgets/dialog/login_dialog.dart';
 
 class LoginView extends StatelessWidget {
   const LoginView({super.key});
@@ -27,8 +27,8 @@ class LoginView extends StatelessWidget {
                   child: Text('Login', style: textTheme.displaySmall),
                 ),
                 const SizedBox(height: 16.0),
-                SizedBox(
-                  height: 240.0,
+                Flexible(
+                  flex: 4,
                   child: Image.asset(AssetsPaths.loginPageHeadline),
                 ),
                 const SizedBox(height: 16.0),
@@ -60,7 +60,9 @@ class LoginView extends StatelessWidget {
                       style: textTheme.bodyMedium?.copyWith(
                         color: colorScheme.primary,
                       ),
-                      recognizer: TapGestureRecognizer()..onTap = () {},
+                      recognizer: TapGestureRecognizer()
+                        ..onTap =
+                            () => Navigator.pushNamed(context, '/register'),
                     ),
                   ]),
                   textAlign: TextAlign.center,
