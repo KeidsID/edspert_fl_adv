@@ -1,3 +1,4 @@
+import 'package:edspert_fl_adv/interfaces/router/routes.dart';
 import 'package:flutter/material.dart';
 
 import 'package:edspert_fl_adv/interfaces/widgets/text_field/outlined_text_field.dart';
@@ -117,7 +118,7 @@ class _RegisterViewState extends State<RegisterView> {
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: FilledButton(
-                onPressed: () {},
+                onPressed: () => const HomeRoute().go(context),
                 child: const Text('Daftar'),
               ),
             ),

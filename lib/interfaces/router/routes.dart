@@ -15,16 +15,21 @@
 /// ```
 library routes;
 
+import 'package:edspert_fl_adv/interfaces/views/home/home_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:edspert_fl_adv/interfaces/router/utils/dialog_page.dart';
-import 'package:edspert_fl_adv/interfaces/views/auth_view.dart';
-import 'package:edspert_fl_adv/interfaces/views/register_view.dart';
+import 'package:edspert_fl_adv/interfaces/views/auth/auth_view.dart';
+import 'package:edspert_fl_adv/interfaces/views/auth/register_view.dart';
 import 'package:edspert_fl_adv/interfaces/widgets/dialog/login_dialog.dart';
 
 part 'routes/auth.dart';
+part 'routes/home_shell.dart';
 part 'routes.g.dart';
+
+final GlobalKey<NavigatorState> routerNavKey = GlobalKey<NavigatorState>();
+final GlobalKey<NavigatorState> homeShellNavKey = GlobalKey<NavigatorState>();
 
 /// {@template lib.interfaces.router.routes.auth_route}
 /// `/auth` route.
@@ -45,5 +50,23 @@ class AuthRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return const AuthView();
+  }
+}
+
+/// Layout for `/` and `/profile` routes.
+@TypedShellRoute<HomeShellRoute>(
+  routes: [
+    TypedGoRoute<HomeRoute>(path: '/'),
+    TypedGoRoute<ProfileRoute>(path: '/profile'),
+  ],
+)
+class HomeShellRoute extends ShellRouteData {
+  const HomeShellRoute();
+
+  static final GlobalKey<NavigatorState> $navigatorKey = homeShellNavKey;
+
+  @override
+  Widget builder(BuildContext context, GoRouterState state, Widget navigator) {
+    return HomeLayout(child: navigator);
   }
 }
