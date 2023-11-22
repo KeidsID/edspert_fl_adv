@@ -18,12 +18,12 @@ class _RegisterViewState extends State<RegisterView> {
   @override
   Widget build(BuildContext context) {
     const classes = [
-      'SMP - VII',
-      'SMP - VIII',
-      'SMP - IX',
-      'SMA - X',
-      'SMA - XI',
-      'SMA - XII',
+      'X - IPA',
+      'X - IPS',
+      'XI - IPA',
+      'XI - IPS',
+      'XII - IPA',
+      'XII - IPS',
     ];
 
     return Scaffold(

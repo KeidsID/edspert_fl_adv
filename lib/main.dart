@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 
+import 'interfaces/router/router.dart';
 import 'interfaces/themes/app_themes.dart';
-import 'interfaces/views/login_view.dart';
-import 'interfaces/views/register_view.dart';
 
 void main() {
   final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
@@ -21,16 +20,12 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
+      routerConfig: router,
       debugShowCheckedModeBanner: false,
       theme: AppThemes.light,
       darkTheme: AppThemes.dark,
       themeMode: ThemeMode.system,
-      initialRoute: '/login',
-      routes: {
-        '/login': (_) => const LoginView(),
-        '/register': (_) => const RegisterView(),
-      },
     );
   }
 }

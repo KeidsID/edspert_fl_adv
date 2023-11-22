@@ -2,10 +2,10 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import 'package:edspert_fl_adv/common/assets_paths.dart';
-import 'package:edspert_fl_adv/interfaces/widgets/dialog/login_dialog.dart';
+import 'package:edspert_fl_adv/interfaces/router/routes.dart';
 
-class LoginView extends StatelessWidget {
-  const LoginView({super.key});
+class AuthView extends StatelessWidget {
+  const AuthView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -45,10 +45,7 @@ class LoginView extends StatelessWidget {
                 const Expanded(child: SizedBox()),
                 //
                 FilledButton(
-                  onPressed: () => showDialog(
-                    context: context,
-                    builder: (_) => const LoginDialog(),
-                  ),
+                  onPressed: () => const LoginDialogRoute().go(context),
                   child: const Text('Masuk'),
                 ),
                 const SizedBox(height: 16.0),
@@ -61,8 +58,7 @@ class LoginView extends StatelessWidget {
                         color: colorScheme.primary,
                       ),
                       recognizer: TapGestureRecognizer()
-                        ..onTap =
-                            () => Navigator.pushNamed(context, '/register'),
+                        ..onTap = () => const RegisterRoute().go(context),
                     ),
                   ]),
                   textAlign: TextAlign.center,

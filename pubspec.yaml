@@ -9,15 +9,29 @@ environment:
   flutter: ^3.10.0
 
 dependencies:
+  # sdk
   flutter:
     sdk: flutter
+
+  # native
   flutter_native_splash: ^2.3.6
+
+  # flutter
+  go_router: ^12.1.1
   google_fonts: ^6.1.0
 
 dev_dependencies:
+  # sdk
   flutter_test:
     sdk: flutter
+  
+  # utils
   flutter_lints: ^3.0.1
+
+  # builder
+  build_runner: ^2.4.6
+  build_verify: ^3.1.0
+  go_router_builder: ^2.3.4
 
 flutter:
   uses-material-design: true
