@@ -15,18 +15,19 @@
 /// ```
 library routes;
 
-import 'package:edspert_fl_adv/interfaces/views/home/home_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:edspert_fl_adv/interfaces/router/utils/dialog_page.dart';
 import 'package:edspert_fl_adv/interfaces/views/auth/auth_view.dart';
 import 'package:edspert_fl_adv/interfaces/views/auth/register_view.dart';
+import 'package:edspert_fl_adv/interfaces/views/home/home_layout.dart';
+import 'package:edspert_fl_adv/interfaces/views/home/home_view.dart';
 import 'package:edspert_fl_adv/interfaces/widgets/dialog/login_dialog.dart';
 
+part 'routes.g.dart';
 part 'routes/auth.dart';
 part 'routes/home_shell.dart';
-part 'routes.g.dart';
 
 final GlobalKey<NavigatorState> routerNavKey = GlobalKey<NavigatorState>();
 final GlobalKey<NavigatorState> homeShellNavKey = GlobalKey<NavigatorState>();

@@ -7,11 +7,11 @@ class HomeRoute extends GoRouteData {
   /// {@macro lib.interfaces.router.routes.home_route}
   const HomeRoute();
 
+  static const path = '/';
+
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return const SizedBox.expand(
-      child: Center(child: Text('Home View')),
-    );
+    return const HomeView();
   }
 }
 

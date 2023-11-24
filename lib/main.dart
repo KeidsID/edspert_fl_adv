@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 
@@ -25,7 +26,15 @@ class MainApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: AppThemes.light,
       darkTheme: AppThemes.dark,
+      themeAnimationCurve: Curves.easeOut,
+      themeAnimationDuration: const Duration(milliseconds: 500),
       themeMode: ThemeMode.system,
+      scrollBehavior: ScrollConfiguration.of(context).copyWith(
+        dragDevices: {
+          PointerDeviceKind.touch,
+          PointerDeviceKind.mouse,
+        },
+      ),
     );
   }
 }
