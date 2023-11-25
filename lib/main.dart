@@ -4,12 +4,15 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 import 'interfaces/router/router.dart';
 import 'interfaces/themes/app_themes.dart';
+import 'infrastructures/services.dart' as services;
 
 void main() {
   final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
-  Future.delayed(const Duration(seconds: 3), () {
+  Future.microtask(() async {
+    await services.init();
+
     FlutterNativeSplash.remove();
   });
 

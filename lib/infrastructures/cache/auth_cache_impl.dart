@@ -2,22 +2,25 @@ import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../api/models/user.dart';
+import 'package:edspert_fl_adv/core/entities/user.dart';
+import 'package:edspert_fl_adv/core/services/cache/auth_cache.dart';
 
-class AuthCache {
-  const AuthCache(SharedPreferences sharedPreferences)
+class AuthCacheImpl implements AuthCache {
+  const AuthCacheImpl(SharedPreferences sharedPreferences)
       : _cacher = sharedPreferences;
 
   final SharedPreferences _cacher;
 
   static const key = 'auth';
 
+  @override
   Future<void> saveUser(User user) async {
     final isSuccess = await _cacher.setString(key, jsonEncode(user.toJson()));
 
     if (!isSuccess) throw Exception('Failed to save user');
   }
 
+  @override
   Future<User?> getUser() async {
     await _cacher.reload();
 

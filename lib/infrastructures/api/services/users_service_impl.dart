@@ -2,17 +2,19 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 
-import '../errors/common_error_response.dart';
-import '../models/school_detail.dart';
-import '../models/user.dart';
-import '../models/users_service_response.dart';
+import 'package:edspert_fl_adv/core/entities/school_detail.dart';
+import 'package:edspert_fl_adv/core/entities/user.dart';
+import 'package:edspert_fl_adv/core/services/api/users_service.dart';
+import 'package:edspert_fl_adv/infrastructures/api/errors/common_error_response.dart';
+import 'package:edspert_fl_adv/infrastructures/api/models/users_service_response.dart';
 
-final class UsersService {
-  UsersService(BaseOptions clientOptions)
+final class UsersServiceImpl implements UsersService {
+  UsersServiceImpl(BaseOptions clientOptions)
       : _client = Dio(clientOptions.copyWith(path: '/users'));
 
   final Dio _client;
 
+  @override
   Future<User> getUserbyEmail(String email) async {
     final response = await _client.get<String>('', queryParameters: {
       'email': email,
@@ -28,6 +30,7 @@ final class UsersService {
     }
   }
 
+  @override
   Future<User> registerUser({
     required String email,
     required String fullname,
@@ -60,6 +63,7 @@ final class UsersService {
     }
   }
 
+  @override
   Future<User> updateUserByEmail(
     String email, {
     required String fullname,
