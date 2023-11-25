@@ -16,13 +16,12 @@
 library services;
 
 import 'package:dio/dio.dart';
-import 'package:edspert_fl_adv/core/use_cases/auth/get_user_from_cache.dart';
-import 'package:edspert_fl_adv/core/use_cases/auth/register_user.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:edspert_fl_adv/core/services/api/users_service.dart';
 import 'package:edspert_fl_adv/core/services/cache/auth_cache.dart';
+import 'package:edspert_fl_adv/core/use_cases.dart';
 import 'package:edspert_fl_adv/infrastructures/api/client.dart';
 import 'package:edspert_fl_adv/infrastructures/api/services/users_service_impl.dart';
 import 'package:edspert_fl_adv/infrastructures/cache/auth_cache_impl.dart';
@@ -44,6 +43,9 @@ Future<void> init() async {
   // use cases
   locator
     ..registerLazySingleton(() => GetUserFromCache(authCache: locator()))
+    ..registerLazySingleton(
+        () => LoginByEmail(usersService: locator(), authCache: locator()))
+    ..registerLazySingleton(() => LogoutUser(authCache: locator()))
     ..registerLazySingleton(
         () => RegisterUser(usersService: locator(), authCache: locator()));
 

@@ -5,7 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:edspert_fl_adv/core/entities/school_detail.dart';
 import 'package:edspert_fl_adv/core/entities/user.dart';
 import 'package:edspert_fl_adv/core/services/api/users_service.dart';
-import 'package:edspert_fl_adv/infrastructures/api/errors/common_error_response.dart';
+import 'package:edspert_fl_adv/infrastructures/api/errors/common_response_error.dart';
 import 'package:edspert_fl_adv/infrastructures/api/models/users_service_response.dart';
 
 final class UsersServiceImpl implements UsersService {
@@ -26,7 +26,7 @@ final class UsersServiceImpl implements UsersService {
 
       return responseBody.data.toEntity();
     } catch (e) {
-      throw CommonErrorResponse.fromJson(rawResponseBody);
+      throw CommonResponseError.fromJson(rawResponseBody);
     }
   }
 
@@ -59,7 +59,7 @@ final class UsersServiceImpl implements UsersService {
 
       return responseBody.data.toEntity();
     } catch (e) {
-      throw CommonErrorResponse.fromJson(rawResponseBody);
+      throw CommonResponseError.fromJson(rawResponseBody);
     }
   }
 
@@ -92,7 +92,7 @@ final class UsersServiceImpl implements UsersService {
 
       return responseBody.data.toEntity();
     } catch (e) {
-      throw CommonErrorResponse.fromJson(rawResponseBody);
+      throw CommonResponseError.fromJson(rawResponseBody);
     }
   }
 }

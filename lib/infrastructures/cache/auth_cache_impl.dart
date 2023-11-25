@@ -30,4 +30,9 @@ class AuthCacheImpl implements AuthCache {
 
     return User.fromJson(jsonDecode(rawUser));
   }
+
+  @override
+  Future<void> deleteUser() async {
+    await _cacher.remove(key);
+  }
 }

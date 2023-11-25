@@ -1,10 +1,11 @@
-import 'package:flutter/gestures.dart';
+import 'package:flutter/gestures.dart' as gestures;
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'infrastructures/services.dart' as services;
 import 'interfaces/router/router.dart';
 import 'interfaces/themes/app_themes.dart';
-import 'infrastructures/services.dart' as services;
 
 void main() {
   final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
@@ -16,14 +17,16 @@ void main() {
     FlutterNativeSplash.remove();
   });
 
-  runApp(const MainApp());
+  runApp(const ProviderScope(child: MainApp()));
 }
 
-class MainApp extends StatelessWidget {
+class MainApp extends ConsumerWidget {
   const MainApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final router = ref.watch(routerProvider);
+
     return MaterialApp.router(
       routerConfig: router,
       debugShowCheckedModeBanner: false,
@@ -34,8 +37,8 @@ class MainApp extends StatelessWidget {
       themeMode: ThemeMode.system,
       scrollBehavior: ScrollConfiguration.of(context).copyWith(
         dragDevices: {
-          PointerDeviceKind.touch,
-          PointerDeviceKind.mouse,
+          gestures.PointerDeviceKind.touch,
+          gestures.PointerDeviceKind.mouse,
         },
       ),
     );
