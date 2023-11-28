@@ -22,8 +22,6 @@ class ProfileRoute extends GoRouteData {
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return const SizedBox.expand(
-      child: Center(child: Text('Profile View')),
-    );
+    return const ProfileView();
   }
 }

@@ -23,6 +23,7 @@ class User {
   final String name;
   final String email;
   final String? photoUrl;
+  final String schoolName;
   final SchoolDetail schoolDetail;
   final DateTime createDate;
   final Gender gender;
@@ -33,6 +34,7 @@ class User {
     required this.name,
     required this.email,
     required this.photoUrl,
+    required this.schoolName,
     required this.schoolDetail,
     required this.createDate,
     required this.gender,
@@ -45,6 +47,7 @@ class User {
       name: json['name'],
       email: json['email'],
       photoUrl: json['photoUrl'],
+      schoolName: json['schoolName'],
       schoolDetail: SchoolDetail(
         json['schoolGrade'],
         isSpecializedSchool: json['isSpecializedSchool'],
@@ -61,6 +64,7 @@ class User {
       'name': name,
       'email': email,
       'photoUrl': photoUrl,
+      'schoolName': schoolName,
       'schoolGrade': schoolDetail.grade,
       'isSpecializedSchool': '${schoolDetail.schoolLevel}'.endsWith('K'),
       'createDate': createDate.toIso8601String(),

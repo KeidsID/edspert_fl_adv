@@ -34,9 +34,14 @@ class _MainAppState extends ConsumerState<MainApp> {
   void initState() {
     _userCacheListener = ref.listenManual(userCacheProvider, (previous, next) {
       if (!next.isLoading) {
-        FlutterNativeSplash.remove();
-        setState(() => _isSplashRemoved = true);
-        return;
+        try {
+          FlutterNativeSplash.remove();
+          setState(() => _isSplashRemoved = true);
+          return;
+        } catch (e) {
+          setState(() => _isSplashRemoved = true);
+          return;
+        }
       }
     });
 

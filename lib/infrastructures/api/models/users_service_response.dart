@@ -46,6 +46,7 @@ class RawUser with _$RawUser {
       name: name,
       email: email,
       photoUrl: photoUrl,
+      schoolName: schoolName,
       schoolDetail: SchoolDetail(
         num.parse(schoolGrade).toInt(),
         isSpecializedSchool: schoolName.startsWith('SMK'),

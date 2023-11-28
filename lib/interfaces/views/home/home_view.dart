@@ -1,14 +1,17 @@
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:edspert_fl_adv/interfaces/providers/user_cache_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:edspert_fl_adv/common/assets_paths.dart';
+import 'package:edspert_fl_adv/interfaces/providers/user_cache_provider.dart';
+import 'package:edspert_fl_adv/interfaces/router/routes.dart';
 import 'package:edspert_fl_adv/interfaces/widgets/others/course_card.dart';
 import 'package:edspert_fl_adv/interfaces/widgets/others/home_view_headline_card.dart';
+import 'package:edspert_fl_adv/interfaces/widgets/others/network_image_circle_avatar.dart';
 
 class HomeView extends ConsumerWidget {
   const HomeView({super.key});
+
+  static String avatarHeroTag = 'home-avatar';
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -82,9 +85,6 @@ class _HomeViewAppBar extends ConsumerWidget {
     final textTheme = Theme.of(context).textTheme;
 
     final userAsync = ref.watch(userCacheProvider);
-    final userCacheNotifier = ref.read(userCacheProvider.notifier);
-
-    final isLoading = userAsync.isLoading || userAsync.isRefreshing;
 
     return SizedBox(
       height: kToolbarHeight,
@@ -105,22 +105,12 @@ class _HomeViewAppBar extends ConsumerWidget {
             ],
           ),
           Flexible(
-            child: InkWell(
-              onTap: isLoading ? null : () => _onAvatarTap(userCacheNotifier),
-              child: Material(
-                child: CircleAvatar(
-                  radius: 24.0,
-                  child: CachedNetworkImage(
-                    imageUrl: userAsync.value?.photoUrl ?? '',
-                    placeholder: (_, __) => const Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                    errorWidget: (_, __, ___) => Image.asset(
-                      AssetsPaths.dummyAvatar,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
+            child: Hero(
+              tag: HomeView.avatarHeroTag,
+              child: NetworkImageCircleAvatar(
+                userAsync.value?.photoUrl ?? '',
+                radius: 24.0,
+                onTap: () => const ProfileRoute().go(context),
               ),
             ),
           ),
@@ -128,6 +118,4 @@ class _HomeViewAppBar extends ConsumerWidget {
       ),
     );
   }
-
-  void _onAvatarTap(UserCache userCacheNotifier) => userCacheNotifier.logout();
 }
