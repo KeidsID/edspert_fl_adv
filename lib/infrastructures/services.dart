@@ -19,12 +19,12 @@ import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:edspert_fl_adv/core/services/api/users_service.dart';
-import 'package:edspert_fl_adv/core/services/cache/auth_cache.dart';
+import 'package:edspert_fl_adv/core/services.dart';
 import 'package:edspert_fl_adv/core/use_cases.dart';
 import 'package:edspert_fl_adv/infrastructures/api/client/client.dart';
 import 'package:edspert_fl_adv/infrastructures/api/services/users_service_impl.dart';
 import 'package:edspert_fl_adv/infrastructures/cache/auth_cache_impl.dart';
+import 'package:edspert_fl_adv/infrastructures/cache/theme_mode_cache_impl.dart';
 
 final locator = GetIt.instance;
 
@@ -38,9 +38,13 @@ Future<void> init() async {
     ..registerLazySingleton<UsersService>(() => UsersServiceImpl(locator()));
 
   // cache services
-  locator.registerLazySingleton<AuthCache>(() => AuthCacheImpl(locator()));
+  locator
+    ..registerLazySingleton<AuthCache>(() => AuthCacheImpl(locator()))
+    ..registerLazySingleton<ThemeModeCache>(
+        () => ThemeModeCacheImpl(locator()));
 
   // use cases
+  // auth
   locator
     ..registerLazySingleton(() => GetUserFromCache(authCache: locator()))
     ..registerLazySingleton(
@@ -48,6 +52,11 @@ Future<void> init() async {
     ..registerLazySingleton(() => LogoutUser(authCache: locator()))
     ..registerLazySingleton(
         () => RegisterUser(usersService: locator(), authCache: locator()));
+
+  // others
+  locator
+    ..registerLazySingleton(() => GetThemeMode(themeModeCache: locator()))
+    ..registerLazySingleton(() => SetThemeMode(themeModeCache: locator()));
 
   await locator.allReady();
 }

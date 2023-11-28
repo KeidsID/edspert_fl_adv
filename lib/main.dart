@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'core/entities/user.dart';
 import 'infrastructures/services.dart' as services;
+import 'interfaces/providers/app_theme_mode_provider.dart';
 import 'interfaces/providers/user_cache_provider.dart';
 import 'interfaces/router/router.dart';
 import 'interfaces/themes/app_themes.dart';
@@ -50,18 +51,16 @@ class _MainAppState extends ConsumerState<MainApp> {
 
   @override
   Widget build(BuildContext context) {
-    final router = ref.watch(routerProvider);
-
     if (_isSplashRemoved) _userCacheListener.close();
 
     return MaterialApp.router(
-      routerConfig: router,
+      routerConfig: ref.watch(routerProvider),
       debugShowCheckedModeBanner: false,
       theme: AppThemes.light,
       darkTheme: AppThemes.dark,
       themeAnimationCurve: Curves.easeOut,
       themeAnimationDuration: const Duration(milliseconds: 500),
-      themeMode: ThemeMode.system,
+      themeMode: ref.watch(appThemeModeProvider),
       scrollBehavior: ScrollConfiguration.of(context).copyWith(
         dragDevices: {
           gestures.PointerDeviceKind.touch,

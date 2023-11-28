@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:edspert_fl_adv/interfaces/providers/user_cache_provider.dart';
 import 'package:edspert_fl_adv/interfaces/views/home/home_view.dart';
 import 'package:edspert_fl_adv/interfaces/widgets/others/network_image_circle_avatar.dart';
+import 'package:edspert_fl_adv/interfaces/widgets/others/theme_mode_dropdown_button.dart';
 
 const _cardMargin = EdgeInsets.symmetric(horizontal: 16.0);
 const _cardPadding = EdgeInsets.all(16.0);
@@ -13,38 +14,15 @@ class ProfileView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final userCacheNotifier = ref.read(userCacheProvider.notifier);
-
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
-    final textTheme = theme.textTheme;
-
-    return SafeArea(
+    return const SafeArea(
       child: SizedBox.expand(
         child: CustomScrollView(
           slivers: [
-            const _ProfileViewAppBar(),
-            const SliverToBoxAdapter(child: SizedBox(height: 24.0)),
-            const _ProfileViewIdentityCard(),
-            const SliverToBoxAdapter(child: SizedBox(height: 16.0)),
-            _ProfileViewCardLayout(
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: TextButton.icon(
-                  onPressed: () => userCacheNotifier.logout(),
-                  icon: Icon(
-                    Icons.logout_outlined,
-                    color: colorScheme.error,
-                  ),
-                  label: Text(
-                    'Keluar',
-                    style: textTheme.labelLarge?.copyWith(
-                      color: colorScheme.error,
-                    ),
-                  ),
-                ),
-              ),
-            ),
+            _ProfileViewAppBar(),
+            SliverToBoxAdapter(child: SizedBox(height: 24.0)),
+            _ProfileViewIdentityCard(),
+            SliverToBoxAdapter(child: SizedBox(height: 16.0)),
+            _ProfileViewSettingsCard(),
           ],
         ),
       ),
@@ -154,6 +132,24 @@ class _ProfileViewCardLayout extends StatelessWidget {
   }
 }
 
+TextStyle? _getCardTitleTextStyle(BuildContext context) {
+  return Theme.of(context).textTheme.headlineSmall;
+}
+
+TextStyle? _getContentTitleTextStyle(BuildContext context) {
+  final theme = Theme.of(context);
+  final textTheme = theme.textTheme;
+  final textColor = textTheme.bodyMedium?.color;
+
+  return textTheme.bodyMedium?.copyWith(
+    color: textColor?.withOpacity(0.6),
+  );
+}
+
+TextStyle? _getContentTextStyle(BuildContext context) {
+  return Theme.of(context).textTheme.bodyLarge;
+}
+
 class _ProfileViewIdentityCard extends ConsumerWidget {
   const _ProfileViewIdentityCard();
 
@@ -161,54 +157,86 @@ class _ProfileViewIdentityCard extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final userAsync = ref.watch(userCacheProvider);
 
-    final theme = Theme.of(context);
-    final textTheme = theme.textTheme;
-    final textColor = textTheme.bodyMedium?.color;
-
-    final labelTextStyle = textTheme.bodyMedium?.copyWith(
-      color: textColor?.withOpacity(0.5),
+    return _ProfileViewCardLayout(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('Identitas Diri', style: _getCardTitleTextStyle(context)),
+          //
+          const SizedBox(height: 24.0),
+          Text('Nama Lengkap', style: _getContentTitleTextStyle(context)),
+          Text(
+            userAsync.value?.name ?? 'Anonim',
+            style: _getContentTextStyle(context),
+          ),
+          //
+          const SizedBox(height: 16.0),
+          Text('Email', style: _getContentTitleTextStyle(context)),
+          Text(
+            userAsync.value?.email ?? 'anonim@example.com',
+            style: _getContentTextStyle(context),
+          ),
+          //
+          const SizedBox(height: 16.0),
+          Text('Jenis Kelamin', style: _getContentTitleTextStyle(context)),
+          Text(
+            '${userAsync.value?.gender ?? '<manusia>'}',
+            style: _getContentTextStyle(context),
+          ),
+          //
+          const SizedBox(height: 16.0),
+          Text('Kelas', style: _getContentTitleTextStyle(context)),
+          Text(
+            '${userAsync.value?.schoolDetail ?? '<kelas - tingkat>'}',
+            style: _getContentTextStyle(context),
+          ),
+          //
+          const SizedBox(height: 16.0),
+          Text('Sekolah', style: _getContentTitleTextStyle(context)),
+          Text(
+            userAsync.value?.schoolName ?? 'SMA Anonim',
+            style: _getContentTextStyle(context),
+          ),
+        ],
+      ),
     );
-    final valueTextStyle = textTheme.titleMedium;
+  }
+}
+
+class _ProfileViewSettingsCard extends ConsumerWidget {
+  const _ProfileViewSettingsCard();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final userCacheNotifier = ref.read(userCacheProvider.notifier);
+
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
 
     return _ProfileViewCardLayout(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Identitas Diri', style: textTheme.headlineSmall),
+          Text('Pengaturan', style: _getCardTitleTextStyle(context)),
           //
           const SizedBox(height: 24.0),
-          Text('Nama Lengkap', style: labelTextStyle),
-          Text(
-            userAsync.value?.name ?? 'Anonim',
-            style: valueTextStyle,
-          ),
+          Text('Tema Aplikasi', style: _getContentTitleTextStyle(context)),
+          const ThemeModeDropdownButton(),
           //
           const SizedBox(height: 16.0),
-          Text('Email', style: labelTextStyle),
-          Text(
-            userAsync.value?.email ?? 'anonim@example.com',
-            style: valueTextStyle,
-          ),
-          //
-          const SizedBox(height: 16.0),
-          Text('Jenis Kelamin', style: labelTextStyle),
-          Text(
-            '${userAsync.value?.gender ?? '<manusia>'}',
-            style: valueTextStyle,
-          ),
-          //
-          const SizedBox(height: 16.0),
-          Text('Kelas', style: labelTextStyle),
-          Text(
-            '${userAsync.value?.schoolDetail ?? '<kelas - tingkat>'}',
-            style: valueTextStyle,
-          ),
-          //
-          const SizedBox(height: 16.0),
-          Text('Sekolah', style: labelTextStyle),
-          Text(
-            userAsync.value?.schoolName ?? 'SMA Anonim',
-            style: valueTextStyle,
+          Text('Akun', style: _getContentTitleTextStyle(context)),
+          TextButton.icon(
+            onPressed: () => userCacheNotifier.logout(),
+            icon: Icon(
+              Icons.logout_outlined,
+              color: colorScheme.error,
+            ),
+            label: Text(
+              'Keluar',
+              style: _getContentTextStyle(context)?.copyWith(
+                color: colorScheme.error,
+              ),
+            ),
           ),
         ],
       ),
