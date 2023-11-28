@@ -19,7 +19,7 @@ class HomeViewHeadlineCard extends StatelessWidget {
       child: Card(
         color: colorScheme.primary,
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          padding: const EdgeInsets.only(left: 16.0),
           child: Row(
             children: [
               Flexible(
@@ -32,10 +32,17 @@ class HomeViewHeadlineCard extends StatelessWidget {
               ),
               Align(
                 alignment: Alignment.bottomCenter,
-                child: SizedBox(
-                  height: height * 0.6,
-                  child: Image.asset(AssetsPaths.homePageHeadline),
-                ),
+                child: LayoutBuilder(builder: (_, constraints) {
+                  final height = constraints.maxHeight;
+
+                  return SizedBox(
+                    height: height * 0.6,
+                    child: Image.asset(
+                      AssetsPaths.homePageHeadline,
+                      fit: BoxFit.cover,
+                    ),
+                  );
+                }),
               ),
             ],
           ),

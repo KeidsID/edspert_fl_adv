@@ -16,6 +16,7 @@ class AuthView extends StatelessWidget {
     final textColor = textTheme.bodyMedium?.color;
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: SizedBox.expand(
           child: Padding(
@@ -27,8 +28,8 @@ class AuthView extends StatelessWidget {
                   child: Text('Login', style: textTheme.displaySmall),
                 ),
                 const SizedBox(height: 16.0),
-                Flexible(
-                  flex: 4,
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.4,
                   child: Image.asset(AssetsPaths.loginPageHeadline),
                 ),
                 const SizedBox(height: 16.0),

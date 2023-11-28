@@ -22,7 +22,7 @@ class User {
   final String id;
   final String name;
   final String email;
-  final String photoUrl;
+  final String? photoUrl;
   final SchoolDetail schoolDetail;
   final DateTime createDate;
   final Gender gender;

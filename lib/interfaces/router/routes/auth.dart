@@ -9,7 +9,10 @@ class LoginDialogRoute extends GoRouteData {
 
   @override
   Page<void> buildPage(BuildContext context, GoRouterState state) {
-    return DialogPage(builder: (_) => const LoginDialog());
+    return DialogPage(
+      barrierDismissible: false,
+      builder: (_) => const LoginDialog(),
+    );
   }
 }
 

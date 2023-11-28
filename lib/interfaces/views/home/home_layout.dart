@@ -8,11 +8,13 @@ const _navs = <_NavDelegate>[
     icon: Icon(Icons.home_outlined),
     activeIcon: Icon(Icons.home),
     label: 'Home',
+    tooltip: 'Home',
   ),
   _NavDelegate(
     icon: Icon(Icons.person_outlined),
     activeIcon: Icon(Icons.person),
     label: 'Profile',
+    tooltip: 'Profile',
   ),
 ];
 
@@ -58,7 +60,7 @@ class HomeLayout extends StatelessWidget {
   int _currentIndex(BuildContext context) {
     final currentRoute = GoRouterState.of(context).uri.path;
 
-    if (currentRoute.startsWith(ProfileRoute.path)) return 1;
+    if (currentRoute.startsWith(const ProfileRoute().location)) return 1;
 
     return 0;
   }

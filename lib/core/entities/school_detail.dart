@@ -45,7 +45,7 @@ class SchoolDetail {
           schoolLevel = SchoolLevel.smk;
           break;
         }
-        schoolLevel = SchoolLevel.smp;
+        schoolLevel = SchoolLevel.sma;
         break;
       default:
         throw RangeError.range(
@@ -60,4 +60,17 @@ class SchoolDetail {
 
   final int grade;
   late final SchoolLevel schoolLevel;
+
+  /// List of [SchoolDetail] for each grade.
+  static final classes = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+      .map((e) => SchoolDetail(e))
+      .toList()
+    ..addAll([10, 11, 12].map(
+      (e) => SchoolDetail(e, isSpecializedSchool: true),
+    ));
+
+  @override
+  String toString() {
+    return '$grade - $schoolLevel';
+  }
 }

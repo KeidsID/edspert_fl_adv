@@ -36,7 +36,7 @@ final GlobalKey<NavigatorState> homeShellNavKey = GlobalKey<NavigatorState>();
 /// `/auth` route.
 /// {@endtemplate}
 @TypedGoRoute<AuthRoute>(
-  path: AuthRoute.path,
+  path: '/auth',
   routes: [
     TypedGoRoute<LoginDialogRoute>(path: 'login'),
     TypedGoRoute<RegisterRoute>(path: 'register')
@@ -45,8 +45,6 @@ final GlobalKey<NavigatorState> homeShellNavKey = GlobalKey<NavigatorState>();
 class AuthRoute extends GoRouteData {
   /// {@macro lib.interfaces.router.routes.auth_route}
   const AuthRoute();
-
-  static const path = '/auth';
 
   @override
   Widget build(BuildContext context, GoRouterState state) {

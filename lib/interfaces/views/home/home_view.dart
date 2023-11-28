@@ -1,13 +1,17 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:edspert_fl_adv/interfaces/providers/user_cache_provider.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:edspert_fl_adv/common/assets_paths.dart';
 import 'package:edspert_fl_adv/interfaces/widgets/others/course_card.dart';
 import 'package:edspert_fl_adv/interfaces/widgets/others/home_view_headline_card.dart';
-import 'package:flutter/material.dart';
 
-class HomeView extends StatelessWidget {
+class HomeView extends ConsumerWidget {
   const HomeView({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
     final textTheme = theme.textTheme;
 
@@ -18,32 +22,7 @@ class HomeView extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(
-                height: kToolbarHeight,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Hai, Altop',
-                          style: textTheme.bodyMedium?.copyWith(
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const Text('Selamat Datang'),
-                      ],
-                    ),
-                    const Flexible(
-                      child: CircleAvatar(
-                        backgroundImage: AssetImage(AssetsPaths.dummyAvatar),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              const _HomeViewAppBar(),
               const SizedBox(height: 16.0),
               const HomeViewHeadlineCard(),
               const SizedBox(height: 16.0),
@@ -93,4 +72,62 @@ class HomeView extends StatelessWidget {
       ),
     );
   }
+}
+
+class _HomeViewAppBar extends ConsumerWidget {
+  const _HomeViewAppBar();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final textTheme = Theme.of(context).textTheme;
+
+    final userAsync = ref.watch(userCacheProvider);
+    final userCacheNotifier = ref.read(userCacheProvider.notifier);
+
+    final isLoading = userAsync.isLoading || userAsync.isRefreshing;
+
+    return SizedBox(
+      height: kToolbarHeight,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Hai, ${userAsync.value?.name ?? 'Anonim'}',
+                style: textTheme.bodyMedium?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const Text('Selamat Datang'),
+            ],
+          ),
+          Flexible(
+            child: InkWell(
+              onTap: isLoading ? null : () => _onAvatarTap(userCacheNotifier),
+              child: Material(
+                child: CircleAvatar(
+                  radius: 24.0,
+                  child: CachedNetworkImage(
+                    imageUrl: userAsync.value?.photoUrl ?? '',
+                    placeholder: (_, __) => const Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                    errorWidget: (_, __, ___) => Image.asset(
+                      AssetsPaths.dummyAvatar,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _onAvatarTap(UserCache userCacheNotifier) => userCacheNotifier.logout();
 }
