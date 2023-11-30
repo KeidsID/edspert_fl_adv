@@ -54,7 +54,9 @@ class _RegisterViewState extends ConsumerState<RegisterView> {
           children: [
             Expanded(
               child: SingleChildScrollView(
-                padding: const EdgeInsets.all(16.0).copyWith(bottom: 0),
+                padding: const EdgeInsets.all(kPaddingValue).copyWith(
+                  bottom: 0,
+                ),
                 child: Form(
                   key: _formKey,
                   child: Column(
@@ -75,7 +77,7 @@ class _RegisterViewState extends ConsumerState<RegisterView> {
                           validator: AppFormValidators.email,
                         ),
                       ),
-                      const SizedBox(height: 16.0),
+                      const SizedBox(height: kSpacerValue),
                       ..._inputFieldSection(
                         context,
                         title: 'Nama Lengkap',
@@ -89,7 +91,7 @@ class _RegisterViewState extends ConsumerState<RegisterView> {
                           validator: AppFormValidators.fullname,
                         ),
                       ),
-                      const SizedBox(height: 16.0),
+                      const SizedBox(height: kSpacerValue),
                       ..._inputFieldSection(
                         context,
                         title: 'Jenis Kelamin',
@@ -102,7 +104,7 @@ class _RegisterViewState extends ConsumerState<RegisterView> {
                           validator: AppFormValidators.gender,
                         ),
                       ),
-                      const SizedBox(height: 16.0),
+                      const SizedBox(height: kSpacerValue),
                       ..._inputFieldSection(
                         context,
                         title: 'Kelas',
@@ -126,7 +128,7 @@ class _RegisterViewState extends ConsumerState<RegisterView> {
                           validator: AppFormValidators.schoolGrade,
                         ),
                       ),
-                      const SizedBox(height: 16.0),
+                      const SizedBox(height: kSpacerValue),
                       ..._inputFieldSection(
                         context,
                         title: 'Nama Sekolah',
@@ -148,7 +150,7 @@ class _RegisterViewState extends ConsumerState<RegisterView> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(kPaddingValue),
               child: FilledButton(
                 onPressed: isLoading ? null : _onRegister(userCacheNotifier),
                 child: const Text('Daftar'),

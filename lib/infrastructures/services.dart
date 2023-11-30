@@ -51,7 +51,9 @@ Future<void> init() async {
         () => LoginByEmail(usersService: locator(), authCache: locator()))
     ..registerLazySingleton(() => LogoutUser(authCache: locator()))
     ..registerLazySingleton(
-        () => RegisterUser(usersService: locator(), authCache: locator()));
+        () => RegisterUser(usersService: locator(), authCache: locator()))
+    ..registerLazySingleton(
+        () => UpdateUserByEmail(usersService: locator(), authCache: locator()));
 
   // others
   locator

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'core/entities/user.dart';
 import 'infrastructures/services.dart' as services;
 import 'interfaces/providers/app_theme_mode_provider.dart';
 import 'interfaces/providers/user_cache_provider.dart';
@@ -29,29 +28,14 @@ class MainApp extends ConsumerStatefulWidget {
 class _MainAppState extends ConsumerState<MainApp> {
   bool _isSplashRemoved = false;
 
-  late final ProviderSubscription<AsyncValue<User?>> _userCacheListener;
-
-  @override
-  void initState() {
-    _userCacheListener = ref.listenManual(userCacheProvider, (previous, next) {
-      if (!next.isLoading) {
-        try {
-          FlutterNativeSplash.remove();
-          setState(() => _isSplashRemoved = true);
-          return;
-        } catch (e) {
-          setState(() => _isSplashRemoved = true);
-          return;
-        }
-      }
-    });
-
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
-    if (_isSplashRemoved) _userCacheListener.close();
+    final userAsync = ref.watch(userCacheProvider);
+
+    if (userAsync.hasValue && !_isSplashRemoved) {
+      FlutterNativeSplash.remove();
+      setState(() => _isSplashRemoved = true);
+    }
 
     return MaterialApp.router(
       routerConfig: ref.watch(routerProvider),

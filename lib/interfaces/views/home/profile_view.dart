@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:edspert_fl_adv/common/constants.dart';
 import 'package:edspert_fl_adv/interfaces/providers/user_cache_provider.dart';
-import 'package:edspert_fl_adv/interfaces/views/home/home_view.dart';
+import 'package:edspert_fl_adv/interfaces/router/routes.dart';
 import 'package:edspert_fl_adv/interfaces/widgets/others/network_image_circle_avatar.dart';
 import 'package:edspert_fl_adv/interfaces/widgets/others/theme_mode_dropdown_button.dart';
 
-const _cardMargin = EdgeInsets.symmetric(horizontal: 16.0);
-const _cardPadding = EdgeInsets.all(16.0);
+const _cardMargin = EdgeInsets.symmetric(horizontal: kPaddingValue);
+const _cardPadding = EdgeInsets.all(kPaddingValue);
 
 class ProfileView extends ConsumerWidget {
   const ProfileView({super.key});
@@ -18,11 +19,11 @@ class ProfileView extends ConsumerWidget {
       child: SizedBox.expand(
         child: CustomScrollView(
           slivers: [
-            _ProfileViewAppBar(),
-            SliverToBoxAdapter(child: SizedBox(height: 24.0)),
-            _ProfileViewIdentityCard(),
-            SliverToBoxAdapter(child: SizedBox(height: 16.0)),
-            _ProfileViewSettingsCard(),
+            _AppBar(),
+            SliverToBoxAdapter(child: SizedBox(height: kLargeSpacerValue)),
+            _IdentityCard(),
+            SliverToBoxAdapter(child: SizedBox(height: kSpacerValue)),
+            _SettingsCard(),
           ],
         ),
       ),
@@ -30,12 +31,13 @@ class ProfileView extends ConsumerWidget {
   }
 }
 
-class _ProfileViewAppBar extends ConsumerWidget {
-  const _ProfileViewAppBar();
+class _AppBar extends ConsumerWidget {
+  const _AppBar();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final userAsync = ref.watch(userCacheProvider);
+    final user = userAsync.valueOrNull;
 
     final theme = Theme.of(context);
     final textTheme = theme.textTheme;
@@ -49,12 +51,20 @@ class _ProfileViewAppBar extends ConsumerWidget {
       title: const Text('Akun Saya'),
       actions: [
         TextButton(
-          onPressed: () {},
+          onPressed: (user == null)
+              ? null
+              : () {
+                  EditProfileDialogRoute(
+                    email: user.email,
+                    oldName: user.name,
+                    oldGender: user.gender.toString(),
+                    oldSchoolGrade: user.schoolDetail.toString(),
+                    oldSchoolName: user.schoolName,
+                  ).go(context);
+                },
           child: Text(
             'Edit',
-            style: textTheme.labelLarge?.copyWith(
-              color: foregroundColor,
-            ),
+            style: textTheme.labelLarge?.copyWith(color: foregroundColor),
           ),
         ),
       ],
@@ -91,12 +101,9 @@ class _ProfileViewAppBar extends ConsumerWidget {
                     ],
                   ),
                 ),
-                Hero(
-                  tag: HomeView.avatarHeroTag,
-                  child: NetworkImageCircleAvatar(
-                    userAsync.value?.photoUrl ?? '',
-                    radius: 32.0,
-                  ),
+                NetworkImageCircleAvatar(
+                  userAsync.value?.photoUrl ?? '',
+                  radius: 32.0,
                 ),
               ],
             ),
@@ -132,11 +139,11 @@ class _ProfileViewCardLayout extends StatelessWidget {
   }
 }
 
-TextStyle? _getCardTitleTextStyle(BuildContext context) {
+TextStyle? kPVCardTitleStyle(BuildContext context) {
   return Theme.of(context).textTheme.headlineSmall;
 }
 
-TextStyle? _getContentTitleTextStyle(BuildContext context) {
+TextStyle? kPVContentTitleStyle(BuildContext context) {
   final theme = Theme.of(context);
   final textTheme = theme.textTheme;
   final textColor = textTheme.bodyMedium?.color;
@@ -146,56 +153,58 @@ TextStyle? _getContentTitleTextStyle(BuildContext context) {
   );
 }
 
-TextStyle? _getContentTextStyle(BuildContext context) {
+TextStyle? kPVContentValueStyle(BuildContext context) {
   return Theme.of(context).textTheme.bodyLarge;
 }
 
-class _ProfileViewIdentityCard extends ConsumerWidget {
-  const _ProfileViewIdentityCard();
+class _IdentityCard extends ConsumerWidget {
+  const _IdentityCard();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final userAsync = ref.watch(userCacheProvider);
 
+    final user = userAsync.valueOrNull;
+
     return _ProfileViewCardLayout(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Identitas Diri', style: _getCardTitleTextStyle(context)),
+          Text('Identitas Diri', style: kPVCardTitleStyle(context)),
           //
-          const SizedBox(height: 24.0),
-          Text('Nama Lengkap', style: _getContentTitleTextStyle(context)),
+          const SizedBox(height: kLargeSpacerValue),
+          Text('Nama Lengkap', style: kPVContentTitleStyle(context)),
           Text(
-            userAsync.value?.name ?? 'Anonim',
-            style: _getContentTextStyle(context),
+            user?.name ?? 'Anonim',
+            style: kPVContentValueStyle(context),
           ),
           //
-          const SizedBox(height: 16.0),
-          Text('Email', style: _getContentTitleTextStyle(context)),
+          const SizedBox(height: kSpacerValue),
+          Text('Email', style: kPVContentTitleStyle(context)),
           Text(
-            userAsync.value?.email ?? 'anonim@example.com',
-            style: _getContentTextStyle(context),
+            user?.email ?? 'anonim@example.com',
+            style: kPVContentValueStyle(context),
           ),
           //
-          const SizedBox(height: 16.0),
-          Text('Jenis Kelamin', style: _getContentTitleTextStyle(context)),
+          const SizedBox(height: kSpacerValue),
+          Text('Jenis Kelamin', style: kPVContentTitleStyle(context)),
           Text(
-            '${userAsync.value?.gender ?? '<manusia>'}',
-            style: _getContentTextStyle(context),
+            '${user?.gender ?? '<manusia>'}',
+            style: kPVContentValueStyle(context),
           ),
           //
-          const SizedBox(height: 16.0),
-          Text('Kelas', style: _getContentTitleTextStyle(context)),
+          const SizedBox(height: kSpacerValue),
+          Text('Kelas', style: kPVContentTitleStyle(context)),
           Text(
-            '${userAsync.value?.schoolDetail ?? '<kelas - tingkat>'}',
-            style: _getContentTextStyle(context),
+            '${user?.schoolDetail ?? '<kelas - tingkat>'}',
+            style: kPVContentValueStyle(context),
           ),
           //
-          const SizedBox(height: 16.0),
-          Text('Sekolah', style: _getContentTitleTextStyle(context)),
+          const SizedBox(height: kSpacerValue),
+          Text('Sekolah', style: kPVContentTitleStyle(context)),
           Text(
-            userAsync.value?.schoolName ?? 'SMA Anonim',
-            style: _getContentTextStyle(context),
+            user?.schoolName ?? 'SMA Anonim',
+            style: kPVContentValueStyle(context),
           ),
         ],
       ),
@@ -203,8 +212,8 @@ class _ProfileViewIdentityCard extends ConsumerWidget {
   }
 }
 
-class _ProfileViewSettingsCard extends ConsumerWidget {
-  const _ProfileViewSettingsCard();
+class _SettingsCard extends ConsumerWidget {
+  const _SettingsCard();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -217,14 +226,17 @@ class _ProfileViewSettingsCard extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Pengaturan', style: _getCardTitleTextStyle(context)),
+          Text('Pengaturan', style: kPVCardTitleStyle(context)),
           //
-          const SizedBox(height: 24.0),
-          Text('Tema Aplikasi', style: _getContentTitleTextStyle(context)),
+          const SizedBox(height: kLargeSpacerValue),
+          Text(
+            'Tema Aplikasi',
+            style: kPVContentTitleStyle(context),
+          ),
           const ThemeModeDropdownButton(),
           //
-          const SizedBox(height: 16.0),
-          Text('Akun', style: _getContentTitleTextStyle(context)),
+          const SizedBox(height: kSpacerValue),
+          Text('Akun', style: kPVContentTitleStyle(context)),
           TextButton.icon(
             onPressed: () => userCacheNotifier.logout(),
             icon: Icon(
@@ -233,7 +245,7 @@ class _ProfileViewSettingsCard extends ConsumerWidget {
             ),
             label: Text(
               'Keluar',
-              style: _getContentTextStyle(context)?.copyWith(
+              style: theme.textTheme.bodyMedium?.copyWith(
                 color: colorScheme.error,
               ),
             ),

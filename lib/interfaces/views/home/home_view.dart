@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:edspert_fl_adv/common/assets_paths.dart';
+import 'package:edspert_fl_adv/common/constants.dart';
 import 'package:edspert_fl_adv/interfaces/providers/user_cache_provider.dart';
 import 'package:edspert_fl_adv/interfaces/router/routes.dart';
 import 'package:edspert_fl_adv/interfaces/widgets/others/course_card.dart';
@@ -11,8 +12,6 @@ import 'package:edspert_fl_adv/interfaces/widgets/others/network_image_circle_av
 class HomeView extends ConsumerWidget {
   const HomeView({super.key});
 
-  static String avatarHeroTag = 'home-avatar';
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
@@ -21,7 +20,7 @@ class HomeView extends ConsumerWidget {
     return SafeArea(
       child: SizedBox.expand(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(kPaddingValue),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -105,13 +104,10 @@ class _HomeViewAppBar extends ConsumerWidget {
             ],
           ),
           Flexible(
-            child: Hero(
-              tag: HomeView.avatarHeroTag,
-              child: NetworkImageCircleAvatar(
-                userAsync.value?.photoUrl ?? '',
-                radius: 24.0,
-                onTap: () => const ProfileRoute().go(context),
-              ),
+            child: NetworkImageCircleAvatar(
+              userAsync.value?.photoUrl ?? '',
+              radius: 24.0,
+              onTap: () => const ProfileRoute().go(context),
             ),
           ),
         ],

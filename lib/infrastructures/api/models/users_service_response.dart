@@ -27,7 +27,7 @@ class RawUser with _$RawUser {
     @JsonKey(name: 'iduser') required String id,
     @JsonKey(name: 'user_name') required String name,
     @JsonKey(name: 'user_email') required String email,
-    @JsonKey(name: 'user_foto') required String? photoUrl,
+    @JsonKey(name: 'user_foto') required String photoUrl,
     @JsonKey(name: 'user_asal_sekolah') required String schoolName,
     @JsonKey(name: 'date_create') required DateTime createDate,
     @JsonKey(name: 'user_gender') required String gender,

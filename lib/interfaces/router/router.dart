@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import 'package:edspert_fl_adv/common/constants.dart';
 import 'package:edspert_fl_adv/interfaces/providers/user_cache_provider.dart';
 import 'package:edspert_fl_adv/interfaces/router/routes.dart';
 
@@ -29,7 +30,11 @@ GoRouter router(RouterRef ref) {
     routes: $appRoutes,
     redirect: (context, state) {
       final isAuthAsync = isAuthNotifier.value;
-      final isAuthRoute = state.uri.path.startsWith(const AuthRoute().location);
+
+      final currentRoute = state.uri.path;
+      final isAuthRoute = currentRoute.startsWith(const AuthRoute().location);
+
+      kLogger.i('currentRoute: ${state.uri}');
 
       // if (isAuthAsync.unwrapPrevious().hasError) {
       //   return const AuthRoute().location;

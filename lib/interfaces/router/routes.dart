@@ -18,8 +18,12 @@ library routes;
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import 'package:edspert_fl_adv/core/entities/editable_user.dart';
+import 'package:edspert_fl_adv/core/entities/school_detail.dart';
+import 'package:edspert_fl_adv/core/entities/user.dart';
 import 'package:edspert_fl_adv/interfaces/router/utils/dialog_page.dart';
 import 'package:edspert_fl_adv/interfaces/views.dart';
+import 'package:edspert_fl_adv/interfaces/widgets/dialog/edit_profile_dialog.dart';
 import 'package:edspert_fl_adv/interfaces/widgets/dialog/login_dialog.dart';
 
 part 'routes.g.dart';
@@ -53,7 +57,12 @@ class AuthRoute extends GoRouteData {
 @TypedShellRoute<HomeShellRoute>(
   routes: [
     TypedGoRoute<HomeRoute>(path: '/'),
-    TypedGoRoute<ProfileRoute>(path: '/profile'),
+    TypedGoRoute<ProfileRoute>(
+      path: '/profile',
+      routes: [
+        TypedGoRoute<EditProfileDialogRoute>(path: 'edit'),
+      ],
+    ),
   ],
 )
 class HomeShellRoute extends ShellRouteData {

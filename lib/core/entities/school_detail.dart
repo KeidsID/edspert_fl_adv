@@ -1,3 +1,5 @@
+import 'package:equatable/equatable.dart';
+
 enum SchoolLevel {
   sd,
   smp,
@@ -21,7 +23,7 @@ enum SchoolLevel {
   }
 }
 
-class SchoolDetail {
+class SchoolDetail extends Equatable {
   SchoolDetail(this.grade, {bool isSpecializedSchool = false})
       : assert(grade >= 1 && grade <= 12, 'Grade must be 1 to 12 only') {
     switch (grade) {
@@ -73,4 +75,15 @@ class SchoolDetail {
   String toString() {
     return '$grade - $schoolLevel';
   }
+
+  static SchoolDetail fromString(String value) {
+    final datas = value.split(' - ');
+    final grade = num.parse(datas[0]).toInt();
+    final isSpecializedSchool = datas[1].endsWith('K');
+
+    return SchoolDetail(grade, isSpecializedSchool: isSpecializedSchool);
+  }
+
+  @override
+  List<Object?> get props => [grade, schoolLevel];
 }
