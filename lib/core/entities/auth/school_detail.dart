@@ -1,31 +1,7 @@
 import 'package:equatable/equatable.dart';
 
-enum SchoolLevel {
-  sd,
-  smp,
-  sma,
-  smk;
-
-  @override
-  String toString() {
-    switch (this) {
-      case SchoolLevel.sd:
-        return 'SD';
-      case SchoolLevel.smp:
-        return 'SMP';
-      case SchoolLevel.sma:
-        return 'SMA';
-      case SchoolLevel.smk:
-        return 'SMK';
-      default:
-        throw TypeError();
-    }
-  }
-}
-
 final class SchoolDetail extends Equatable {
-  SchoolDetail(this.grade, {bool isSpecializedSchool = false})
-      : assert(grade >= 1 && grade <= 12, 'Grade must be 1 to 12 only') {
+  SchoolDetail(this.grade, {bool isSpecializedSchool = false}) {
     switch (grade) {
       case 1:
       case 2:
@@ -54,7 +30,7 @@ final class SchoolDetail extends Equatable {
           grade,
           1,
           12,
-          'Grade Range',
+          'Grade range error',
           'Grade must be 1 to 12 only',
         );
     }
@@ -86,4 +62,27 @@ final class SchoolDetail extends Equatable {
 
   @override
   List<Object?> get props => [grade, schoolLevel];
+}
+
+enum SchoolLevel {
+  sd,
+  smp,
+  sma,
+  smk;
+
+  @override
+  String toString() {
+    switch (this) {
+      case SchoolLevel.sd:
+        return 'SD';
+      case SchoolLevel.smp:
+        return 'SMP';
+      case SchoolLevel.sma:
+        return 'SMA';
+      case SchoolLevel.smk:
+        return 'SMK';
+      default:
+        throw TypeError();
+    }
+  }
 }

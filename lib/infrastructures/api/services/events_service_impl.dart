@@ -6,8 +6,8 @@ import 'package:edspert_fl_adv/core/entities/event/event_banner.dart';
 import 'package:edspert_fl_adv/core/services.dart';
 import 'package:edspert_fl_adv/infrastructures/api/models/event_banners_response.dart';
 
-final class EventServiceImpl implements EventService {
-  EventServiceImpl(Dio client) : _client = client;
+final class EventsServiceImpl implements EventsService {
+  EventsServiceImpl(Dio client) : _client = client;
 
   final Dio _client;
 

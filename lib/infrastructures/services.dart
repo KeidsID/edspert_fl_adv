@@ -16,13 +16,13 @@
 library services;
 
 import 'package:dio/dio.dart';
-import 'package:edspert_fl_adv/infrastructures/api/services/event_service_impl.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:edspert_fl_adv/core/services.dart';
 import 'package:edspert_fl_adv/core/use_cases.dart';
 import 'package:edspert_fl_adv/infrastructures/api/client/client.dart';
+import 'package:edspert_fl_adv/infrastructures/api/services/events_service_impl.dart';
 import 'package:edspert_fl_adv/infrastructures/api/services/users_service_impl.dart';
 import 'package:edspert_fl_adv/infrastructures/cache/auth_cache_impl.dart';
 import 'package:edspert_fl_adv/infrastructures/cache/theme_mode_cache_impl.dart';
@@ -38,7 +38,7 @@ Future<void> init() async {
     // api
     ..registerSingleton<Dio>(client)
     ..registerLazySingleton<UsersService>(() => UsersServiceImpl(locator()))
-    ..registerLazySingleton<EventService>(() => EventServiceImpl(locator()))
+    ..registerLazySingleton<EventsService>(() => EventsServiceImpl(locator()))
 
     // cache
     ..registerLazySingleton<AuthCache>(() => AuthCacheImpl(locator()))

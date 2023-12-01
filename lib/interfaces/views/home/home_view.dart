@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:edspert_fl_adv/common/constants.dart';
 import 'package:edspert_fl_adv/interfaces/providers/auth/user_cache_provider.dart';
-import 'package:edspert_fl_adv/interfaces/providers/event/event_banners_provider.dart';
+import 'package:edspert_fl_adv/interfaces/providers/events/event_banners_provider.dart';
 import 'package:edspert_fl_adv/interfaces/router/routes.dart';
 import 'package:edspert_fl_adv/interfaces/widgets/others/course_card.dart';
 import 'package:edspert_fl_adv/interfaces/widgets/others/event_banner_card.dart';
