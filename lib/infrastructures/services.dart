@@ -21,11 +21,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:edspert_fl_adv/core/services.dart';
 import 'package:edspert_fl_adv/core/use_cases.dart';
-import 'package:edspert_fl_adv/infrastructures/api/client/client.dart';
-import 'package:edspert_fl_adv/infrastructures/api/services/events_service_impl.dart';
-import 'package:edspert_fl_adv/infrastructures/api/services/users_service_impl.dart';
-import 'package:edspert_fl_adv/infrastructures/cache/auth_cache_impl.dart';
-import 'package:edspert_fl_adv/infrastructures/cache/theme_mode_cache_impl.dart';
+
+import 'api/client/client.dart';
+import 'api/services/courses_service_impl.dart';
+import 'api/services/events_service_impl.dart';
+import 'api/services/users_service_impl.dart';
+import 'cache/auth_cache_impl.dart';
+import 'cache/theme_mode_cache_impl.dart';
 
 final locator = GetIt.instance;
 
@@ -37,8 +39,9 @@ Future<void> init() async {
   locator
     // api
     ..registerSingleton<Dio>(client)
-    ..registerLazySingleton<UsersService>(() => UsersServiceImpl(locator()))
+    ..registerLazySingleton<CoursesService>(() => CoursesServiceImpl(locator()))
     ..registerLazySingleton<EventsService>(() => EventsServiceImpl(locator()))
+    ..registerLazySingleton<UsersService>(() => UsersServiceImpl(locator()))
 
     // cache
     ..registerLazySingleton<AuthCache>(() => AuthCacheImpl(locator()))
@@ -57,7 +60,10 @@ Future<void> init() async {
     ..registerLazySingleton(
         () => UpdateUserByEmail(usersService: locator(), authCache: locator()))
 
-    // event
+    // courses
+    ..registerLazySingleton(() => GetCoursesByMajor(coursesService: locator()))
+
+    // events
     ..registerLazySingleton(() => GetEventBanners(eventService: locator()))
 
     // others

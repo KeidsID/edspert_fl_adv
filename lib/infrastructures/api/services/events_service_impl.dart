@@ -1,10 +1,12 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:edspert_fl_adv/core/entities/event/event_banner.dart';
 
+import 'package:edspert_fl_adv/core/entities/event/event_banner.dart';
 import 'package:edspert_fl_adv/core/services.dart';
-import 'package:edspert_fl_adv/infrastructures/api/models/event_banners_response.dart';
+
+import '../models/event_banners_response.dart';
+import 'utils/dio_exception_handler.dart';
 
 final class EventsServiceImpl implements EventsService {
   EventsServiceImpl(Dio client) : _client = client;
@@ -13,13 +15,19 @@ final class EventsServiceImpl implements EventsService {
 
   @override
   Future<List<EventBanner>> getEventBanners(int limit) async {
-    final rawRes = await _client.get<String>('/event/list', queryParameters: {
-      'limit': '$limit',
-    });
-    final rawResBody = jsonDecode(rawRes.data ?? '');
+    try {
+      final rawRes = await _client.get<String>('/event/list', queryParameters: {
+        'limit': '$limit',
+      });
+      final rawResBody = jsonDecode(rawRes.data ?? '');
 
-    final resBody = EventBannersResponse.fromJson(rawResBody);
+      final resBody = EventBannersResponse.fromJson(rawResBody);
 
-    return resBody.data.map((e) => e.toEntity()).toList();
+      return resBody.data.map((e) => e.toEntity()).toList();
+    } catch (e) {
+      if (e is DioException) dioExceptionHandler(e);
+
+      rethrow;
+    }
   }
 }

@@ -5,7 +5,8 @@ import 'package:dio/dio.dart';
 import 'package:edspert_fl_adv/core/entities/auth/school_detail.dart';
 import 'package:edspert_fl_adv/core/entities/auth/user.dart';
 import 'package:edspert_fl_adv/core/services/api/users_service.dart';
-import 'package:edspert_fl_adv/infrastructures/api/models/users_service_response.dart';
+
+import '../models/users_service_response.dart';
 import 'utils/dio_exception_handler.dart';
 
 final class UsersServiceImpl implements UsersService {
