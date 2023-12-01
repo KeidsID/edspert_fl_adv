@@ -5,7 +5,7 @@ import 'user.dart';
 
 /// Model class for editable data/props on [User] entity. Usefull for edit
 /// profile api.
-class EditableUser extends Equatable {
+final class EditableUser extends Equatable {
   final String name;
   final Gender gender;
   final SchoolDetail schoolDetail;

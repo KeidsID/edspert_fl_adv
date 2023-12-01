@@ -4,8 +4,8 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'infrastructures/services.dart' as services;
-import 'interfaces/providers/app_theme_mode_provider.dart';
-import 'interfaces/providers/user_cache_provider.dart';
+import 'interfaces/providers/auth/user_cache_provider.dart';
+import 'interfaces/providers/others/app_theme_mode_provider.dart';
 import 'interfaces/router/router.dart';
 import 'interfaces/themes/app_themes.dart';
 

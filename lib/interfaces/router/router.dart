@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:edspert_fl_adv/common/constants.dart';
-import 'package:edspert_fl_adv/interfaces/providers/user_cache_provider.dart';
+import 'package:edspert_fl_adv/interfaces/providers/auth/user_cache_provider.dart';
 import 'package:edspert_fl_adv/interfaces/router/routes.dart';
 
 part 'router.g.dart';

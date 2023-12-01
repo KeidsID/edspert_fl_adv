@@ -2,40 +2,32 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 
-import 'package:edspert_fl_adv/core/entities/school_detail.dart';
-import 'package:edspert_fl_adv/core/entities/user.dart';
+import 'package:edspert_fl_adv/core/entities/auth/school_detail.dart';
+import 'package:edspert_fl_adv/core/entities/auth/user.dart';
 import 'package:edspert_fl_adv/core/services/api/users_service.dart';
-import 'package:edspert_fl_adv/infrastructures/api/errors/common_response_exception.dart';
 import 'package:edspert_fl_adv/infrastructures/api/models/users_service_response.dart';
+import 'utils/dio_exception_handler.dart';
 
 final class UsersServiceImpl implements UsersService {
   UsersServiceImpl(Dio client) : _client = client;
 
   final Dio _client;
 
-  void _dioExceptionHandler(DioException e) {
-    final response = e.response;
-
-    if (response == null) throw e;
-
-    final rawResponseBody = jsonDecode(response.data ?? '');
-
-    throw CommonResponseException.fromJson(rawResponseBody);
-  }
+  static const _basePath = '/users';
 
   @override
   Future<User> getUserbyEmail(String email) async {
     try {
-      final response = await _client.get<String>('/users', queryParameters: {
+      final rawRes = await _client.get<String>(_basePath, queryParameters: {
         'email': email,
       });
-      final rawResponseBody = jsonDecode(response.data ?? '');
+      final rawResBody = jsonDecode(rawRes.data ?? '');
 
-      final responseBody = UsersServiceResponse.fromJson(rawResponseBody);
+      final resBody = UsersServiceResponse.fromJson(rawResBody);
 
-      return responseBody.data.toEntity();
+      return resBody.data.toEntity();
     } catch (e) {
-      if (e is DioException) _dioExceptionHandler(e);
+      if (e is DioException) dioExceptionHandler(e);
 
       rethrow;
     }
@@ -51,8 +43,8 @@ final class UsersServiceImpl implements UsersService {
     required String photoUrl,
   }) async {
     try {
-      final response = await _client.post<String>(
-        '/users/registrasi',
+      final rawRes = await _client.post<String>(
+        '$_basePath/registrasi',
         options: Options(contentType: Headers.multipartFormDataContentType),
         data: FormData.fromMap({
           'email': email,
@@ -64,13 +56,13 @@ final class UsersServiceImpl implements UsersService {
           'foto': photoUrl,
         }),
       );
-      final rawResponseBody = jsonDecode(response.data ?? '');
+      final rawResBody = jsonDecode(rawRes.data ?? '');
 
-      final responseBody = UsersServiceResponse.fromJson(rawResponseBody);
+      final resBody = UsersServiceResponse.fromJson(rawResBody);
 
-      return responseBody.data.toEntity();
+      return resBody.data.toEntity();
     } catch (e) {
-      if (e is DioException) _dioExceptionHandler(e);
+      if (e is DioException) dioExceptionHandler(e);
 
       rethrow;
     }
@@ -86,8 +78,8 @@ final class UsersServiceImpl implements UsersService {
     required String photoUrl,
   }) async {
     try {
-      final response = await _client.post<String>(
-        '/users/update',
+      final rawRes = await _client.post<String>(
+        '$_basePath/update',
         options: Options(contentType: Headers.multipartFormDataContentType),
         data: FormData.fromMap({
           'email': email,
@@ -99,13 +91,13 @@ final class UsersServiceImpl implements UsersService {
           'foto': photoUrl,
         }),
       );
-      final rawResponseBody = jsonDecode(response.data ?? '');
+      final rawResBody = jsonDecode(rawRes.data ?? '');
 
-      final responseBody = UsersServiceResponse.fromJson(rawResponseBody);
+      final resBody = UsersServiceResponse.fromJson(rawResBody);
 
-      return responseBody.data.toEntity();
+      return resBody.data.toEntity();
     } catch (e) {
-      if (e is DioException) _dioExceptionHandler(e);
+      if (e is DioException) dioExceptionHandler(e);
 
       rethrow;
     }

@@ -29,6 +29,7 @@ dependencies:
   google_fonts: ^6.1.0
   native_dio_adapter: ^1.0.0+2
   shared_preferences: ^2.2.2
+  url_launcher: ^6.1.14
 
   # native
   flutter_native_splash: ^2.3.6

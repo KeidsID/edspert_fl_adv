@@ -1,12 +1,12 @@
-import 'package:edspert_fl_adv/core/entities/editable_user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:edspert_fl_adv/common/constants.dart';
-import 'package:edspert_fl_adv/core/entities/school_detail.dart';
-import 'package:edspert_fl_adv/core/entities/user.dart';
+import 'package:edspert_fl_adv/core/entities/auth/editable_user.dart';
+import 'package:edspert_fl_adv/core/entities/auth/school_detail.dart';
+import 'package:edspert_fl_adv/core/entities/auth/user.dart';
 import 'package:edspert_fl_adv/infrastructures/api/errors/common_response_exception.dart';
-import 'package:edspert_fl_adv/interfaces/providers/user_cache_provider.dart';
+import 'package:edspert_fl_adv/interfaces/providers/auth/user_cache_provider.dart';
 import 'package:edspert_fl_adv/interfaces/utils/app_form_validators.dart';
 import 'package:edspert_fl_adv/interfaces/views/home/profile_view.dart';
 

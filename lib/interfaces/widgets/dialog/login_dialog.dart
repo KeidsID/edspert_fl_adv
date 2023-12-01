@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:edspert_fl_adv/common/constants.dart';
 import 'package:edspert_fl_adv/infrastructures/api/errors/common_response_exception.dart';
-import 'package:edspert_fl_adv/interfaces/providers/user_cache_provider.dart';
+import 'package:edspert_fl_adv/interfaces/providers/auth/user_cache_provider.dart';
 import 'package:edspert_fl_adv/interfaces/utils/app_form_validators.dart';
 import 'package:edspert_fl_adv/interfaces/widgets/text_field/outlined_text_form_field.dart';
 

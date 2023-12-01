@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:edspert_fl_adv/common/assets_paths.dart';
 import 'package:edspert_fl_adv/common/constants.dart';
-import 'package:edspert_fl_adv/interfaces/providers/user_cache_provider.dart';
+import 'package:edspert_fl_adv/interfaces/providers/auth/user_cache_provider.dart';
+import 'package:edspert_fl_adv/interfaces/providers/event/event_banners_provider.dart';
 import 'package:edspert_fl_adv/interfaces/router/routes.dart';
 import 'package:edspert_fl_adv/interfaces/widgets/others/course_card.dart';
+import 'package:edspert_fl_adv/interfaces/widgets/others/event_banner_card.dart';
 import 'package:edspert_fl_adv/interfaces/widgets/others/home_view_headline_card.dart';
 import 'package:edspert_fl_adv/interfaces/widgets/others/network_image_circle_avatar.dart';
 
@@ -20,54 +21,51 @@ class HomeView extends ConsumerWidget {
     return SafeArea(
       child: SizedBox.expand(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(kPaddingValue),
+          padding: const EdgeInsets.symmetric(vertical: kPaddingValue),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const _HomeViewAppBar(),
-              const SizedBox(height: 16.0),
-              const HomeViewHeadlineCard(),
-              const SizedBox(height: 16.0),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text('Pilih Pelajaran', style: textTheme.headlineSmall),
-                  TextButton(
-                      onPressed: () {}, child: const Text('Lihat Semua')),
-                ],
-              ),
-              const SizedBox(height: 8.0),
-              Column(
-                children: List.generate(
-                  3,
-                  (index) => const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 8.0),
-                    child: CourseCard(),
+              ...[
+                const _HomeViewAppBar(),
+
+                //
+                const SizedBox(height: kSpacerValue),
+                const HomeViewHeadlineCard(),
+
+                // study materials
+                const SizedBox(height: kSpacerValue),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('Pilih Pelajaran', style: textTheme.headlineSmall),
+                    TextButton(
+                        onPressed: () {}, child: const Text('Lihat Semua')),
+                  ],
+                ),
+                const SizedBox(height: 8.0),
+                Column(
+                  children: List.generate(
+                    3,
+                    (index) => const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 8.0),
+                      child: CourseCard(),
+                    ),
                   ),
                 ),
-              ),
+
+                // events
+                const SizedBox(height: kSpacerValue),
+                Text('Terbaru', style: textTheme.headlineSmall),
+              ].map((e) {
+                return Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: kPaddingValue,
+                  ),
+                  child: e,
+                );
+              }),
               const SizedBox(height: 8.0),
-              Text('Terbaru', style: textTheme.headlineSmall),
-              const SizedBox(height: 16.0),
-              SizedBox(
-                height: 200.0,
-                child: ListView.separated(
-                  scrollDirection: Axis.horizontal,
-                  separatorBuilder: (_, __) => const SizedBox(width: 16.0),
-                  itemCount: 3,
-                  itemBuilder: (_, __) {
-                    return SizedBox(
-                      width: 200.0 * 1.7,
-                      child: Card(
-                        child: Image.asset(
-                          AssetsPaths.loginPageHeadline,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              ),
+              const _EventBannersListView(),
             ],
           ),
         ),
@@ -111,6 +109,44 @@ class _HomeViewAppBar extends ConsumerWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _EventBannersListView extends ConsumerWidget {
+  const _EventBannersListView();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final eventBannersAsync = ref.watch(eventBannersProvider);
+
+    final mediaQuery = MediaQuery.of(context);
+    final maxH = (mediaQuery.orientation == Orientation.portrait)
+        ? mediaQuery.size.height * 0.21
+        : mediaQuery.size.width * 0.21;
+
+    return eventBannersAsync.when(
+      skipLoadingOnRefresh: false,
+      loading: () => SizedBox(
+        width: double.maxFinite,
+        height: maxH,
+        child: const Center(
+          child: CircularProgressIndicator(),
+        ),
+      ),
+      error: (error, stackTrace) => SizedBox(
+        height: maxH,
+        child: const Text('Error'),
+      ),
+      data: (data) => SizedBox(
+        height: maxH,
+        child: ListView.builder(
+          padding: const EdgeInsets.symmetric(horizontal: kPaddingValue),
+          scrollDirection: Axis.horizontal,
+          itemCount: data.length,
+          itemBuilder: (_, index) => EventBannerCard(data[index]),
+        ),
       ),
     );
   }

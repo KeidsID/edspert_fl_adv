@@ -1,4 +1,4 @@
-import 'package:edspert_fl_adv/core/entities/school_detail.dart';
+import 'school_detail.dart';
 
 enum Gender {
   male,
@@ -18,7 +18,7 @@ enum Gender {
   }
 }
 
-class User {
+final class User {
   final String id;
   final String name;
   final String email;

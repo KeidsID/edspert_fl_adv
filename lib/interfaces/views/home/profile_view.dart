@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:edspert_fl_adv/common/constants.dart';
-import 'package:edspert_fl_adv/interfaces/providers/user_cache_provider.dart';
+import 'package:edspert_fl_adv/interfaces/providers/auth/user_cache_provider.dart';
 import 'package:edspert_fl_adv/interfaces/router/routes.dart';
 import 'package:edspert_fl_adv/interfaces/widgets/others/network_image_circle_avatar.dart';
 import 'package:edspert_fl_adv/interfaces/widgets/others/theme_mode_dropdown_button.dart';

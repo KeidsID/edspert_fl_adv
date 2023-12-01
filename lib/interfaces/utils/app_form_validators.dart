@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:string_validator/string_validator.dart' as str_validator;
 
-import 'package:edspert_fl_adv/core/entities/school_detail.dart';
-import 'package:edspert_fl_adv/core/entities/user.dart';
+import 'package:edspert_fl_adv/core/entities/auth/school_detail.dart';
+import 'package:edspert_fl_adv/core/entities/auth/user.dart';
 
 /// Contains common form validators used in the application.
 abstract final class AppFormValidators {

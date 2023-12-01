@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:edspert_fl_adv/core/entities/user.dart';
+import 'package:edspert_fl_adv/core/entities/auth/user.dart';
 import 'package:edspert_fl_adv/core/services/cache/auth_cache.dart';
 
 class AuthCacheImpl implements AuthCache {
@@ -14,14 +14,14 @@ class AuthCacheImpl implements AuthCache {
   static const key = 'auth';
 
   @override
-  Future<void> saveUser(User user) async {
+  Future<void> save(User user) async {
     final isSuccess = await _cacher.setString(key, jsonEncode(user.toJson()));
 
     if (!isSuccess) throw Exception('Failed to save user');
   }
 
   @override
-  Future<User?> getUser() async {
+  Future<User?> get() async {
     await _cacher.reload();
 
     final rawUser = _cacher.getString(key);
@@ -32,7 +32,7 @@ class AuthCacheImpl implements AuthCache {
   }
 
   @override
-  Future<void> deleteUser() async {
+  Future<void> delete() async {
     await _cacher.remove(key);
   }
 }

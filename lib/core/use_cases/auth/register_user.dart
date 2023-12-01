@@ -1,10 +1,10 @@
-import 'package:edspert_fl_adv/core/entities/school_detail.dart';
-import 'package:edspert_fl_adv/core/entities/user.dart';
+import 'package:edspert_fl_adv/core/entities/auth/school_detail.dart';
+import 'package:edspert_fl_adv/core/entities/auth/user.dart';
 import 'package:edspert_fl_adv/core/services/api/users_service.dart';
 import 'package:edspert_fl_adv/core/services/cache/auth_cache.dart';
 import 'package:edspert_fl_adv/infrastructures/api/errors/common_response_exception.dart';
 
-/// {@template edspert_fl_adv.core.use_cases.auth.register_user}
+/// {@template lib.core.use_cases.auth.register_user}
 /// Call [execute] to regiter new user to the server, and also save it to cache.
 ///
 /// Throws [CommonResponseException] if email already registered or invalid params.
@@ -13,14 +13,14 @@ final class RegisterUser {
   final UsersService _usersService;
   final AuthCache _authCache;
 
-  /// {@macro edspert_fl_adv.core.use_cases.auth.register_user}
+  /// {@macro lib.core.use_cases.auth.register_user}
   const RegisterUser({
     required UsersService usersService,
     required AuthCache authCache,
   })  : _usersService = usersService,
         _authCache = authCache;
 
-  /// {@macro edspert_fl_adv.core.use_cases.auth.register_user}
+  /// {@macro lib.core.use_cases.auth.register_user}
   Future<User> execute({
     required String email,
     required String fullname,
@@ -38,7 +38,7 @@ final class RegisterUser {
       photoUrl: photoUrl,
     );
 
-    await _authCache.saveUser(user);
+    await _authCache.save(user);
 
     return user;
   }

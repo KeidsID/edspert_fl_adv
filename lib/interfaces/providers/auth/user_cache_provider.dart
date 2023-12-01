@@ -1,7 +1,7 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import 'package:edspert_fl_adv/core/entities/school_detail.dart';
-import 'package:edspert_fl_adv/core/entities/user.dart';
+import 'package:edspert_fl_adv/core/entities/auth/school_detail.dart';
+import 'package:edspert_fl_adv/core/entities/auth/user.dart';
 import 'package:edspert_fl_adv/core/use_cases/auth/get_user_from_cache.dart';
 import 'package:edspert_fl_adv/core/use_cases/auth/login_by_email.dart';
 import 'package:edspert_fl_adv/core/use_cases/auth/logout_user.dart';

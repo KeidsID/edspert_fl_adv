@@ -23,7 +23,7 @@ enum SchoolLevel {
   }
 }
 
-class SchoolDetail extends Equatable {
+final class SchoolDetail extends Equatable {
   SchoolDetail(this.grade, {bool isSpecializedSchool = false})
       : assert(grade >= 1 && grade <= 12, 'Grade must be 1 to 12 only') {
     switch (grade) {

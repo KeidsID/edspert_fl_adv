@@ -16,6 +16,7 @@
 library services;
 
 import 'package:dio/dio.dart';
+import 'package:edspert_fl_adv/infrastructures/api/services/event_service_impl.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -32,20 +33,21 @@ Future<void> init() async {
   // external
   locator.registerSingletonAsync(() => SharedPreferences.getInstance());
 
-  // api services
+  // services
   locator
+    // api
     ..registerSingleton<Dio>(client)
-    ..registerLazySingleton<UsersService>(() => UsersServiceImpl(locator()));
+    ..registerLazySingleton<UsersService>(() => UsersServiceImpl(locator()))
+    ..registerLazySingleton<EventService>(() => EventServiceImpl(locator()))
 
-  // cache services
-  locator
+    // cache
     ..registerLazySingleton<AuthCache>(() => AuthCacheImpl(locator()))
     ..registerLazySingleton<ThemeModeCache>(
         () => ThemeModeCacheImpl(locator()));
 
   // use cases
-  // auth
   locator
+    // auth
     ..registerLazySingleton(() => GetUserFromCache(authCache: locator()))
     ..registerLazySingleton(
         () => LoginByEmail(usersService: locator(), authCache: locator()))
@@ -53,10 +55,12 @@ Future<void> init() async {
     ..registerLazySingleton(
         () => RegisterUser(usersService: locator(), authCache: locator()))
     ..registerLazySingleton(
-        () => UpdateUserByEmail(usersService: locator(), authCache: locator()));
+        () => UpdateUserByEmail(usersService: locator(), authCache: locator()))
 
-  // others
-  locator
+    // event
+    ..registerLazySingleton(() => GetEventBanners(eventService: locator()))
+
+    // others
     ..registerLazySingleton(() => GetThemeMode(themeModeCache: locator()))
     ..registerLazySingleton(() => SetThemeMode(themeModeCache: locator()));
 
