@@ -11,7 +11,7 @@ import 'package:edspert_fl_adv/infrastructures/services.dart' as services;
 
 part 'user_cache_provider.g.dart';
 
-@Riverpod(dependencies: [])
+@Riverpod(keepAlive: true, dependencies: [])
 class UserCache extends _$UserCache {
   @override
   Future<User?> build() {

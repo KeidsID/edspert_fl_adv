@@ -1,0 +1,111 @@
+part of '../home_view.dart';
+
+class _CoursesSection extends StatefulWidget {
+  const _CoursesSection();
+
+  static const _initialMajor = SchoolMajor.ipa;
+
+  @override
+  State<_CoursesSection> createState() => _CoursesSectionState();
+}
+
+class _CoursesSectionState extends State<_CoursesSection> {
+  SchoolMajor selectedMajor = _CoursesSection._initialMajor;
+
+  @override
+  Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text('Pilih Pelajaran', style: textTheme.headlineSmall),
+            TextButton(
+              onPressed: () {},
+              child: const Text('Lihat Semua'),
+            ),
+          ],
+        ),
+        SchoolMajorFormField(
+          initialValue: _CoursesSection._initialMajor,
+          onSaved: (val) => setState(() => selectedMajor = val!),
+        ),
+        const SizedBox(height: 8.0),
+        _CoursesColumn(major: selectedMajor),
+      ],
+    );
+  }
+}
+
+class _CoursesColumn extends ConsumerWidget {
+  const _CoursesColumn({this.major = SchoolMajor.ipa});
+
+  final SchoolMajor major;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final watchedProvider = coursesProvider(major: major);
+    final coursesAsync = ref.watch(watchedProvider);
+
+    final mediaQuery = MediaQuery.of(context);
+    final minH = (mediaQuery.orientation == Orientation.portrait)
+        ? mediaQuery.size.height * 0.21
+        : mediaQuery.size.width * 0.21;
+
+    return coursesAsync.when(
+      skipLoadingOnRefresh: false,
+      loading: () => SizedBoxWithLoadingIndicator(
+        width: double.maxFinite,
+        height: minH,
+      ),
+      error: (e, trace) {
+        Widget layout(Widget child) {
+          return SizedBox(
+            width: double.maxFinite,
+            height: minH,
+            child: child,
+          );
+        }
+
+        if (e is CommonResponseException) {
+          return layout(Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(e.message, textAlign: TextAlign.center),
+              OutlinedButton.icon(
+                onPressed: () => ref.refresh(watchedProvider),
+                icon: const Icon(Icons.refresh_outlined),
+                label: const Text('Refresh'),
+              ),
+            ],
+          ));
+        }
+
+        kLogger.f('coursesProvider', error: e, stackTrace: trace);
+
+        return layout(const Center(child: Text('Error')));
+      },
+      data: (data) {
+        if (data.isEmpty) {
+          return SizedBox(
+            width: double.maxFinite,
+            height: minH,
+            child: const Center(child: Text('Tidak ada pelajaran')),
+          );
+        }
+
+        final courses = data.length > 3 ? data.sublist(0, 3) : data;
+
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: courses.map((course) {
+            return CourseCard(course, onTap: () {});
+          }).toList(),
+        );
+      },
+    );
+  }
+}

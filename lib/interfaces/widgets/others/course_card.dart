@@ -1,39 +1,73 @@
 import 'package:flutter/material.dart';
 
-import 'package:edspert_fl_adv/common/assets_paths.dart';
+import 'package:edspert_fl_adv/common/constants.dart';
+import 'package:edspert_fl_adv/core/entities/course/course.dart';
+import 'package:edspert_fl_adv/interfaces/widgets/common/common_network_image.dart';
 
 class CourseCard extends StatelessWidget {
-  final double height;
+  const CourseCard(this.course, {super.key, this.onTap});
 
-  const CourseCard({super.key, this.height = 150.0});
+  final Course course;
+
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final textTheme = theme.textTheme;
 
-    return SizedBox(
-      width: double.maxFinite,
-      height: height,
+    return AspectRatio(
+      aspectRatio: 2.5 / 1,
       child: Card(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: Row(
-            children: [
-              Flexible(
-                child: Text(
-                  'Mau kerjain latihan soal apa hari ini?',
-                  style: textTheme.headlineMedium,
+        clipBehavior: Clip.hardEdge,
+        child: InkWell(
+          onTap: onTap,
+          child: Padding(
+            padding: const EdgeInsets.all(kPaddingValue),
+            child: Row(
+              children: [
+                // course cover image
+                AspectRatio(
+                  aspectRatio: 1, // 1:1 (Square)
+                  child: Card(
+                    elevation: 2,
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: CommonNetworkImage(
+                        course.coverImageUrl,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
                 ),
-              ),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: SizedBox(
-                  height: height * 0.6,
-                  child: Image.asset(AssetsPaths.homePageHeadline),
+                const SizedBox(width: kSpacerValue / 2),
+
+                // course info
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Text(
+                        course.name,
+                        style: textTheme.titleMedium,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      Text(
+                        '${course.completedStudiesCount}/${course.studiesCount} '
+                        'Paket latihan soal',
+                      ),
+                      const SizedBox(height: kSpacerValue / 2),
+                      LinearProgressIndicator(
+                        value:
+                            course.completedStudiesCount / course.studiesCount,
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

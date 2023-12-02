@@ -25,9 +25,10 @@ final class CoursesServiceImpl implements CoursesService {
         '$_basePath/data_course',
         queryParameters: {
           'major_name': '$major',
-          'user_email;': email,
+          'user_email': email,
         },
       );
+
       final rawResBody = jsonDecode(rawRes.data ?? '');
 
       final resBody = CoursesResponse.fromJson(rawResBody);

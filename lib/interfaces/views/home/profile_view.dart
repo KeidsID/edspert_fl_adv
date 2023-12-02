@@ -3,9 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:edspert_fl_adv/common/constants.dart';
 import 'package:edspert_fl_adv/interfaces/providers/auth/user_cache_provider.dart';
+import 'package:edspert_fl_adv/interfaces/providers/others/app_theme_mode_provider.dart';
 import 'package:edspert_fl_adv/interfaces/router/routes.dart';
-import 'package:edspert_fl_adv/interfaces/widgets/others/network_image_circle_avatar.dart';
-import 'package:edspert_fl_adv/interfaces/widgets/others/theme_mode_dropdown_button.dart';
+import 'package:edspert_fl_adv/interfaces/widgets/common/network_circle_avatar.dart';
 
 const _cardMargin = EdgeInsets.symmetric(horizontal: kPaddingValue);
 const _cardPadding = EdgeInsets.all(kPaddingValue);
@@ -101,7 +101,7 @@ class _AppBar extends ConsumerWidget {
                     ],
                   ),
                 ),
-                NetworkImageCircleAvatar(
+                NetworkCircleAvatar(
                   userAsync.value?.photoUrl ?? '',
                   radius: 32.0,
                 ),
@@ -233,7 +233,7 @@ class _SettingsCard extends ConsumerWidget {
             'Tema Aplikasi',
             style: kPVContentTitleStyle(context),
           ),
-          const ThemeModeDropdownButton(),
+          const _ThemeModeDropdownButton(),
           //
           const SizedBox(height: kSpacerValue),
           Text('Akun', style: kPVContentTitleStyle(context)),
@@ -252,6 +252,41 @@ class _SettingsCard extends ConsumerWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class _ThemeModeDropdownButton extends ConsumerWidget {
+  const _ThemeModeDropdownButton();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final themeMode = ref.watch(appThemeModeProvider);
+    final themeModeNotifier = ref.read(appThemeModeProvider.notifier);
+
+    return DropdownButton<ThemeMode>(
+      value: themeMode,
+      onChanged: (value) => themeModeNotifier.updateMode(value!),
+      items: ThemeMode.values.map((e) {
+        final filteredName = e.name == 'system' ? 'system default' : e.name;
+        final icons = {
+          'system': Icons.color_lens_outlined,
+          'light': Icons.light_mode_outlined,
+          'dark': Icons.dark_mode_outlined,
+        };
+
+        return DropdownMenuItem(
+          key: Key('item-${e.name}'),
+          value: e,
+          child: Row(
+            children: [
+              Icon(icons[e.name]),
+              const SizedBox(width: 8),
+              Text(filteredName),
+            ],
+          ),
+        );
+      }).toList(),
     );
   }
 }
