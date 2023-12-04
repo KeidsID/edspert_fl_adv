@@ -1,33 +1,21 @@
-import 'package:riverpod_annotation/riverpod_annotation.dart';
-
 import 'package:edspert_fl_adv/core/entities/auth/school_detail.dart';
 import 'package:edspert_fl_adv/core/entities/auth/user.dart';
-import 'package:edspert_fl_adv/core/use_cases/auth/get_user_from_cache.dart';
-import 'package:edspert_fl_adv/core/use_cases/auth/login_by_email.dart';
-import 'package:edspert_fl_adv/core/use_cases/auth/logout_user.dart';
-import 'package:edspert_fl_adv/core/use_cases/auth/register_user.dart';
-import 'package:edspert_fl_adv/core/use_cases/auth/update_user_by_email.dart';
+import 'package:edspert_fl_adv/core/use_cases.dart';
 import 'package:edspert_fl_adv/infrastructures/services.dart' as services;
+import '../utils/future_cubit.dart';
 
-part 'user_cache_provider.g.dart';
-
-@Riverpod(keepAlive: true, dependencies: [])
-class UserCache extends _$UserCache {
-  @override
-  Future<User?> build() {
-    return services.locator<GetUserFromCache>().execute();
-  }
+final class UserCacheCubit extends FutureCubit<User?> {
+  UserCacheCubit() : super(services.locator<GetUserFromCache>().execute());
 
   Future<void> loginByEmail(String email) async {
-    final previousState = state;
-    state = const AsyncLoading();
+    emitLoading();
 
     try {
       final user = await services.locator<LoginByEmail>().execute(email);
 
-      state = AsyncData(user);
+      emitValue(user);
     } catch (e) {
-      state = previousState;
+      emitError(e);
       rethrow;
     }
   }
@@ -40,8 +28,7 @@ class UserCache extends _$UserCache {
     required SchoolDetail schoolDetail,
     required String photoUrl,
   }) async {
-    final previousState = state;
-    state = const AsyncLoading();
+    emitLoading();
 
     try {
       final user = await services.locator<RegisterUser>().execute(
@@ -53,23 +40,22 @@ class UserCache extends _$UserCache {
             photoUrl: photoUrl,
           );
 
-      state = AsyncData(user);
+      emitValue(user);
     } catch (e) {
-      state = previousState;
+      emitError(e);
       rethrow;
     }
   }
 
   Future<void> logout() async {
-    final previousState = state;
-    state = const AsyncLoading();
+    emitLoading();
 
     try {
       await services.locator<LogoutUser>().execute();
 
-      state = const AsyncData(null);
+      emitValue(null);
     } catch (e) {
-      state = previousState;
+      emitError(e);
       rethrow;
     }
   }
@@ -83,12 +69,11 @@ class UserCache extends _$UserCache {
     required SchoolDetail schoolDetail,
     required String photoUrl,
   }) async {
-    final previousState = state;
-    state = const AsyncLoading();
+    emitLoading();
 
     try {
       final updatedUser = await services.locator<UpdateUserByEmail>().execute(
-            previousState.value!.email,
+            state.value!.email,
             fullname: fullname,
             gender: gender,
             schoolName: schoolName,
@@ -96,9 +81,9 @@ class UserCache extends _$UserCache {
             photoUrl: photoUrl,
           );
 
-      state = AsyncData(updatedUser);
+      emitValue(updatedUser);
     } catch (e) {
-      state = previousState;
+      emitError(e);
       rethrow;
     }
   }
