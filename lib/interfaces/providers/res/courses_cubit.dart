@@ -1,10 +1,10 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:edspert_fl_adv/core/entities/course/course.dart';
-import 'package:edspert_fl_adv/core/use_cases/courses/get_courses_by_major.dart';
-import 'package:edspert_fl_adv/infrastructures/services.dart' as services;
-import 'package:edspert_fl_adv/interfaces/providers/res/user_cache_cubit.dart';
+import 'package:root_lib/core/entities/course/course.dart';
+import 'package:root_lib/core/use_cases/courses/get_courses_by_major.dart';
+import 'package:root_lib/infrastructures/services.dart' as services;
+import 'package:root_lib/interfaces/providers/res/user_cache_cubit.dart';
 
 import '../utils/future_cubit.dart';
 

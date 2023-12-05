@@ -1,8 +1,8 @@
-import 'package:edspert_fl_adv/core/entities/auth/school_detail.dart';
-import 'package:edspert_fl_adv/core/entities/auth/user.dart';
-import 'package:edspert_fl_adv/core/services/api/users_service.dart';
-import 'package:edspert_fl_adv/core/services/cache/auth_cache.dart';
-import 'package:edspert_fl_adv/infrastructures/api/errors/common_response_exception.dart';
+import 'package:root_lib/core/entities/auth/school_detail.dart';
+import 'package:root_lib/core/entities/auth/user.dart';
+import 'package:root_lib/core/services/api/users_service.dart';
+import 'package:root_lib/core/services/cache/auth_cache.dart';
+import 'package:root_lib/infrastructures/api/errors/common_response_exception.dart';
 
 /// {@template lib.core.use_cases.auth.register_user}
 /// Call [execute] to regiter new user to the server, and also save it to cache.

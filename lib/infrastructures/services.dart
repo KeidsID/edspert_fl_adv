@@ -19,8 +19,8 @@ import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:edspert_fl_adv/core/services.dart';
-import 'package:edspert_fl_adv/core/use_cases.dart';
+import 'package:root_lib/core/services.dart';
+import 'package:root_lib/core/use_cases.dart';
 
 import 'api/client/client.dart';
 import 'api/services/courses_service_impl.dart';

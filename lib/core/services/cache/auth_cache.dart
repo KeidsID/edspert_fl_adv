@@ -1,4 +1,4 @@
-import 'package:edspert_fl_adv/core/entities/auth/user.dart';
+import 'package:root_lib/core/entities/auth/user.dart';
 
 abstract interface class AuthCache {
   Future<void> save(User user);

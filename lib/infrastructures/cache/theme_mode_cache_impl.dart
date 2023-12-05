@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:edspert_fl_adv/core/services/cache/theme_mode_cache.dart';
+import 'package:root_lib/core/services/cache/theme_mode_cache.dart';
 
 final class ThemeModeCacheImpl implements ThemeModeCache {
   const ThemeModeCacheImpl(SharedPreferences sharedPreferences)

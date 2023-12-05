@@ -1,9 +1,9 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
-import 'package:edspert_fl_adv/common/assets_paths.dart';
-import 'package:edspert_fl_adv/common/constants.dart';
-import 'package:edspert_fl_adv/interfaces/router/routes.dart';
+import 'package:root_lib/common/assets_paths.dart';
+import 'package:root_lib/common/constants.dart';
+import 'package:root_lib/interfaces/router/routes.dart';
 
 class AuthView extends StatelessWidget {
   const AuthView({super.key});

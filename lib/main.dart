@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 
-import 'package:edspert_fl_adv/interfaces/providers/res/theme_mode_cache_cubit.dart';
-import 'package:edspert_fl_adv/interfaces/providers/res/user_cache_cubit.dart';
+import 'package:root_lib/interfaces/providers/res/theme_mode_cache_cubit.dart';
+import 'package:root_lib/interfaces/providers/res/user_cache_cubit.dart';
 
 import 'infrastructures/services.dart' as services;
 import 'interfaces/router/router.dart';

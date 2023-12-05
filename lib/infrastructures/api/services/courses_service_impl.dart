@@ -2,8 +2,8 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 
-import 'package:edspert_fl_adv/core/entities/course/course.dart';
-import 'package:edspert_fl_adv/core/services/api/courses_service.dart';
+import 'package:root_lib/core/entities/course/course.dart';
+import 'package:root_lib/core/services/api/courses_service.dart';
 
 import '../models/courses_response.dart';
 import 'utils/dio_exception_handler.dart';

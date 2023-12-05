@@ -1,7 +1,7 @@
-import 'package:edspert_fl_adv/core/entities/auth/school_detail.dart';
-import 'package:edspert_fl_adv/core/entities/auth/user.dart';
-import 'package:edspert_fl_adv/core/use_cases.dart';
-import 'package:edspert_fl_adv/infrastructures/services.dart' as services;
+import 'package:root_lib/core/entities/auth/school_detail.dart';
+import 'package:root_lib/core/entities/auth/user.dart';
+import 'package:root_lib/core/use_cases.dart';
+import 'package:root_lib/infrastructures/services.dart' as services;
 import '../utils/future_cubit.dart';
 
 typedef UserCacheState = AsyncValueState<User?>;

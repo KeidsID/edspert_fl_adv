@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import 'package:edspert_fl_adv/core/entities/event/event_banner.dart';
+import 'package:root_lib/core/entities/event/event_banner.dart';
 
 part 'event_banners_response.freezed.dart';
 part 'event_banners_response.g.dart';

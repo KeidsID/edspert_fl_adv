@@ -1,4 +1,4 @@
-import 'package:edspert_fl_adv/core/entities/course/course.dart';
+import 'package:root_lib/core/entities/course/course.dart';
 
 abstract interface class CoursesService {
   Future<List<Course>> getCoursesByMajor(

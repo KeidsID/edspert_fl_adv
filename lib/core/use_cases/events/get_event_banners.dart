@@ -1,5 +1,5 @@
-import 'package:edspert_fl_adv/core/entities/event/event_banner.dart';
-import 'package:edspert_fl_adv/core/services/api/events_service.dart';
+import 'package:root_lib/core/entities/event/event_banner.dart';
+import 'package:root_lib/core/services/api/events_service.dart';
 
 /// {@template lib.core.use_cases.event.get_event_banners}
 /// Call [execute] to get event banners from server.

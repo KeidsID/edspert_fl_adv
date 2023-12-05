@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import 'package:edspert_fl_adv/core/entities/auth/school_detail.dart';
-import 'package:edspert_fl_adv/core/entities/auth/user.dart';
+import 'package:root_lib/core/entities/auth/school_detail.dart';
+import 'package:root_lib/core/entities/auth/user.dart';
 
 part 'users_service_response.freezed.dart';
 part 'users_service_response.g.dart';

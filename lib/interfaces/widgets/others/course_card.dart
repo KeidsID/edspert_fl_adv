@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'package:edspert_fl_adv/common/constants.dart';
-import 'package:edspert_fl_adv/core/entities/course/course.dart';
-import 'package:edspert_fl_adv/interfaces/widgets/common/common_network_image.dart';
+import 'package:root_lib/common/constants.dart';
+import 'package:root_lib/core/entities/course/course.dart';
+import 'package:root_lib/interfaces/widgets/common/common_network_image.dart';
 
 class CourseCard extends StatelessWidget {
   const CourseCard(this.course, {super.key, this.onTap});

@@ -1,14 +1,14 @@
-import 'package:edspert_fl_adv/interfaces/providers/res/user_cache_cubit.dart';
+import 'package:root_lib/interfaces/providers/res/user_cache_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:edspert_fl_adv/common/constants.dart';
-import 'package:edspert_fl_adv/core/entities/auth/editable_user.dart';
-import 'package:edspert_fl_adv/core/entities/auth/school_detail.dart';
-import 'package:edspert_fl_adv/core/entities/auth/user.dart';
-import 'package:edspert_fl_adv/infrastructures/api/errors/common_response_exception.dart';
-import 'package:edspert_fl_adv/interfaces/utils/app_form_validators.dart';
-import 'package:edspert_fl_adv/interfaces/views/home/profile/profile_view.dart';
+import 'package:root_lib/common/constants.dart';
+import 'package:root_lib/core/entities/auth/editable_user.dart';
+import 'package:root_lib/core/entities/auth/school_detail.dart';
+import 'package:root_lib/core/entities/auth/user.dart';
+import 'package:root_lib/infrastructures/api/errors/common_response_exception.dart';
+import 'package:root_lib/interfaces/utils/app_form_validators.dart';
+import 'package:root_lib/interfaces/views/home/profile/profile_view.dart';
 
 class EditProfileDialogView extends StatelessWidget {
   const EditProfileDialogView({
