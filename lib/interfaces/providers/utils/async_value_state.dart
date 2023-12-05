@@ -52,7 +52,7 @@ final class AsyncValueState<T> extends Equatable {
     Object? error,
   }) {
     return AsyncValueState._(
-      value: value ?? this.value,
+      value: value,
       hasValue: hasValue ?? this.hasValue,
       isLoading: isLoading ?? this.isLoading,
       isError: isError ?? this.isError,
@@ -69,5 +69,40 @@ final class AsyncValueState<T> extends Equatable {
       value,
       hasValue,
     ];
+  }
+}
+
+extension AsyncValueStateX<T> on AsyncValueState<T> {
+  /// If [hasValue] is true, returns the value.
+  /// Otherwise throws a [StateError].
+  ///
+  /// This is typically used for when the UI assumes that [value] is always present.
+  T get requireValue {
+    if (hasValue) return value as T;
+
+    throw StateError(
+      'Tried to call `requireValue` on an `AsyncValueState` that has no value: $this',
+    );
+  }
+
+  /// Performs an action based on the state of the [AsyncValueState].
+  ///
+  /// All cases are required, which allows returning a non-nullable value.
+  R when<R>({
+    bool skipLoading = false,
+    bool skipError = false,
+    required R Function() loading,
+    required R Function(Object error) error,
+    required R Function(T data) data,
+  }) {
+    if (isLoading) {
+      if (!skipLoading) return loading();
+    }
+
+    if (isError) {
+      if (!skipError) return error(this.error!);
+    }
+
+    return data(requireValue);
   }
 }

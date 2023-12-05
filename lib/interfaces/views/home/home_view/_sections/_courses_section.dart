@@ -40,15 +40,18 @@ class _CoursesSectionState extends State<_CoursesSection> {
   }
 }
 
-class _CoursesColumn extends ConsumerWidget {
+class _CoursesColumn extends StatelessWidget {
   const _CoursesColumn({this.major = SchoolMajor.ipa});
 
   final SchoolMajor major;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final watchedProvider = coursesProvider(major: major);
-    final coursesAsync = ref.watch(watchedProvider);
+  Widget build(BuildContext context) {
+    final CoursesCubit coursesCubit = major == SchoolMajor.ipa
+        ? context.watch<IpaCoursesCubit>()
+        : context.watch<IpsCoursesCubit>();
+
+    final coursesAsync = coursesCubit.state;
 
     final mediaQuery = MediaQuery.of(context);
     final minH = (mediaQuery.orientation == Orientation.portrait)
@@ -56,12 +59,11 @@ class _CoursesColumn extends ConsumerWidget {
         : mediaQuery.size.width * 0.21;
 
     return coursesAsync.when(
-      skipLoadingOnRefresh: false,
-      loading: () => SizedBoxWithLoadingIndicator(
+      loading: () => SizedCircularIndicator(
         width: double.maxFinite,
         height: minH,
       ),
-      error: (e, trace) {
+      error: (e) {
         Widget layout(Widget child) {
           return SizedBox(
             width: double.maxFinite,
@@ -76,7 +78,7 @@ class _CoursesColumn extends ConsumerWidget {
             children: [
               Text(e.message, textAlign: TextAlign.center),
               OutlinedButton.icon(
-                onPressed: () => ref.refresh(watchedProvider),
+                onPressed: () => coursesCubit.refresh(),
                 icon: const Icon(Icons.refresh_outlined),
                 label: const Text('Refresh'),
               ),
@@ -84,9 +86,19 @@ class _CoursesColumn extends ConsumerWidget {
           ));
         }
 
-        kLogger.f('coursesProvider', error: e, stackTrace: trace);
+        kLogger.f('coursesProvider', error: e);
 
-        return layout(const Center(child: Text('Error')));
+        return layout(Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text('Terjadi kesalahan', textAlign: TextAlign.center),
+            OutlinedButton.icon(
+              onPressed: () => coursesCubit.refresh(),
+              icon: const Icon(Icons.refresh_outlined),
+              label: const Text('Refresh'),
+            ),
+          ],
+        ));
       },
       data: (data) {
         if (data.isEmpty) {

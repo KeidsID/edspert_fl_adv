@@ -22,12 +22,13 @@ class _EventBannersSection extends StatelessWidget {
   }
 }
 
-class _EventBannersListView extends ConsumerWidget {
+class _EventBannersListView extends StatelessWidget {
   const _EventBannersListView();
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final eventBannersAsync = ref.watch(eventBannersProvider);
+  Widget build(BuildContext context) {
+    final eventBannersCubit = context.watch<EventBannersCubit>();
+    final eventBannersAsync = eventBannersCubit.state;
 
     final mediaQuery = MediaQuery.of(context);
     final maxH = (mediaQuery.orientation == Orientation.portrait)
@@ -35,16 +36,51 @@ class _EventBannersListView extends ConsumerWidget {
         : mediaQuery.size.width * 0.21;
 
     return eventBannersAsync.when(
-      skipLoadingOnRefresh: false,
-      loading: () => SizedBoxWithLoadingIndicator(
+      loading: () => SizedCircularIndicator(
         width: double.maxFinite,
         height: maxH,
       ),
-      error: (_, __) => SizedBox(
-        width: double.maxFinite,
-        height: maxH,
-        child: const Center(child: Text('Error')),
-      ),
+
+      //
+      error: (e) {
+        Widget layout(Widget child) {
+          return SizedBox(
+            width: double.maxFinite,
+            height: maxH,
+            child: child,
+          );
+        }
+
+        if (e is CommonResponseException) {
+          return layout(Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(e.message, textAlign: TextAlign.center),
+              OutlinedButton.icon(
+                onPressed: () => eventBannersCubit.refresh(),
+                icon: const Icon(Icons.refresh_outlined),
+                label: const Text('Refresh'),
+              ),
+            ],
+          ));
+        }
+
+        kLogger.f('coursesProvider', error: e);
+
+        return layout(Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text('Terjadi kesalahan', textAlign: TextAlign.center),
+            OutlinedButton.icon(
+              onPressed: () => eventBannersCubit.refresh(),
+              icon: const Icon(Icons.refresh_outlined),
+              label: const Text('Refresh'),
+            ),
+          ],
+        ));
+      },
+
+      //
       data: (data) {
         if (data.isEmpty) {
           return SizedBox(

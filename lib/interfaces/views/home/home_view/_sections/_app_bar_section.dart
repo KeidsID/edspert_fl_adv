@@ -1,13 +1,13 @@
 part of '../home_view.dart';
 
-class _AppBarSection extends ConsumerWidget {
+class _AppBarSection extends StatelessWidget {
   const _AppBarSection();
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
 
-    final userAsync = ref.watch(userCacheProvider);
+    final userAsync = context.watch<UserCacheCubit>().state;
 
     return SizedBox(
       height: kToolbarHeight,

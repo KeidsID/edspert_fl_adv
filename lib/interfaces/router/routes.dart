@@ -15,7 +15,9 @@
 /// ```
 library routes;
 
+import 'package:edspert_fl_adv/interfaces/providers/res/user_cache_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:edspert_fl_adv/core/entities/auth/editable_user.dart';
@@ -23,8 +25,6 @@ import 'package:edspert_fl_adv/core/entities/auth/school_detail.dart';
 import 'package:edspert_fl_adv/core/entities/auth/user.dart';
 import 'package:edspert_fl_adv/interfaces/router/utils/dialog_page.dart';
 import 'package:edspert_fl_adv/interfaces/views.dart';
-import 'package:edspert_fl_adv/interfaces/widgets/dialog/edit_profile_dialog.dart';
-import 'package:edspert_fl_adv/interfaces/widgets/dialog/login_dialog.dart';
 
 part 'routes.g.dart';
 part 'routes/auth.dart';
@@ -49,7 +49,10 @@ class AuthRoute extends GoRouteData {
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return const AuthView();
+    return BlocListener<UserCacheCubit, UserCacheState>(
+      listener: (context, _) => GoRouter.maybeOf(context)?.refresh(),
+      child: const AuthView(),
+    );
   }
 }
 
@@ -72,6 +75,9 @@ class HomeShellRoute extends ShellRouteData {
 
   @override
   Widget builder(BuildContext context, GoRouterState state, Widget navigator) {
-    return HomeLayout(child: navigator);
+    return BlocListener<UserCacheCubit, UserCacheState>(
+      listener: (context, _) => GoRouter.maybeOf(context)?.refresh(),
+      child: HomeLayout(child: navigator),
+    );
   }
 }

@@ -25,7 +25,7 @@ class SchoolMajorFormField extends FormField<SchoolMajor?> {
                     InputChip(
                       label: Text('${SchoolMajor.ipa}'),
                       selected: isIpaSelected,
-                      isEnabled: enabled ? !(isIpaSelected) : enabled,
+                      isEnabled: enabled ? !isIpaSelected : enabled,
                       onSelected: (_) {
                         state.didChange(SchoolMajor.ipa);
                         state.save();
@@ -35,7 +35,7 @@ class SchoolMajorFormField extends FormField<SchoolMajor?> {
                     InputChip(
                       label: Text('${SchoolMajor.ips}'),
                       selected: isIpsSelected,
-                      isEnabled: enabled ? !(isIpsSelected) : enabled,
+                      isEnabled: enabled ? !isIpsSelected : enabled,
                       onSelected: (_) {
                         state.didChange(SchoolMajor.ips);
                         state.save();
