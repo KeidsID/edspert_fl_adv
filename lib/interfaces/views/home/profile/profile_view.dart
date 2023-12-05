@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:edspert_fl_adv/common/constants.dart';
-import 'package:edspert_fl_adv/interfaces/providers/auth/user_cache_provider.dart';
-import 'package:edspert_fl_adv/interfaces/providers/others/app_theme_mode_provider.dart';
+import 'package:edspert_fl_adv/interfaces/providers.dart';
 import 'package:edspert_fl_adv/interfaces/router/routes.dart';
 import 'package:edspert_fl_adv/interfaces/widgets/common/network_circle_avatar.dart';
 
 const _cardMargin = EdgeInsets.symmetric(horizontal: kPaddingValue);
 const _cardPadding = EdgeInsets.all(kPaddingValue);
 
-class ProfileView extends ConsumerWidget {
+class ProfileView extends StatelessWidget {
   const ProfileView({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     return const SafeArea(
       child: SizedBox.expand(
         child: CustomScrollView(
@@ -31,13 +30,13 @@ class ProfileView extends ConsumerWidget {
   }
 }
 
-class _AppBar extends ConsumerWidget {
+class _AppBar extends StatelessWidget {
   const _AppBar();
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final userAsync = ref.watch(userCacheProvider);
-    final user = userAsync.valueOrNull;
+  Widget build(BuildContext context) {
+    final userAsync = context.watch<UserCacheCubit>().state;
+    final user = userAsync.value;
 
     final theme = Theme.of(context);
     final textTheme = theme.textTheme;
@@ -157,14 +156,13 @@ TextStyle? kPVContentValueStyle(BuildContext context) {
   return Theme.of(context).textTheme.bodyLarge;
 }
 
-class _IdentityCard extends ConsumerWidget {
+class _IdentityCard extends StatelessWidget {
   const _IdentityCard();
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final userAsync = ref.watch(userCacheProvider);
-
-    final user = userAsync.valueOrNull;
+  Widget build(BuildContext context) {
+    final userAsync = context.watch<UserCacheCubit>().state;
+    final user = userAsync.value;
 
     return _ProfileViewCardLayout(
       child: Column(
@@ -212,12 +210,12 @@ class _IdentityCard extends ConsumerWidget {
   }
 }
 
-class _SettingsCard extends ConsumerWidget {
+class _SettingsCard extends StatelessWidget {
   const _SettingsCard();
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final userCacheNotifier = ref.read(userCacheProvider.notifier);
+  Widget build(BuildContext context) {
+    final userCacheCubit = context.read<UserCacheCubit>();
 
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
@@ -237,36 +235,38 @@ class _SettingsCard extends ConsumerWidget {
           //
           const SizedBox(height: kSpacerValue),
           Text('Akun', style: kPVContentTitleStyle(context)),
-          TextButton.icon(
-            onPressed: () => userCacheNotifier.logout(),
-            icon: Icon(
-              Icons.logout_outlined,
-              color: colorScheme.error,
-            ),
-            label: Text(
-              'Keluar',
-              style: theme.textTheme.bodyMedium?.copyWith(
+          Builder(builder: (context) {
+            return TextButton.icon(
+              onPressed: () => userCacheCubit.logout(),
+              icon: Icon(
+                Icons.logout_outlined,
                 color: colorScheme.error,
               ),
-            ),
-          ),
+              label: Text(
+                'Keluar',
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  color: colorScheme.error,
+                ),
+              ),
+            );
+          }),
         ],
       ),
     );
   }
 }
 
-class _ThemeModeDropdownButton extends ConsumerWidget {
+class _ThemeModeDropdownButton extends StatelessWidget {
   const _ThemeModeDropdownButton();
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final themeMode = ref.watch(appThemeModeProvider);
-    final themeModeNotifier = ref.read(appThemeModeProvider.notifier);
+  Widget build(BuildContext context) {
+    final themeModeCacheCubit = context.watch<ThemeModeCacheCubit>();
+    final themeMode = themeModeCacheCubit.state;
 
     return DropdownButton<ThemeMode>(
       value: themeMode,
-      onChanged: (value) => themeModeNotifier.updateMode(value!),
+      onChanged: (value) => themeModeCacheCubit.updateMode(value!),
       items: ThemeMode.values.map((e) {
         final filteredName = e.name == 'system' ? 'system default' : e.name;
         final icons = {

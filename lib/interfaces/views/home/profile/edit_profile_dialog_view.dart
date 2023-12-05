@@ -1,17 +1,17 @@
+import 'package:edspert_fl_adv/interfaces/providers/res/user_cache_cubit.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:edspert_fl_adv/common/constants.dart';
 import 'package:edspert_fl_adv/core/entities/auth/editable_user.dart';
 import 'package:edspert_fl_adv/core/entities/auth/school_detail.dart';
 import 'package:edspert_fl_adv/core/entities/auth/user.dart';
 import 'package:edspert_fl_adv/infrastructures/api/errors/common_response_exception.dart';
-import 'package:edspert_fl_adv/interfaces/providers/auth/user_cache_provider.dart';
 import 'package:edspert_fl_adv/interfaces/utils/app_form_validators.dart';
-import 'package:edspert_fl_adv/interfaces/views/home/profile_view.dart';
+import 'package:edspert_fl_adv/interfaces/views/home/profile/profile_view.dart';
 
-class EditProfileDialog extends StatelessWidget {
-  const EditProfileDialog({
+class EditProfileDialogView extends StatelessWidget {
+  const EditProfileDialogView({
     super.key,
     required this.email,
     required this.editableUser,
@@ -52,7 +52,7 @@ class EditProfileDialog extends StatelessWidget {
   }
 }
 
-class _DialogForm extends ConsumerStatefulWidget {
+class _DialogForm extends StatefulWidget {
   const _DialogForm({
     required this.email,
     required this.oldUser,
@@ -62,10 +62,10 @@ class _DialogForm extends ConsumerStatefulWidget {
   final EditableUser oldUser;
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _DialogFormState();
+  State<StatefulWidget> createState() => _DialogFormState();
 }
 
-class _DialogFormState extends ConsumerState<_DialogForm> {
+class _DialogFormState extends State<_DialogForm> {
   bool isValidateOnce = false;
 
   late Gender selectedGender;
@@ -101,9 +101,9 @@ class _DialogFormState extends ConsumerState<_DialogForm> {
     final validateMode =
         isValidateOnce ? AutovalidateMode.onUserInteraction : null;
 
-    final userCacheAsync = ref.watch(userCacheProvider);
+    final userCacheAsync = context.watch<UserCacheCubit>().state;
 
-    final isLoading = userCacheAsync.isLoading || userCacheAsync.isRefreshing;
+    final isLoading = userCacheAsync.isLoading;
 
     return Form(
       key: _formKey,
@@ -211,7 +211,7 @@ class _DialogFormState extends ConsumerState<_DialogForm> {
 
     final navPop = Navigator.of(context).pop;
 
-    final userCacheNotifier = ref.read(userCacheProvider.notifier);
+    final userCacheCubit = context.read<UserCacheCubit>();
 
     if (!_formKey.currentState!.validate()) {
       showErrorDialog(const Text('Cek isian yang merah'));
@@ -227,7 +227,7 @@ class _DialogFormState extends ConsumerState<_DialogForm> {
     }
 
     try {
-      await userCacheNotifier.updateUserByEmail(
+      await userCacheCubit.updateUserByEmail(
         fullname: fullnameController.text,
         gender: selectedGender,
         schoolName: schoolNameController.text,

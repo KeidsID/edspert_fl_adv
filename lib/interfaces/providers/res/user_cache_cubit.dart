@@ -4,6 +4,8 @@ import 'package:edspert_fl_adv/core/use_cases.dart';
 import 'package:edspert_fl_adv/infrastructures/services.dart' as services;
 import '../utils/future_cubit.dart';
 
+typedef UserCacheState = AsyncValueState<User?>;
+
 final class UserCacheCubit extends FutureCubit<User?> {
   UserCacheCubit() : super(services.locator<GetUserFromCache>().execute());
 

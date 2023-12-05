@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
+import 'package:edspert_fl_adv/interfaces/providers.dart';
 import 'package:edspert_fl_adv/interfaces/router/routes.dart';
 
 const _navs = <_NavDelegate>[
@@ -31,7 +33,14 @@ class HomeLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: child,
+      body: MultiBlocProvider(
+        providers: [
+          BlocProvider(create: (context) => IpaCoursesCubit(context)),
+          BlocProvider(create: (context) => IpsCoursesCubit(context)),
+          BlocProvider.value(value: EventBannersCubit()),
+        ],
+        child: child,
+      ),
       bottomNavigationBar: BottomNavigationBar(
         items: _navs.map((e) {
           return BottomNavigationBarItem(
