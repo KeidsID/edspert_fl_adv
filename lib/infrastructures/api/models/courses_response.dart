@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import 'package:edspert_fl_adv/core/entities/course/course.dart';
+import 'package:root_lib/core/entities/course/course.dart';
 
 part 'courses_response.freezed.dart';
 part 'courses_response.g.dart';

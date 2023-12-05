@@ -1,7 +1,7 @@
-import 'package:edspert_fl_adv/interfaces/widgets.dart';
+import 'package:root_lib/interfaces/widgets.dart';
 import 'package:flutter/material.dart';
 
-import 'package:edspert_fl_adv/common/assets_paths.dart';
+import 'package:root_lib/common/assets_paths.dart';
 
 class NetworkCircleAvatar extends CircleAvatar {
   NetworkCircleAvatar(

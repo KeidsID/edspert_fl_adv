@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:edspert_fl_adv/common/constants.dart';
-import 'package:edspert_fl_adv/infrastructures/api/errors/common_response_exception.dart';
-import 'package:edspert_fl_adv/interfaces/providers/res/user_cache_cubit.dart';
-import 'package:edspert_fl_adv/interfaces/utils/app_form_validators.dart';
-import 'package:edspert_fl_adv/interfaces/widgets/common/outlined_text_form_field.dart';
+import 'package:root_lib/common/constants.dart';
+import 'package:root_lib/infrastructures/api/errors/common_response_exception.dart';
+import 'package:root_lib/interfaces/providers/res/user_cache_cubit.dart';
+import 'package:root_lib/interfaces/utils/app_form_validators.dart';
+import 'package:root_lib/interfaces/widgets/common/outlined_text_form_field.dart';
 
 class LoginDialogView extends StatefulWidget {
   const LoginDialogView({super.key});

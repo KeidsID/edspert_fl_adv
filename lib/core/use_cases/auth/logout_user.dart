@@ -1,4 +1,4 @@
-import 'package:edspert_fl_adv/core/services/cache/auth_cache.dart';
+import 'package:root_lib/core/services/cache/auth_cache.dart';
 
 /// {@template lib.core.use_cases.auth.logout_user}
 /// Call [execute] to logout current user (remove user cache).

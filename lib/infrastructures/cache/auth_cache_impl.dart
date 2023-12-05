@@ -2,8 +2,8 @@ import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:edspert_fl_adv/core/entities/auth/user.dart';
-import 'package:edspert_fl_adv/core/services/cache/auth_cache.dart';
+import 'package:root_lib/core/entities/auth/user.dart';
+import 'package:root_lib/core/services/cache/auth_cache.dart';
 
 class AuthCacheImpl implements AuthCache {
   const AuthCacheImpl(SharedPreferences sharedPreferences)

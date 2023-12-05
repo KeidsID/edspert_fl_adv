@@ -2,7 +2,7 @@
 ///
 /// Example:
 /// ```
-/// import 'package:edspert_fl_adv/interfaces/router/routes.dart';
+/// import 'package:root_lib/interfaces/router/routes.dart';
 ///
 /// Builder(
 ///   builder: (context) {
@@ -15,16 +15,16 @@
 /// ```
 library routes;
 
-import 'package:edspert_fl_adv/interfaces/providers/res/user_cache_cubit.dart';
+import 'package:root_lib/interfaces/providers/res/user_cache_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:edspert_fl_adv/core/entities/auth/editable_user.dart';
-import 'package:edspert_fl_adv/core/entities/auth/school_detail.dart';
-import 'package:edspert_fl_adv/core/entities/auth/user.dart';
-import 'package:edspert_fl_adv/interfaces/router/utils/dialog_page.dart';
-import 'package:edspert_fl_adv/interfaces/views.dart';
+import 'package:root_lib/core/entities/auth/editable_user.dart';
+import 'package:root_lib/core/entities/auth/school_detail.dart';
+import 'package:root_lib/core/entities/auth/user.dart';
+import 'package:root_lib/interfaces/router/utils/dialog_page.dart';
+import 'package:root_lib/interfaces/views.dart';
 
 part 'routes.g.dart';
 part 'routes/auth.dart';

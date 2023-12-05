@@ -1,5 +1,5 @@
-import 'package:edspert_fl_adv/core/entities/auth/user.dart';
-import 'package:edspert_fl_adv/core/services/cache/auth_cache.dart';
+import 'package:root_lib/core/entities/auth/user.dart';
+import 'package:root_lib/core/services/cache/auth_cache.dart';
 
 /// {@template lib.core.use_cases.auth.get_user_from_cache}
 /// Call [execute] to get user from cache.

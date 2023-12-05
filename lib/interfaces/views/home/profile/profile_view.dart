@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:edspert_fl_adv/common/constants.dart';
-import 'package:edspert_fl_adv/interfaces/providers.dart';
-import 'package:edspert_fl_adv/interfaces/router/routes.dart';
-import 'package:edspert_fl_adv/interfaces/widgets/common/network_circle_avatar.dart';
+import 'package:root_lib/common/constants.dart';
+import 'package:root_lib/interfaces/providers.dart';
+import 'package:root_lib/interfaces/router/routes.dart';
+import 'package:root_lib/interfaces/widgets/common/network_circle_avatar.dart';
 
 const _cardMargin = EdgeInsets.symmetric(horizontal: kPaddingValue);
 const _cardPadding = EdgeInsets.all(kPaddingValue);

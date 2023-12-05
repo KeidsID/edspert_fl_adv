@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:edspert_fl_adv/common/constants.dart';
-import 'package:edspert_fl_adv/core/entities/course/course.dart';
+import 'package:root_lib/common/constants.dart';
+import 'package:root_lib/core/entities/course/course.dart';
 
 class SchoolMajorFormField extends FormField<SchoolMajor?> {
   SchoolMajorFormField({

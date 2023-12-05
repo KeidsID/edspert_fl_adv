@@ -2,8 +2,8 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 
-import 'package:edspert_fl_adv/core/entities/event/event_banner.dart';
-import 'package:edspert_fl_adv/core/services.dart';
+import 'package:root_lib/core/entities/event/event_banner.dart';
+import 'package:root_lib/core/services.dart';
 
 import '../models/event_banners_response.dart';
 import 'utils/dio_exception_handler.dart';

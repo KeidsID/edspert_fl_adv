@@ -1,8 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:edspert_fl_adv/common/constants.dart';
-import 'package:edspert_fl_adv/interfaces/providers/res/user_cache_cubit.dart';
+import 'package:root_lib/common/constants.dart';
+import 'package:root_lib/interfaces/providers/res/user_cache_cubit.dart';
 
 import 'routes.dart';
 

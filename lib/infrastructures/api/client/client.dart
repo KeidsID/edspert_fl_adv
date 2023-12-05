@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 
-import 'package:edspert_fl_adv/common/env.dart';
+import 'package:root_lib/common/env.dart';
 
 import 'adapter/adapter.dart' show clientAdapter;
 

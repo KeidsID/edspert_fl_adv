@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import 'package:edspert_fl_adv/common/assets_paths.dart';
-import 'package:edspert_fl_adv/common/constants.dart';
-import 'package:edspert_fl_adv/core/entities/course/course.dart';
-import 'package:edspert_fl_adv/core/entities/event/event_banner.dart';
-import 'package:edspert_fl_adv/infrastructures/api/errors/common_response_exception.dart';
-import 'package:edspert_fl_adv/interfaces/providers.dart';
-import 'package:edspert_fl_adv/interfaces/providers/utils/future_cubit.dart';
-import 'package:edspert_fl_adv/interfaces/router/routes.dart';
-import 'package:edspert_fl_adv/interfaces/widgets.dart';
+import 'package:root_lib/common/assets_paths.dart';
+import 'package:root_lib/common/constants.dart';
+import 'package:root_lib/core/entities/course/course.dart';
+import 'package:root_lib/core/entities/event/event_banner.dart';
+import 'package:root_lib/infrastructures/api/errors/common_response_exception.dart';
+import 'package:root_lib/interfaces/providers.dart';
+import 'package:root_lib/interfaces/providers/utils/future_cubit.dart';
+import 'package:root_lib/interfaces/router/routes.dart';
+import 'package:root_lib/interfaces/widgets.dart';
 
 part '_sections/_app_bar_section.dart';
 part '_sections/_courses_section.dart';
