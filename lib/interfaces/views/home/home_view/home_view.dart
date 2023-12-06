@@ -9,7 +9,7 @@ import 'package:root_lib/core/entities/event/event_banner.dart';
 import 'package:root_lib/infrastructures/api/errors/common_response_exception.dart';
 import 'package:root_lib/interfaces/providers.dart';
 import 'package:root_lib/interfaces/providers/utils/future_cubit.dart';
-import 'package:root_lib/interfaces/router/routes.dart';
+import 'package:root_lib/interfaces/router/routes/routes.dart';
 import 'package:root_lib/interfaces/widgets.dart';
 
 part '_sections/_app_bar_section.dart';

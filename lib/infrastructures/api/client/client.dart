@@ -4,11 +4,7 @@ import 'package:dio/dio.dart';
 
 import 'package:root_lib/common/env.dart';
 
-import 'adapter/adapter.dart' show clientAdapter;
-
-final client = Dio(_clientOptions)
-  ..interceptors.add(_clientInterceptor)
-  ..httpClientAdapter = clientAdapter;
+final client = Dio(_clientOptions)..interceptors.add(_clientInterceptor);
 
 final _clientOptions = BaseOptions(
   baseUrl: 'https://edspert.widyaedu.com',

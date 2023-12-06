@@ -70,8 +70,10 @@ class EditProfileDialogRoute extends GoRouteData {
 
     return DialogPage(
       barrierDismissible: false,
-      builder: (_) =>
-          EditProfileDialogView(email: email, editableUser: oldUser),
+      builder: (_) => EditProfileDialogView(
+        email: email,
+        editableUser: oldUser,
+      ),
     );
   }
 }

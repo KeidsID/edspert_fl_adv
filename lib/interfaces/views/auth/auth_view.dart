@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:root_lib/common/assets_paths.dart';
 import 'package:root_lib/common/constants.dart';
-import 'package:root_lib/interfaces/router/routes.dart';
+import 'package:root_lib/interfaces/router/routes/routes.dart';
 
 class AuthView extends StatelessWidget {
   const AuthView({super.key});
