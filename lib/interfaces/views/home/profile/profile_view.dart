@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:root_lib/common/constants.dart';
 import 'package:root_lib/interfaces/providers.dart';
-import 'package:root_lib/interfaces/router/routes.dart';
+import 'package:root_lib/interfaces/router/routes/routes.dart';
 import 'package:root_lib/interfaces/widgets/common/network_circle_avatar.dart';
 
 const _cardMargin = EdgeInsets.symmetric(horizontal: kPaddingValue);
@@ -23,6 +23,7 @@ class ProfileView extends StatelessWidget {
             _IdentityCard(),
             SliverToBoxAdapter(child: SizedBox(height: kSpacerValue)),
             _SettingsCard(),
+            SliverToBoxAdapter(child: SizedBox(height: kLargeSpacerValue)),
           ],
         ),
       ),
@@ -72,7 +73,9 @@ class _AppBar extends StatelessWidget {
       flexibleSpace: FlexibleSpaceBar(
         background: SizedBox.expand(
           child: Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(16.0).copyWith(
+              top: kToolbarHeight + 16.0,
+            ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [

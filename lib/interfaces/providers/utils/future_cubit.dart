@@ -12,6 +12,9 @@ part 'async_value_state.dart';
 /// the state will contain the value from the [Future]. Refer [AsyncValueState]
 /// for the state details.
 ///
+/// To update [FutureCubit] state, use [emitLoading], [emitError], and
+/// [emitValue] for safe [emit].
+///
 /// In case you need to rebuild the cubit, just call [refresh].
 ///
 /// Delayed counter cubit example:
@@ -69,16 +72,37 @@ abstract base class FutureCubit<T> extends Cubit<AsyncValueState<T>> {
   Future<void> refresh() => _build();
 
   /// Update the state into loading state.
-  void emitLoading() => emit(state.copyWith(isLoading: true, isError: false));
+  @protected
+  @visibleForTesting
+  void emitLoading() {
+    final prevValue = state.value;
+
+    emit(state.copyWithValue(
+      value: prevValue,
+      isLoading: true,
+      isError: false,
+    ));
+  }
 
   /// Update the state into error state.
+  @protected
+  @visibleForTesting
   void emitError(Object error) {
-    emit(state.copyWith(isLoading: false, isError: true, error: error));
+    final prevValue = state.value;
+
+    emit(state.copyWithValue(
+      value: prevValue,
+      isLoading: false,
+      isError: true,
+      error: error,
+    ));
   }
 
   /// Update the state with a new value.
+  @protected
+  @visibleForTesting
   void emitValue(T value) {
-    emit(state.copyWith(
+    emit(state.copyWithValue(
       isLoading: false,
       isError: false,
       value: value,

@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:root_lib/common/constants.dart';
 import 'package:root_lib/interfaces/providers/res/user_cache_cubit.dart';
 
-import 'routes.dart';
+import 'routes/routes.dart';
 
 export 'package:go_router/go_router.dart';
 
@@ -20,7 +20,12 @@ final router = GoRouter(
     final currentRoute = state.uri.path;
     final isAuthRoute = currentRoute.startsWith(const AuthRoute().location);
 
-    kLogger.i('currentRoute: ${state.uri}');
+    kLogger.i(
+      'Router Redirect Logs\n'
+      '- Path: $currentRoute\n'
+      '- Query params: <see below this log>',
+    );
+    kLogger.i(state.uri.queryParameters);
 
     if (userCache.isLoading) return null;
 
