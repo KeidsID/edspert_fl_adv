@@ -1,19 +1,23 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:root_lib/core/entities/auth/school_detail.dart';
 import 'package:root_lib/core/entities/auth/user.dart';
 import 'package:root_lib/core/use_cases.dart';
-import 'package:root_lib/infrastructures/services.dart' as services;
+import 'package:root_lib/infrastructures/container.dart' as container;
+import 'package:root_lib/interfaces/providers.dart';
 import '../utils/future_cubit.dart';
 
-typedef UserCacheState = AsyncValueState<User?>;
+typedef UserCacheCubitState = AsyncValueState<User?>;
 
 final class UserCacheCubit extends FutureCubit<User?> {
-  UserCacheCubit() : super(services.locator<GetUserFromCache>().execute());
+  UserCacheCubit() : super(container.locator<GetUserFromCache>().execute());
 
   Future<void> loginByEmail(String email) async {
     emitLoading();
 
     try {
-      final user = await services.locator<LoginByEmail>().execute(email);
+      final user = await container.locator<LoginByEmail>().execute(email);
 
       emitValue(user);
     } catch (e) {
@@ -22,7 +26,8 @@ final class UserCacheCubit extends FutureCubit<User?> {
     }
   }
 
-  Future<void> registerUser({
+  Future<void> registerUser(
+    BuildContext context, {
     required String email,
     required String fullname,
     required Gender gender,
@@ -33,7 +38,9 @@ final class UserCacheCubit extends FutureCubit<User?> {
     emitLoading();
 
     try {
-      final user = await services.locator<RegisterUser>().execute(
+      final authCubit = context.read<AuthCubit>();
+
+      final user = await container.locator<RegisterUser>().execute(
             email: email,
             fullname: fullname,
             gender: gender,
@@ -43,17 +50,21 @@ final class UserCacheCubit extends FutureCubit<User?> {
           );
 
       emitValue(user);
+      authCubit.updateAuthorization(true);
     } catch (e) {
       emitError(e);
       rethrow;
     }
   }
 
-  Future<void> logout() async {
+  Future<void> logout(BuildContext context) async {
     emitLoading();
 
     try {
-      await services.locator<LogoutUser>().execute();
+      final authCubit = context.read<AuthCubit>();
+
+      await container.locator<LogoutUser>().execute();
+      authCubit.toInitState();
 
       emitValue(null);
     } catch (e) {
@@ -74,7 +85,7 @@ final class UserCacheCubit extends FutureCubit<User?> {
     emitLoading();
 
     try {
-      final updatedUser = await services.locator<UpdateUserByEmail>().execute(
+      final updatedUser = await container.locator<UpdateUserByEmail>().execute(
             state.value!.email,
             fullname: fullname,
             gender: gender,

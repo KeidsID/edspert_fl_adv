@@ -6,7 +6,7 @@ import 'package:root_lib/common/assets_paths.dart';
 import 'package:root_lib/common/constants.dart';
 import 'package:root_lib/core/entities/course/course.dart';
 import 'package:root_lib/core/entities/event/event_banner.dart';
-import 'package:root_lib/infrastructures/api/errors/common_response_exception.dart';
+import 'package:root_lib/infrastructures/services/remote/api/errors/common_response_exception.dart';
 import 'package:root_lib/interfaces/providers.dart';
 import 'package:root_lib/interfaces/providers/utils/future_cubit.dart';
 import 'package:root_lib/interfaces/router/routes/routes.dart';

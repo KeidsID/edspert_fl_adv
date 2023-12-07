@@ -6,7 +6,8 @@ import 'package:root_lib/common/constants.dart';
 import 'package:root_lib/core/entities/auth/editable_user.dart';
 import 'package:root_lib/core/entities/auth/school_detail.dart';
 import 'package:root_lib/core/entities/auth/user.dart';
-import 'package:root_lib/infrastructures/api/errors/common_response_exception.dart';
+import 'package:root_lib/infrastructures/services/remote/api/errors/common_response_exception.dart';
+import 'package:root_lib/interfaces/router/routes/routes.dart';
 import 'package:root_lib/interfaces/utils/app_form_validators.dart';
 import 'package:root_lib/interfaces/views/home/profile/profile_view.dart';
 
@@ -209,7 +210,7 @@ class _DialogFormState extends State<_DialogForm> {
       );
     }
 
-    final navPop = Navigator.of(context).pop;
+    void toProfileRoute() => const ProfileRoute().go(context);
 
     final userCacheCubit = context.read<UserCacheCubit>();
 
@@ -235,7 +236,7 @@ class _DialogFormState extends State<_DialogForm> {
         photoUrl: 'null',
       );
 
-      navPop();
+      toProfileRoute();
     } catch (e, trace) {
       if (e is CommonResponseException) {
         showErrorDialog(Text(e.message));

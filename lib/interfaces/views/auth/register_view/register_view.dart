@@ -2,17 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:root_lib/common/constants.dart';
+import 'package:root_lib/core/entities/auth/firebase_user.dart';
 import 'package:root_lib/core/entities/auth/school_detail.dart';
 import 'package:root_lib/core/entities/auth/user.dart';
-import 'package:root_lib/infrastructures/api/errors/common_response_exception.dart';
-import 'package:root_lib/interfaces/providers/res/user_cache_cubit.dart';
+import 'package:root_lib/infrastructures/services/remote/api/errors/common_response_exception.dart';
+import 'package:root_lib/interfaces/providers.dart';
 import 'package:root_lib/interfaces/utils/app_form_validators.dart';
 import 'package:root_lib/interfaces/widgets/common/outlined_text_form_field.dart';
 
 part '_sections/_input_field_section.dart';
 
 class RegisterView extends StatefulWidget {
-  const RegisterView({super.key});
+  const RegisterView({super.key, this.signedInUser});
+
+  final FirebaseUser? signedInUser;
 
   @override
   State<RegisterView> createState() => _RegisterViewState();
@@ -24,9 +27,19 @@ class _RegisterViewState extends State<RegisterView> {
 
   bool isValidateOnce = false;
 
-  final emailController = TextEditingController();
-  final fullnameController = TextEditingController();
+  late final TextEditingController emailController;
+  late final TextEditingController fullnameController;
   final schoolNameController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+
+    final signedInUser = widget.signedInUser;
+
+    emailController = TextEditingController(text: signedInUser?.email);
+    fullnameController = TextEditingController(text: signedInUser?.displayName);
+  }
 
   @override
   void dispose() {
@@ -43,121 +56,153 @@ class _RegisterViewState extends State<RegisterView> {
     final validateMode =
         isValidateOnce ? AutovalidateMode.onUserInteraction : null;
 
-    final userCache = context.watch<UserCacheCubit>().state;
+    return Builder(builder: (context) {
+      final authCubit = context.watch<AuthCubit>();
 
-    final isLoading = userCache.isLoading;
+      final isVerifying = !(authCubit.state.value?.isVerifiedOnce ?? false);
 
-    return Scaffold(
-      appBar: AppBar(title: const Text('Yuk isi data diri')),
-      bottomNavigationBar: SizedBox(
-        width: double.maxFinite,
-        height: kToolbarHeight,
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: FilledButton(
-            onPressed: _onRegister,
-            child: const Text('Daftar'),
-          ),
-        ),
-      ),
-      body: SizedBox.expand(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(kPaddingValue).copyWith(bottom: 0),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _InputFieldSection(
-                  title: 'Email',
-                  inputField: OutlinedTextFormField(
-                    controller: emailController,
-                    enabled: !isLoading,
-                    decoration: const InputDecoration(
-                      hintText: 'username@example.com',
-                    ),
-                    keyboardType: TextInputType.emailAddress,
-                    textInputAction: TextInputAction.next,
-                    autovalidateMode: validateMode,
-                    validator: AppFormValidators.email,
+      if (isVerifying) {
+        return Scaffold(
+          body: SafeArea(
+            child: SizedBox.expand(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Verifikasi akun google',
+                    style: Theme.of(context).textTheme.titleMedium,
                   ),
-                ),
-
-                //
-                const SizedBox(height: kSpacerValue),
-                _InputFieldSection(
-                  title: 'Nama Lengkap',
-                  inputField: OutlinedTextFormField(
-                    controller: fullnameController,
-                    enabled: !isLoading,
-                    decoration: const InputDecoration(hintText: 'Fulan'),
-                    keyboardType: TextInputType.name,
-                    // textInputAction: TextInputAction.next,
-                    autovalidateMode: validateMode,
-                    validator: AppFormValidators.fullname,
-                  ),
-                ),
-
-                //
-                const SizedBox(height: kSpacerValue),
-                _InputFieldSection(
-                  title: 'Jenis Kelamin',
-                  inputField: _GenderFormField(
-                    enabled: !isLoading,
-                    onSaved: (gender) {
-                      setState(() => selectedGender = gender);
-                    },
-                    autovalidateMode: validateMode,
-                    validator: AppFormValidators.gender,
-                  ),
-                ),
-
-                //
-                const SizedBox(height: kSpacerValue),
-                _InputFieldSection(
-                  title: 'Kelas',
-                  inputField: DropdownButtonFormField(
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                    ),
-                    isExpanded: true,
-                    hint: const Text('Pilih kelas'),
-                    value: selectedClass,
-                    onChanged: !isLoading
-                        ? (SchoolDetail? schoolGrade) {
-                            setState(() => selectedClass = schoolGrade);
-                          }
-                        : null,
-                    items: SchoolDetail.classes
-                        .map((e) =>
-                            DropdownMenuItem(value: e, child: Text('$e')))
-                        .toList(),
-                    autovalidateMode: validateMode,
-                    validator: AppFormValidators.schoolGrade,
-                  ),
-                ),
-
-                //
-                const SizedBox(height: kSpacerValue),
-                _InputFieldSection(
-                  title: 'Nama Sekolah',
-                  inputField: OutlinedTextFormField(
-                    controller: schoolNameController,
-                    enabled: !isLoading,
-                    decoration: const InputDecoration(
-                      hintText: 'SMA Islam Al-Azhar 12 Makassar',
-                    ),
-                    onEditingComplete: _onRegister,
-                    autovalidateMode: validateMode,
-                    validator: AppFormValidators.schoolName(selectedClass),
-                  ),
-                ),
-              ],
+                  const SizedBox(height: kSpacerValue),
+                  const CircularProgressIndicator(),
+                ],
+              ),
             ),
           ),
-        ),
-      ),
-    );
+        );
+      }
+
+      return Builder(builder: (context) {
+        final userCacheCubit = context.watch<UserCacheCubit>();
+
+        final isLoading = userCacheCubit.state.isLoading;
+
+        return Scaffold(
+          appBar: AppBar(
+            leading:
+                BackButton(onPressed: () => userCacheCubit.logout(context)),
+            title: const Text('Yuk isi data diri'),
+          ),
+          bottomNavigationBar: SizedBox(
+            width: double.maxFinite,
+            height: kToolbarHeight,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: FilledButton(
+                onPressed: isLoading ? null : _onRegister,
+                child: const Text('Daftar'),
+              ),
+            ),
+          ),
+          body: SizedBox.expand(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(kPaddingValue).copyWith(bottom: 0),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _InputFieldSection(
+                      title: 'Email',
+                      inputField: OutlinedTextFormField(
+                        controller: emailController,
+                        enabled: false,
+                        decoration: const InputDecoration(
+                          hintText: 'username@example.com',
+                        ),
+                        keyboardType: TextInputType.emailAddress,
+                        textInputAction: TextInputAction.next,
+                        autovalidateMode: validateMode,
+                        validator: AppFormValidators.email,
+                      ),
+                    ),
+
+                    //
+                    const SizedBox(height: kSpacerValue),
+                    _InputFieldSection(
+                      title: 'Nama Lengkap',
+                      inputField: OutlinedTextFormField(
+                        controller: fullnameController,
+                        enabled: !isLoading,
+                        decoration: const InputDecoration(hintText: 'Fulan'),
+                        keyboardType: TextInputType.name,
+                        // textInputAction: TextInputAction.next,
+                        autovalidateMode: validateMode,
+                        validator: AppFormValidators.fullname,
+                      ),
+                    ),
+
+                    //
+                    const SizedBox(height: kSpacerValue),
+                    _InputFieldSection(
+                      title: 'Jenis Kelamin',
+                      inputField: _GenderFormField(
+                        enabled: !isLoading,
+                        onSaved: (gender) {
+                          setState(() => selectedGender = gender);
+                        },
+                        autovalidateMode: validateMode,
+                        validator: AppFormValidators.gender,
+                      ),
+                    ),
+
+                    //
+                    const SizedBox(height: kSpacerValue),
+                    _InputFieldSection(
+                      title: 'Kelas',
+                      inputField: DropdownButtonFormField(
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                        ),
+                        isExpanded: true,
+                        hint: const Text('Pilih kelas'),
+                        value: selectedClass,
+                        onChanged: !isLoading
+                            ? (SchoolDetail? schoolGrade) {
+                                setState(() => selectedClass = schoolGrade);
+                              }
+                            : null,
+                        items: SchoolDetail.classes
+                            .map((e) =>
+                                DropdownMenuItem(value: e, child: Text('$e')))
+                            .toList(),
+                        autovalidateMode: validateMode,
+                        validator: AppFormValidators.schoolGrade,
+                      ),
+                    ),
+
+                    //
+                    const SizedBox(height: kSpacerValue),
+                    _InputFieldSection(
+                      title: 'Nama Sekolah',
+                      inputField: OutlinedTextFormField(
+                        controller: schoolNameController,
+                        enabled: !isLoading,
+                        decoration: const InputDecoration(
+                          hintText: 'SMA Islam Al-Azhar 12 Makassar',
+                        ),
+                        onEditingComplete: _onRegister,
+                        autovalidateMode: validateMode,
+                        validator: AppFormValidators.schoolName(selectedClass),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        );
+      });
+    });
   }
 
   void _onRegister() async {
@@ -178,6 +223,7 @@ class _RegisterViewState extends State<RegisterView> {
 
     try {
       await userCacheCubit.registerUser(
+        context,
         email: emailController.text,
         fullname: fullnameController.text,
         // form validated

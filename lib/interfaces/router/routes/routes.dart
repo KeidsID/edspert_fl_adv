@@ -22,9 +22,10 @@ import 'package:go_router/go_router.dart';
 import 'package:root_lib/core/entities/auth/editable_user.dart';
 import 'package:root_lib/core/entities/auth/school_detail.dart';
 import 'package:root_lib/core/entities/auth/user.dart';
-import 'package:root_lib/interfaces/providers/res/user_cache_cubit.dart';
+import 'package:root_lib/interfaces/providers/res/firebase_user_cubit.dart';
 import 'package:root_lib/interfaces/router/utils/dialog_page.dart';
 import 'package:root_lib/interfaces/views.dart';
+import 'utils/auth_cubits_listener.dart';
 
 part 'res/auth.dart';
 part 'res/home_shell.dart';
@@ -39,7 +40,7 @@ final GlobalKey<NavigatorState> homeShellNavKey = GlobalKey<NavigatorState>();
 @TypedGoRoute<AuthRoute>(
   path: '/auth',
   routes: [
-    TypedGoRoute<LoginDialogRoute>(path: 'login'),
+    // TypedGoRoute<LoginDialogRoute>(path: 'login'),
     TypedGoRoute<RegisterRoute>(path: 'register')
   ],
 )
@@ -49,10 +50,7 @@ class AuthRoute extends GoRouteData {
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return BlocListener<UserCacheCubit, UserCacheState>(
-      listener: (context, _) => GoRouter.maybeOf(context)?.refresh(),
-      child: const AuthView(),
-    );
+    return authCubitsListener(child: const AuthView());
   }
 }
 
@@ -75,9 +73,6 @@ class HomeShellRoute extends ShellRouteData {
 
   @override
   Widget builder(BuildContext context, GoRouterState state, Widget navigator) {
-    return BlocListener<UserCacheCubit, UserCacheState>(
-      listener: (context, _) => GoRouter.maybeOf(context)?.refresh(),
-      child: HomeLayout(child: navigator),
-    );
+    return authCubitsListener(child: HomeLayout(child: navigator));
   }
 }

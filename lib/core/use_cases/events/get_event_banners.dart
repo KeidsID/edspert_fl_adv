@@ -1,5 +1,4 @@
-import 'package:root_lib/core/entities/event/event_banner.dart';
-import 'package:root_lib/core/services/api/events_service.dart';
+part of '../../use_cases.dart';
 
 /// {@template lib.core.use_cases.event.get_event_banners}
 /// Call [execute] to get event banners from server.

@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "540878804953",
+    "project_id": "edspert-fl-adv",
+    "storage_bucket": "edspert-fl-adv.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:540878804953:android:045d5b30c51b38272eebc8",
+        "android_client_info": {
+          "package_name": "com.example.edspert_fl_adv"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "540878804953-ioj0gn8q4mrpdlhpf0b0c5qel13794u7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.edspert_fl_adv",
+            "certificate_hash": "f918643ee4873e5c0e38b6b0ce70a2e06c7fdef3"
+          }
+        },
+        {
+          "client_id": "540878804953-o3gsd531isq1jdckm5asjv8d7k60bt70.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCGOnBiWusdhK1xW0fcZOoSJ9vtLVz8z4M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "540878804953-o3gsd531isq1jdckm5asjv8d7k60bt70.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
