@@ -39,10 +39,7 @@ final GlobalKey<NavigatorState> homeShellNavKey = GlobalKey<NavigatorState>();
 /// {@endtemplate}
 @TypedGoRoute<AuthRoute>(
   path: '/auth',
-  routes: [
-    // TypedGoRoute<LoginDialogRoute>(path: 'login'),
-    TypedGoRoute<RegisterRoute>(path: 'register')
-  ],
+  routes: [TypedGoRoute<RegisterRoute>(path: 'register')],
 )
 class AuthRoute extends GoRouteData {
   /// {@macro lib.interfaces.router.routes.auth_route}

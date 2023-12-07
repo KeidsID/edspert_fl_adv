@@ -4,12 +4,12 @@ part of '../../use_cases.dart';
 /// Call [execute] to logout current user (remove user cache).
 /// {@endtemplate}
 final class LogoutUser {
-  final AuthCache _authCache;
+  final UserCache _authCache;
   final FirebaseAuthService _firebaseAuthService;
 
   /// {@macro lib.core.use_cases.auth.logout_user}
   const LogoutUser({
-    required AuthCache authCache,
+    required UserCache authCache,
     required FirebaseAuthService firebaseAuthService,
   })  : _authCache = authCache,
         _firebaseAuthService = firebaseAuthService;

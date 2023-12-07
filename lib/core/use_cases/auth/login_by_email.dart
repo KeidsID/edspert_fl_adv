@@ -7,12 +7,12 @@ part of '../../use_cases.dart';
 /// {@endtemplate}
 final class LoginByEmail {
   final UsersService _usersService;
-  final AuthCache _authCache;
+  final UserCache _authCache;
 
   /// {@macro lib.core.use_cases.auth.login_by_email}
   const LoginByEmail({
     required UsersService usersService,
-    required AuthCache authCache,
+    required UserCache authCache,
   })  : _usersService = usersService,
         _authCache = authCache;
 

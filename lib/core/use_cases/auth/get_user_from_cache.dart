@@ -4,10 +4,10 @@ part of '../../use_cases.dart';
 /// Call [execute] to get user from cache.
 /// {@endtemplate}
 final class GetUserFromCache {
-  final AuthCache _authCache;
+  final UserCache _authCache;
 
   /// {@macro lib.core.use_cases.auth.get_user_from_cache}
-  const GetUserFromCache({required AuthCache authCache})
+  const GetUserFromCache({required UserCache authCache})
       : _authCache = authCache;
 
   /// {@macro lib.core.use_cases.auth.get_user_from_cache}
