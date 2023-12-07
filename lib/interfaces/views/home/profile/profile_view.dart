@@ -240,7 +240,7 @@ class _SettingsCard extends StatelessWidget {
           Text('Akun', style: kPVContentTitleStyle(context)),
           Builder(builder: (context) {
             return TextButton.icon(
-              onPressed: () => userCacheCubit.logout(),
+              onPressed: () => userCacheCubit.logout(context),
               icon: Icon(
                 Icons.logout_outlined,
                 color: colorScheme.error,

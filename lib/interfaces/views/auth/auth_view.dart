@@ -1,9 +1,9 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:root_lib/common/assets_paths.dart';
 import 'package:root_lib/common/constants.dart';
-import 'package:root_lib/interfaces/router/routes/routes.dart';
+import 'package:root_lib/interfaces/providers.dart';
 
 class AuthView extends StatelessWidget {
   const AuthView({super.key});
@@ -11,7 +11,6 @@ class AuthView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
 
     final textTheme = theme.textTheme;
     final textColor = textTheme.bodyMedium?.color;
@@ -43,28 +42,51 @@ class AuthView extends StatelessWidget {
                   ),
                   textAlign: TextAlign.center,
                 ),
+
                 //
                 const Expanded(child: SizedBox()),
+
                 //
-                FilledButton(
-                  onPressed: () => const LoginDialogRoute().go(context),
-                  child: const Text('Masuk'),
-                ),
-                const SizedBox(height: kSpacerValue),
-                Text.rich(
-                  TextSpan(children: [
-                    const TextSpan(text: 'Belum punya akun? '),
-                    TextSpan(
-                      text: 'Daftar di sini',
-                      style: textTheme.bodyMedium?.copyWith(
-                        color: colorScheme.primary,
-                      ),
-                      recognizer: TapGestureRecognizer()
-                        ..onTap = () => const RegisterRoute().go(context),
+                Builder(builder: (context) {
+                  final authCubit = context.watch<UserCacheCubit>();
+                  final firebaseUserCubit = context.watch<FirebaseUserCubit>();
+                  final isLoading = firebaseUserCubit.state.isLoading ||
+                      authCubit.state.isLoading;
+
+                  return ElevatedButton(
+                    onPressed: isLoading
+                        ? null
+                        : () async {
+                            final showSnackBar =
+                                ScaffoldMessenger.of(context).showSnackBar;
+
+                            try {
+                              await firebaseUserCubit.fetch();
+                            } catch (e, trace) {
+                              kLogger.f(
+                                'Google Sign In Error',
+                                error: e,
+                                stackTrace: trace,
+                              );
+
+                              showSnackBar(const SnackBar(
+                                content: Text('Google Login Gagal'),
+                              ));
+                            }
+                          },
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        SizedBox(
+                          height: 32.0,
+                          child: Image.asset(AssetsPaths.googleIcon),
+                        ),
+                        const SizedBox(width: kSpacerValue),
+                        const Text('Masuk dengan Google'),
+                      ],
                     ),
-                  ]),
-                  textAlign: TextAlign.center,
-                ),
+                  );
+                }),
               ],
             ),
           ),

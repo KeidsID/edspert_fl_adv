@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:root_lib/core/use_cases/others/get_theme_mode.dart';
-import 'package:root_lib/core/use_cases/others/set_theme_mode.dart';
-import 'package:root_lib/infrastructures/services.dart' as services;
+import 'package:root_lib/core/use_cases.dart';
+import 'package:root_lib/infrastructures/container.dart' as container;
 
 final class ThemeModeCacheCubit extends Cubit<ThemeMode> {
   ThemeModeCacheCubit() : super(ThemeMode.system) {
@@ -11,13 +10,13 @@ final class ThemeModeCacheCubit extends Cubit<ThemeMode> {
   }
 
   Future<void> _build() async {
-    final themeMode = await services.locator<GetThemeMode>().execute();
+    final themeMode = await container.locator<GetThemeMode>().execute();
 
     emit(themeMode);
   }
 
   Future<void> updateMode(ThemeMode mode) async {
-    await services.locator<SetThemeMode>().execute(mode);
+    await container.locator<SetThemeMode>().execute(mode);
 
     emit(mode);
   }

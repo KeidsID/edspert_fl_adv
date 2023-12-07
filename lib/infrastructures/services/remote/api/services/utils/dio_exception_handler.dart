@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:root_lib/common/constants.dart';
 
-import 'package:root_lib/infrastructures/api/errors/common_response_exception.dart';
+import 'package:root_lib/infrastructures/services/remote/api/errors/common_response_exception.dart';
 
 void dioExceptionHandler(DioException e) {
   final response = e.response;

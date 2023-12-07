@@ -8,18 +8,8 @@ class MainApp extends StatefulWidget {
 }
 
 class _MainAppState extends State<MainApp> {
-  bool _isSplashRemoved = false;
-
   @override
   Widget build(BuildContext context) {
-    final userCacheCubit = context.watch<UserCacheCubit>();
-    final userCache = userCacheCubit.state;
-
-    if (!userCache.isLoading && !_isSplashRemoved) {
-      FlutterNativeSplash.remove();
-      setState(() => _isSplashRemoved = true);
-    }
-
     return MaterialApp.router(
       routerConfig: router,
       debugShowCheckedModeBanner: false,

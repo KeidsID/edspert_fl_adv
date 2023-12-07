@@ -1,5 +1,4 @@
-import 'package:root_lib/core/entities/course/course.dart';
-import 'package:root_lib/core/services/api/courses_service.dart';
+part of '../../use_cases.dart';
 
 class GetCoursesByMajor {
   final CoursesService _coursesService;

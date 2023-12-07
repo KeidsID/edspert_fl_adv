@@ -2,16 +2,16 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:root_lib/core/entities/course/course.dart';
-import 'package:root_lib/core/use_cases/courses/get_courses_by_major.dart';
-import 'package:root_lib/infrastructures/services.dart' as services;
+import 'package:root_lib/core/use_cases.dart';
+import 'package:root_lib/infrastructures/container.dart' as container;
 import 'package:root_lib/interfaces/providers/res/user_cache_cubit.dart';
 
 import '../utils/future_cubit.dart';
 
 abstract base class CoursesCubit extends FutureCubit<List<Course>> {
-  CoursesCubit(String email, {major = SchoolMajor.ipa})
-      : super(services.locator<GetCoursesByMajor>().execute(
-              email,
+  CoursesCubit(BuildContext context, {major = SchoolMajor.ipa})
+      : super(container.locator<GetCoursesByMajor>().execute(
+              context.read<UserCacheCubit>().state.value?.email ?? '',
               major: major,
             ));
 }
@@ -21,11 +21,7 @@ abstract base class CoursesCubit extends FutureCubit<List<Course>> {
 /// Its depend on [UserCacheCubit], so make sure the user cubit are provided
 /// first.
 final class IpaCoursesCubit extends CoursesCubit {
-  IpaCoursesCubit(BuildContext context)
-      : super(
-          context.read<UserCacheCubit>().state.value?.email ?? '',
-          major: SchoolMajor.ipa,
-        );
+  IpaCoursesCubit(super.context) : super(major: SchoolMajor.ipa);
 }
 
 /// Cubit for [SchoolMajor.ips] courses.
@@ -33,9 +29,5 @@ final class IpaCoursesCubit extends CoursesCubit {
 /// Its depend on [UserCacheCubit], so make sure the user cubit are provided
 /// first.
 final class IpsCoursesCubit extends CoursesCubit {
-  IpsCoursesCubit(BuildContext context)
-      : super(
-          context.read<UserCacheCubit>().state.value?.email ?? '',
-          major: SchoolMajor.ips,
-        );
+  IpsCoursesCubit(super.context) : super(major: SchoolMajor.ips);
 }

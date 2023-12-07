@@ -1,5 +1,4 @@
-import 'package:root_lib/core/entities/auth/user.dart';
-import 'package:root_lib/core/services/cache/auth_cache.dart';
+part of '../../use_cases.dart';
 
 /// {@template lib.core.use_cases.auth.get_user_from_cache}
 /// Call [execute] to get user from cache.

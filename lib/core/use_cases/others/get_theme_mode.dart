@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
-
-import 'package:root_lib/core/services/cache/theme_mode_cache.dart';
+part of '../../use_cases.dart';
 
 /// {@template root_lib.core.use_cases.others.get_theme_mode}
 /// Call [execute] to get [ThemeMode] from cache. Default are [ThemeMode.system].
