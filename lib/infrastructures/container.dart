@@ -49,7 +49,7 @@ Future<void> init() async {
     // cache
     ..registerSingletonAsync(() => SharedPreferences.getInstance())
     //
-    ..registerLazySingleton<AuthCache>(() => AuthCacheImpl(locator()))
+    ..registerLazySingleton<UserCache>(() => UserCacheImpl(locator()))
     ..registerLazySingleton<ThemeModeCache>(
         () => ThemeModeCacheImpl(locator()));
 

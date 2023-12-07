@@ -34,9 +34,6 @@ dependencies:
   firebase_core: ^2.24.0
   google_sign_in: ^6.1.6
 
-  # native
-  flutter_native_splash: ^2.3.7
-
   # annotation
   freezed_annotation: ^2.4.1
   json_annotation: ^4.8.1

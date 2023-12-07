@@ -3,10 +3,10 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:root_lib/core/entities/auth/user.dart';
-import 'package:root_lib/core/services/cache/auth_cache.dart';
+import 'package:root_lib/core/services/cache/user_cache.dart';
 
-class AuthCacheImpl implements AuthCache {
-  const AuthCacheImpl(SharedPreferences sharedPreferences)
+class UserCacheImpl implements UserCache {
+  const UserCacheImpl(SharedPreferences sharedPreferences)
       : _cacher = sharedPreferences;
 
   final SharedPreferences _cacher;

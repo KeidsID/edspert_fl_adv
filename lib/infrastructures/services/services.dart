@@ -1,4 +1,4 @@
-export 'cache/auth_cache_impl.dart';
+export 'cache/user_cache_impl.dart';
 export 'cache/theme_mode_cache_impl.dart';
 export 'remote/api/client/client.dart';
 export 'remote/api/services/courses_service_impl.dart';
