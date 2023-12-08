@@ -42,22 +42,20 @@ final class AsyncValueState<T> extends Equatable {
     this.error,
   });
 
-  /// Copy state with new values. [value] required to prevent invalid value on
-  /// nullable value (`AsyncValueState<T?>`)
-  ///
   /// Should only called by [FutureCubit]. Please refer to
   /// [FutureCubit.emitLoading], [FutureCubit.emitError], and
   /// [FutureCubit.emitValue] for safe state update.
   @protected
-  AsyncValueState<T> copyWithValue({
-    required T? value,
+  AsyncValueState<T> copyWith({
+    bool copyValue = true,
+    T? value,
     bool? hasValue,
     bool? isLoading,
     bool? isError,
     Object? error,
   }) {
     return AsyncValueState._(
-      value: value,
+      value: copyValue ? (value ?? this.value) : value,
       hasValue: hasValue ?? this.hasValue,
       isLoading: isLoading ?? this.isLoading,
       isError: isError ?? this.isError,

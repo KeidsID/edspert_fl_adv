@@ -30,9 +30,7 @@ final class AuthCubit extends FutureCubit<AuthValue> {
 
   AuthValue get _currentValue => state.value ?? AuthValue();
 
-  /// If state is not signed in, this method will do nothing.
-  ///
-  /// Call this after you signed in.
+  /// Verifying signed in user to check if the user already registered.
   Future<void> verifySignedInUser(BuildContext context) async {
     final isSignedIn = _currentValue.isSignedIn;
     final isVerifiedOnce = _currentValue.isVerifiedOnce;
@@ -53,8 +51,6 @@ final class AuthCubit extends FutureCubit<AuthValue> {
       rethrow;
     }
   }
-
-  void toInitState() => emitValue(AuthValue());
 
   /// Set [state.isAuth] and set false for other values.
   void updateAuthorization([bool isAuth = false]) {

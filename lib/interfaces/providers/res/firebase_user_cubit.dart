@@ -6,8 +6,8 @@ import '../utils/future_cubit.dart';
 typedef FirebaseUserCubitState = AsyncValueState<FirebaseUser?>;
 
 /// {@template lib.interfaces.providers.firebase_user_cubit}
-/// Its build [Future.value] with null value. So [refresh] will set value to null.
-/// Call [fetch] to fetch the [FirebaseUser].
+/// Fetch user data from [FirebaseAuth]. If no value, call [fetch] than [refresh]
+/// instead.
 /// {@endtemplate}
 final class FirebaseUserCubit extends FutureCubit<FirebaseUser?> {
   /// {@macro lib.interfaces.providers.firebase_user_cubit}
@@ -16,7 +16,12 @@ final class FirebaseUserCubit extends FutureCubit<FirebaseUser?> {
           final isGoogleSignedIn =
               container.locator<CheckFirebaseSignedInUser>().execute();
 
-          if (!isGoogleSignedIn) return null;
+          if (!isGoogleSignedIn) {
+            // delay to show splash screen.
+            await Future.delayed(const Duration(seconds: 2));
+
+            return null;
+          }
 
           return container.locator<LoginWithFirebase>().execute();
         }));

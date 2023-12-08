@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:root_lib/common/constants.dart';
 
+import 'package:root_lib/common/constants.dart';
 import 'package:root_lib/interfaces/providers.dart';
 import 'package:root_lib/interfaces/providers/utils/future_cubit.dart';
 
@@ -45,6 +45,8 @@ Widget authCubitsListener({required Widget child}) {
           final userCacheCubit = context.read<UserCacheCubit>();
 
           if (isSignedIn) {
+            // register route condition inside this block
+
             if (isRegistered) {
               try {
                 await userCacheCubit
@@ -62,7 +64,7 @@ Widget authCubitsListener({required Widget child}) {
                     final userCacheCubit = context.watch<UserCacheCubit>();
 
                     return AlertDialog(
-                      content: const Text('Gagal Masuk Dengan Google'),
+                      content: const Text('Verifikasi Gagal'),
                       actions: [
                         TextButton(
                           onPressed: userCacheCubit.state.isLoading
@@ -102,7 +104,7 @@ Widget authCubitsListener({required Widget child}) {
       /// When [FirebaseUser] exists, update [AuthCubit] to signed in state.
       BlocListener<FirebaseUserCubit, FirebaseUserCubitState>(
         listenWhen: (_, state) {
-          return !state.isLoading && state.value != null;
+          return !state.isLoading && state.hasValue && state.value != null;
         },
         listener: (context, state) {
           final authCubit = context.read<AuthCubit>();
@@ -114,7 +116,7 @@ Widget authCubitsListener({required Widget child}) {
 
       /// Update [AuthCubit] auth state based on [User] from cache.
       BlocListener<UserCacheCubit, UserCacheCubitState>(
-        listenWhen: (_, state) => !state.isLoading,
+        listenWhen: (_, state) => !state.isLoading && state.hasValue,
         listener: (context, state) {
           final authCubit = context.read<AuthCubit>();
           final user = state.value;
