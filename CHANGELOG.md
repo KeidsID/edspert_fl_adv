@@ -1,8 +1,14 @@
 ## v0.3.0
 
+### Removed
+
+- Web build.
+- Native splash.
+
 ### Added
 
-- Add google sign in feature using firebase.
+- Google sign in feature using firebase.
+- Splash Widget instead native splash.
 
 ## v0.2.0
 
