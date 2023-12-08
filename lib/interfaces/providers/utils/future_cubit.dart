@@ -74,39 +74,25 @@ abstract base class FutureCubit<T> extends Cubit<AsyncValueState<T>> {
   /// Update the state into loading state.
   @protected
   @visibleForTesting
-  void emitLoading() {
-    final prevValue = state.value;
-
-    emit(state.copyWithValue(
-      value: prevValue,
-      isLoading: true,
-      isError: false,
-    ));
-  }
+  void emitLoading() => emit(state.copyWith(isLoading: true, isError: false));
 
   /// Update the state into error state.
   @protected
   @visibleForTesting
   void emitError(Object error) {
-    final prevValue = state.value;
-
-    emit(state.copyWithValue(
-      value: prevValue,
-      isLoading: false,
-      isError: true,
-      error: error,
-    ));
+    emit(state.copyWith(isLoading: false, isError: true, error: error));
   }
 
   /// Update the state with a new value.
   @protected
   @visibleForTesting
   void emitValue(T value) {
-    emit(state.copyWithValue(
-      isLoading: false,
-      isError: false,
+    emit(state.copyWith(
+      copyValue: false,
       value: value,
       hasValue: true,
+      isLoading: false,
+      isError: false,
     ));
   }
 }

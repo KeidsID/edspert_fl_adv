@@ -64,7 +64,7 @@ final class UserCacheCubit extends FutureCubit<User?> {
       final authCubit = context.read<AuthCubit>();
 
       await container.locator<LogoutUser>().execute();
-      authCubit.toInitState();
+      authCubit.refresh();
 
       emitValue(null);
     } catch (e) {

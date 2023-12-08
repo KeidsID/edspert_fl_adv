@@ -12,16 +12,34 @@ import 'package:root_lib/interfaces/widgets/common/outlined_text_form_field.dart
 
 part '_sections/_input_field_section.dart';
 
-class RegisterView extends StatefulWidget {
+class RegisterView extends StatelessWidget {
   const RegisterView({super.key, this.signedInUser});
+
+  /// Used by form fields to set the initial value.
+  final FirebaseUser? signedInUser;
+
+  @override
+  Widget build(BuildContext context) {
+    final authCubit = context.watch<AuthCubit>();
+
+    final isVerifying = !(authCubit.state.value?.isVerifiedOnce ?? false);
+
+    if (isVerifying) return _VerifyingView(key: key);
+
+    return _RegisterViewImpl(key: key, signedInUser: signedInUser);
+  }
+}
+
+class _RegisterViewImpl extends StatefulWidget {
+  const _RegisterViewImpl({super.key, this.signedInUser});
 
   final FirebaseUser? signedInUser;
 
   @override
-  State<RegisterView> createState() => _RegisterViewState();
+  State<_RegisterViewImpl> createState() => _RegisterViewImplState();
 }
 
-class _RegisterViewState extends State<RegisterView> {
+class _RegisterViewImplState extends State<_RegisterViewImpl> {
   Gender? selectedGender;
   SchoolDetail? selectedClass;
 
@@ -56,153 +74,124 @@ class _RegisterViewState extends State<RegisterView> {
     final validateMode =
         isValidateOnce ? AutovalidateMode.onUserInteraction : null;
 
-    return Builder(builder: (context) {
-      final authCubit = context.watch<AuthCubit>();
+    final userCacheCubit = context.watch<UserCacheCubit>();
 
-      final isVerifying = !(authCubit.state.value?.isVerifiedOnce ?? false);
+    final isLoading = userCacheCubit.state.isLoading;
 
-      if (isVerifying) {
-        return Scaffold(
-          body: SafeArea(
-            child: SizedBox.expand(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'Verifikasi akun google',
-                    style: Theme.of(context).textTheme.titleMedium,
+    return Scaffold(
+      appBar: AppBar(
+        leading: BackButton(onPressed: () => userCacheCubit.logout(context)),
+        title: const Text('Yuk isi data diri'),
+      ),
+      bottomNavigationBar: SizedBox(
+        width: double.maxFinite,
+        height: kToolbarHeight,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: FilledButton(
+            onPressed: isLoading ? null : _onRegister,
+            child: const Text('Daftar'),
+          ),
+        ),
+      ),
+      body: SizedBox.expand(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(kPaddingValue).copyWith(bottom: 0),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _InputFieldSection(
+                  title: 'Email',
+                  inputField: OutlinedTextFormField(
+                    controller: emailController,
+                    enabled: false,
+                    decoration: const InputDecoration(
+                      hintText: 'username@example.com',
+                    ),
+                    keyboardType: TextInputType.emailAddress,
+                    textInputAction: TextInputAction.next,
+                    autovalidateMode: validateMode,
+                    validator: AppFormValidators.email,
                   ),
-                  const SizedBox(height: kSpacerValue),
-                  const CircularProgressIndicator(),
-                ],
-              ),
-            ),
-          ),
-        );
-      }
-
-      return Builder(builder: (context) {
-        final userCacheCubit = context.watch<UserCacheCubit>();
-
-        final isLoading = userCacheCubit.state.isLoading;
-
-        return Scaffold(
-          appBar: AppBar(
-            leading:
-                BackButton(onPressed: () => userCacheCubit.logout(context)),
-            title: const Text('Yuk isi data diri'),
-          ),
-          bottomNavigationBar: SizedBox(
-            width: double.maxFinite,
-            height: kToolbarHeight,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: FilledButton(
-                onPressed: isLoading ? null : _onRegister,
-                child: const Text('Daftar'),
-              ),
-            ),
-          ),
-          body: SizedBox.expand(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.all(kPaddingValue).copyWith(bottom: 0),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _InputFieldSection(
-                      title: 'Email',
-                      inputField: OutlinedTextFormField(
-                        controller: emailController,
-                        enabled: false,
-                        decoration: const InputDecoration(
-                          hintText: 'username@example.com',
-                        ),
-                        keyboardType: TextInputType.emailAddress,
-                        textInputAction: TextInputAction.next,
-                        autovalidateMode: validateMode,
-                        validator: AppFormValidators.email,
-                      ),
-                    ),
-
-                    //
-                    const SizedBox(height: kSpacerValue),
-                    _InputFieldSection(
-                      title: 'Nama Lengkap',
-                      inputField: OutlinedTextFormField(
-                        controller: fullnameController,
-                        enabled: !isLoading,
-                        decoration: const InputDecoration(hintText: 'Fulan'),
-                        keyboardType: TextInputType.name,
-                        // textInputAction: TextInputAction.next,
-                        autovalidateMode: validateMode,
-                        validator: AppFormValidators.fullname,
-                      ),
-                    ),
-
-                    //
-                    const SizedBox(height: kSpacerValue),
-                    _InputFieldSection(
-                      title: 'Jenis Kelamin',
-                      inputField: _GenderFormField(
-                        enabled: !isLoading,
-                        onSaved: (gender) {
-                          setState(() => selectedGender = gender);
-                        },
-                        autovalidateMode: validateMode,
-                        validator: AppFormValidators.gender,
-                      ),
-                    ),
-
-                    //
-                    const SizedBox(height: kSpacerValue),
-                    _InputFieldSection(
-                      title: 'Kelas',
-                      inputField: DropdownButtonFormField(
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                        ),
-                        isExpanded: true,
-                        hint: const Text('Pilih kelas'),
-                        value: selectedClass,
-                        onChanged: !isLoading
-                            ? (SchoolDetail? schoolGrade) {
-                                setState(() => selectedClass = schoolGrade);
-                              }
-                            : null,
-                        items: SchoolDetail.classes
-                            .map((e) =>
-                                DropdownMenuItem(value: e, child: Text('$e')))
-                            .toList(),
-                        autovalidateMode: validateMode,
-                        validator: AppFormValidators.schoolGrade,
-                      ),
-                    ),
-
-                    //
-                    const SizedBox(height: kSpacerValue),
-                    _InputFieldSection(
-                      title: 'Nama Sekolah',
-                      inputField: OutlinedTextFormField(
-                        controller: schoolNameController,
-                        enabled: !isLoading,
-                        decoration: const InputDecoration(
-                          hintText: 'SMA Islam Al-Azhar 12 Makassar',
-                        ),
-                        onEditingComplete: _onRegister,
-                        autovalidateMode: validateMode,
-                        validator: AppFormValidators.schoolName(selectedClass),
-                      ),
-                    ),
-                  ],
                 ),
-              ),
+
+                //
+                const SizedBox(height: kSpacerValue),
+                _InputFieldSection(
+                  title: 'Nama Lengkap',
+                  inputField: OutlinedTextFormField(
+                    controller: fullnameController,
+                    enabled: !isLoading,
+                    decoration: const InputDecoration(hintText: 'Fulan'),
+                    keyboardType: TextInputType.name,
+                    // textInputAction: TextInputAction.next,
+                    autovalidateMode: validateMode,
+                    validator: AppFormValidators.fullname,
+                  ),
+                ),
+
+                //
+                const SizedBox(height: kSpacerValue),
+                _InputFieldSection(
+                  title: 'Jenis Kelamin',
+                  inputField: _GenderFormField(
+                    enabled: !isLoading,
+                    onSaved: (gender) {
+                      setState(() => selectedGender = gender);
+                    },
+                    autovalidateMode: validateMode,
+                    validator: AppFormValidators.gender,
+                  ),
+                ),
+
+                //
+                const SizedBox(height: kSpacerValue),
+                _InputFieldSection(
+                  title: 'Kelas',
+                  inputField: DropdownButtonFormField(
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                    ),
+                    isExpanded: true,
+                    hint: const Text('Pilih kelas'),
+                    value: selectedClass,
+                    onChanged: !isLoading
+                        ? (SchoolDetail? schoolGrade) {
+                            setState(() => selectedClass = schoolGrade);
+                          }
+                        : null,
+                    items: SchoolDetail.classes
+                        .map((e) =>
+                            DropdownMenuItem(value: e, child: Text('$e')))
+                        .toList(),
+                    autovalidateMode: validateMode,
+                    validator: AppFormValidators.schoolGrade,
+                  ),
+                ),
+
+                //
+                const SizedBox(height: kSpacerValue),
+                _InputFieldSection(
+                  title: 'Nama Sekolah',
+                  inputField: OutlinedTextFormField(
+                    controller: schoolNameController,
+                    enabled: !isLoading,
+                    decoration: const InputDecoration(
+                      hintText: 'SMA Islam Al-Azhar 12 Makassar',
+                    ),
+                    onEditingComplete: _onRegister,
+                    autovalidateMode: validateMode,
+                    validator: AppFormValidators.schoolName(selectedClass),
+                  ),
+                ),
+              ],
             ),
           ),
-        );
-      });
-    });
+        ),
+      ),
+    );
   }
 
   void _onRegister() async {
@@ -252,6 +241,31 @@ class _RegisterViewState extends State<RegisterView> {
         ),
       ));
     }
+  }
+}
+
+class _VerifyingView extends StatelessWidget {
+  const _VerifyingView({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SafeArea(
+        child: SizedBox.expand(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Verifikasi Akun',
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
+              const SizedBox(height: kSpacerValue),
+              const CircularProgressIndicator(),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
 
