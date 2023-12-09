@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:root_lib/core/entities/auth/firebase_user.dart';
 import 'package:root_lib/interfaces/providers.dart';
 import 'package:root_lib/interfaces/providers/utils/future_cubit.dart';
+import 'package:root_lib/interfaces/router/router.dart';
 import 'package:root_lib/interfaces/router/routes/utils/auth_cubits_listener.dart';
 
 typedef AuthCubitState = AsyncValueState<AuthValue>;
@@ -22,7 +23,8 @@ typedef AuthCubitState = AsyncValueState<AuthValue>;
 /// then [UserCacheCubit.loginByEmail] should be called to trigger
 /// [AuthValue.isAuth].
 ///
-/// Check [authCubitsListener] for the detail.
+/// Check [authCubitsListener] for the state logic, and [router] for the routing
+/// logic.
 /// {@endtemplate}
 final class AuthCubit extends FutureCubit<AuthValue> {
   /// {@macro lib.interfaces.providers.auth_cubit}
