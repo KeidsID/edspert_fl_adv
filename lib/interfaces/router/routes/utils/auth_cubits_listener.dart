@@ -7,6 +7,9 @@ import 'package:root_lib/interfaces/providers.dart';
 import 'package:root_lib/interfaces/providers/utils/future_cubit.dart';
 
 /// [AuthCubit] listener is the one that triggers the router redirect.
+///
+/// Wrap this on each root routes located in
+/// `lib/intefaces/router/routes/routes.dart`.
 Widget authCubitsListener({required Widget child}) {
   return MultiBlocListener(
     listeners: [
