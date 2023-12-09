@@ -7,7 +7,7 @@
 /// Builder(
 ///   builder: (context) {
 ///     return ElevatedButton(
-///       onPressed: () => const LoginDialogRoute().go(context),
+///       onPressed: () => const ProfileRoute().go(context),
 ///       child: const Text('Login'),
 ///     );
 ///   },
@@ -19,16 +19,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:root_lib/core/entities/auth/editable_user.dart';
-import 'package:root_lib/core/entities/auth/school_detail.dart';
-import 'package:root_lib/core/entities/auth/user.dart';
+import 'package:root_lib/core/entities.dart';
 import 'package:root_lib/interfaces/providers/res/firebase_user_cubit.dart';
 import 'package:root_lib/interfaces/router/utils/dialog_page.dart';
 import 'package:root_lib/interfaces/views.dart';
 import 'utils/auth_cubits_listener.dart';
 
 part 'res/auth.dart';
-part 'res/home_shell.dart';
+part 'res/home_shell/home.dart';
+part 'res/home_shell/profile.dart';
 part 'routes.g.dart';
 
 final GlobalKey<NavigatorState> routerNavKey = GlobalKey<NavigatorState>();
@@ -54,7 +53,10 @@ class AuthRoute extends GoRouteData {
 /// Layout for `/` and `/profile` routes.
 @TypedShellRoute<HomeShellRoute>(
   routes: [
-    TypedGoRoute<HomeRoute>(path: '/'),
+    TypedGoRoute<HomeRoute>(
+      path: '/',
+      routes: [TypedGoRoute<CoursesRoute>(path: 'courses')],
+    ),
     TypedGoRoute<ProfileRoute>(
       path: '/profile',
       routes: [

@@ -5,11 +5,9 @@ import 'package:root_lib/core/entities/course/course.dart';
 import 'package:root_lib/interfaces/widgets/common/common_network_image.dart';
 
 class CourseCard extends StatelessWidget {
-  const CourseCard(this.course, {super.key, this.onTap});
+  const CourseCard(this.course, {super.key});
 
   final Course course;
-
-  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +19,7 @@ class CourseCard extends StatelessWidget {
       child: Card(
         clipBehavior: Clip.hardEdge,
         child: InkWell(
-          onTap: onTap,
+          onTap: () {},
           child: Padding(
             padding: const EdgeInsets.all(kPaddingValue),
             child: Row(
@@ -48,20 +46,25 @@ class CourseCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
+                      // name
                       Text(
                         course.name,
                         style: textTheme.titleMedium,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
+                      // completed studies count
                       Text(
                         '${course.completedStudiesCount}/${course.studiesCount} '
                         'Paket latihan soal',
                       ),
                       const SizedBox(height: kSpacerValue / 2),
+                      // completed studies percentage
                       LinearProgressIndicator(
-                        value:
-                            course.completedStudiesCount / course.studiesCount,
+                        value: (course.studiesCount == 0)
+                            ? 1
+                            : course.completedStudiesCount /
+                                course.studiesCount,
                       ),
                     ],
                   ),

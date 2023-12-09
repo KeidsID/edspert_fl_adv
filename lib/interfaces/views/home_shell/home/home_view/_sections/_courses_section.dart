@@ -24,7 +24,8 @@ class _CoursesSectionState extends State<_CoursesSection> {
           children: [
             Text('Pilih Pelajaran', style: textTheme.headlineSmall),
             TextButton(
-              onPressed: () {},
+              onPressed: () =>
+                  CoursesRoute(major: selectedMajor.toString()).go(context),
               child: const Text('Lihat Semua'),
             ),
           ],
@@ -33,7 +34,7 @@ class _CoursesSectionState extends State<_CoursesSection> {
           initialValue: _CoursesSection._initialMajor,
           onSaved: (val) => setState(() => selectedMajor = val!),
         ),
-        const SizedBox(height: 8.0),
+        const SizedBox(height: kSpacerValue / 2),
         _CoursesColumn(major: selectedMajor),
       ],
     );
@@ -114,7 +115,7 @@ class _CoursesColumn extends StatelessWidget {
         return Column(
           mainAxisSize: MainAxisSize.min,
           children: courses.map((course) {
-            return CourseCard(course, onTap: () {});
+            return CourseCard(course);
           }).toList(),
         );
       },
