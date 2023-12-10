@@ -42,12 +42,11 @@ class RawCourse with _$RawCourse {
     return Course(
       id: id,
       major: SchoolMajor.fromString(major),
-      category: category,
+      isExecise: category == 'latihan_soal',
       name: name,
       coverImageUrl: coverImageUrl,
       studiesCount: studiesCount,
       completedStudiesCount: completedStudiesCount,
-      progress: progress,
     );
   }
 }

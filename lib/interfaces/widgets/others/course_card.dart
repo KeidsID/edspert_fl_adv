@@ -60,12 +60,7 @@ class CourseCard extends StatelessWidget {
                       ),
                       const SizedBox(height: kSpacerValue / 2),
                       // completed studies percentage
-                      LinearProgressIndicator(
-                        value: (course.studiesCount == 0)
-                            ? 1
-                            : course.completedStudiesCount /
-                                course.studiesCount,
-                      ),
+                      LinearProgressIndicator(value: course.progress),
                     ],
                   ),
                 ),

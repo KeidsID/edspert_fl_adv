@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'firebase_options.dart';
-import 'infrastructures/container.dart' as container;
+import 'infrastructures/container/container.dart' as container;
 import 'interfaces/providers.dart';
 import 'interfaces/router/router.dart';
 import 'interfaces/themes/app_themes.dart';

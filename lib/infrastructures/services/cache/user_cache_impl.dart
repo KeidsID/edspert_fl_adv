@@ -15,7 +15,7 @@ class UserCacheImpl implements UserCache {
 
   @override
   Future<void> save(User user) async {
-    final isSuccess = await _cacher.setString(key, jsonEncode(user.toJson()));
+    final isSuccess = await _cacher.setString(key, jsonEncode(user.toCache()));
 
     if (!isSuccess) throw Exception('Failed to save user');
   }
@@ -28,7 +28,7 @@ class UserCacheImpl implements UserCache {
 
     if (rawUser == null) return null;
 
-    return User.fromJson(jsonDecode(rawUser));
+    return User.fromCache(jsonDecode(rawUser));
   }
 
   @override

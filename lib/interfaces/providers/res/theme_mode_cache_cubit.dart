@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:root_lib/core/use_cases.dart';
-import 'package:root_lib/infrastructures/container.dart' as container;
+import 'package:root_lib/infrastructures/container/container.dart' as container;
 
 final class ThemeModeCacheCubit extends Cubit<ThemeMode> {
   ThemeModeCacheCubit() : super(ThemeMode.system) {

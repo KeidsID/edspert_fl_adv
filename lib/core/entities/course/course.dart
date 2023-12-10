@@ -1,39 +1,38 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 
 final class Course extends Equatable {
   final String id;
   final SchoolMajor major;
-  final String category;
+
+  /// The category of the course is exercise.
+  final bool isExecise;
   final String name;
   final String coverImageUrl;
   final int studiesCount;
   final int completedStudiesCount;
-  final double progress;
+
+  /// Returns the progress of this course based on [completedStudiesCount].
+  ///
+  /// Suitable for [LinearProgressIndicator] widget.
+  double get progress {
+    return (studiesCount == 0) ? 1 : completedStudiesCount / studiesCount;
+  }
+
+  bool get isDone => progress == 1;
 
   const Course({
     required this.id,
     required this.major,
-    required this.category,
+    required this.isExecise,
     required this.name,
     required this.coverImageUrl,
     required this.studiesCount,
     required this.completedStudiesCount,
-    required this.progress,
   });
 
   @override
-  List<Object?> get props {
-    return [
-      id,
-      major,
-      category,
-      name,
-      coverImageUrl,
-      studiesCount,
-      completedStudiesCount,
-      progress,
-    ];
-  }
+  List<Object> get props => [id];
 }
 
 enum SchoolMajor {
