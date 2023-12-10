@@ -1,23 +1,5 @@
 import 'school_detail.dart';
 
-enum Gender {
-  male,
-  female;
-
-  static Gender fromString(String value) {
-    if (value == 'Laki-laki') return Gender.male;
-
-    return Gender.female;
-  }
-
-  @override
-  String toString() {
-    if (this == Gender.male) return 'Laki-laki';
-
-    return 'Perempuan';
-  }
-}
-
 final class User {
   final String id;
   final String name;
@@ -41,7 +23,7 @@ final class User {
     required this.status,
   });
 
-  factory User.fromJson(Map<String, dynamic> json) {
+  factory User.fromCache(Map<String, dynamic> json) {
     return User(
       id: json['id'],
       name: json['name'],
@@ -58,7 +40,7 @@ final class User {
     );
   }
 
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toCache() {
     return {
       'id': id,
       'name': name,
@@ -71,5 +53,23 @@ final class User {
       'gender': '$gender',
       'status': status,
     };
+  }
+}
+
+enum Gender {
+  male,
+  female;
+
+  static Gender fromString(String value) {
+    if (value == 'Laki-laki') return Gender.male;
+
+    return Gender.female;
+  }
+
+  @override
+  String toString() {
+    if (this == Gender.male) return 'Laki-laki';
+
+    return 'Perempuan';
   }
 }

@@ -1,6 +1,6 @@
 import 'package:root_lib/core/entities/auth/firebase_user.dart';
 import 'package:root_lib/core/use_cases.dart';
-import 'package:root_lib/infrastructures/container.dart' as container;
+import 'package:root_lib/infrastructures/container/container.dart' as container;
 import '../utils/future_cubit.dart';
 
 typedef FirebaseUserCubitState = AsyncValueState<FirebaseUser?>;

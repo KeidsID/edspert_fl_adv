@@ -11,6 +11,7 @@ part 'use_cases/auth/logout_user.dart';
 part 'use_cases/auth/register_user.dart';
 part 'use_cases/auth/update_user_by_email.dart';
 part 'use_cases/courses/get_courses_by_major.dart';
+part 'use_cases/courses/get_exercises_from_course.dart';
 part 'use_cases/events/get_event_banners.dart';
 part 'use_cases/others/get_theme_mode.dart';
 part 'use_cases/others/set_theme_mode.dart';

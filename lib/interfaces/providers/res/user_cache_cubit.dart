@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:root_lib/core/entities/auth/school_detail.dart';
 import 'package:root_lib/core/entities/auth/user.dart';
 import 'package:root_lib/core/use_cases.dart';
-import 'package:root_lib/infrastructures/container.dart' as container;
+import 'package:root_lib/infrastructures/container/container.dart' as container;
 import 'package:root_lib/interfaces/providers.dart';
 import '../utils/future_cubit.dart';
 
