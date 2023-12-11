@@ -4,13 +4,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:root_lib/core/entities/course/course.dart';
 import 'package:root_lib/core/use_cases.dart';
 import 'package:root_lib/infrastructures/container/container.dart' as container;
-import 'package:root_lib/interfaces/providers/res/user_cache_cubit.dart';
-
-import '../utils/future_cubit.dart';
+import 'package:root_lib/interfaces/providers/res/auth/user_cache_cubit.dart';
+import 'package:root_lib/interfaces/providers/utils/future_cubit.dart';
 
 abstract base class CoursesCubit extends FutureCubit<List<Course>> {
   CoursesCubit(BuildContext context, {major = SchoolMajor.ipa})
-      : super(container.locator<GetCoursesByMajor>().execute(
+      : super(() => container.locator<GetCoursesByMajor>().execute(
               context.read<UserCacheCubit>().state.value?.email ?? '',
               major: major,
             ));

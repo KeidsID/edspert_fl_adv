@@ -28,7 +28,7 @@ typedef AuthCubitState = AsyncValueState<AuthValue>;
 /// {@endtemplate}
 final class AuthCubit extends FutureCubit<AuthValue> {
   /// {@macro lib.interfaces.providers.auth_cubit}
-  AuthCubit() : super((() async => AuthValue())());
+  AuthCubit() : super(() async => AuthValue());
 
   AuthValue get _currentValue => state.value ?? AuthValue();
 
@@ -48,7 +48,6 @@ final class AuthCubit extends FutureCubit<AuthValue> {
 
       emitValue(_currentValue.copyWith(isRegistered: true));
     } catch (e) {
-      // emitError(e);
       emitValue(_currentValue.copyWith(isVerifiedOnce: true));
       rethrow;
     }

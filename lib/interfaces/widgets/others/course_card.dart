@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:root_lib/common/constants.dart';
 import 'package:root_lib/core/entities/course/course.dart';
+import 'package:root_lib/interfaces/router/routes/routes.dart';
 import 'package:root_lib/interfaces/widgets/common/common_network_image.dart';
 
 class CourseCard extends StatelessWidget {
@@ -19,7 +20,12 @@ class CourseCard extends StatelessWidget {
       child: Card(
         clipBehavior: Clip.hardEdge,
         child: InkWell(
-          onTap: () {},
+          onTap: course.id.isEmpty
+              ? null
+              : () => ExercisesRoute(
+                    major: "${course.major}",
+                    courseId: course.id,
+                  ).go(context),
           child: Padding(
             padding: const EdgeInsets.all(kPaddingValue),
             child: Row(
@@ -29,13 +35,7 @@ class CourseCard extends StatelessWidget {
                   aspectRatio: 1, // 1:1 (Square)
                   child: Card(
                     elevation: 2,
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: CommonNetworkImage(
-                        course.coverImageUrl,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
+                    child: CommonNetworkImage(course.coverImageUrl),
                   ),
                 ),
                 const SizedBox(width: kSpacerValue / 2),
@@ -53,13 +53,15 @@ class CourseCard extends StatelessWidget {
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
-                      // completed studies count
+
+                      // progress in text
                       Text(
                         '${course.completedStudiesCount}/${course.studiesCount} '
                         'Paket latihan soal',
                       ),
+
+                      // progress indicator
                       const SizedBox(height: kSpacerValue / 2),
-                      // completed studies percentage
                       LinearProgressIndicator(value: course.progress),
                     ],
                   ),

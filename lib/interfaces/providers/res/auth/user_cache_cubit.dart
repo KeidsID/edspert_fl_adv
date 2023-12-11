@@ -6,12 +6,13 @@ import 'package:root_lib/core/entities/auth/user.dart';
 import 'package:root_lib/core/use_cases.dart';
 import 'package:root_lib/infrastructures/container/container.dart' as container;
 import 'package:root_lib/interfaces/providers.dart';
-import '../utils/future_cubit.dart';
+import '../../utils/future_cubit.dart';
 
 typedef UserCacheCubitState = AsyncValueState<User?>;
 
 final class UserCacheCubit extends FutureCubit<User?> {
-  UserCacheCubit() : super(container.locator<GetUserFromCache>().execute());
+  UserCacheCubit()
+      : super(() => container.locator<GetUserFromCache>().execute());
 
   Future<void> loginByEmail(String email) async {
     emitLoading();

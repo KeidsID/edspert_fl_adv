@@ -42,43 +42,16 @@ class _EventBannersListView extends StatelessWidget {
       ),
 
       //
-      error: (e) {
-        Widget layout(Widget child) {
-          return SizedBox(
-            width: double.maxFinite,
-            height: maxH,
-            child: child,
-          );
-        }
-
-        if (e is CommonResponseException) {
-          return layout(Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(e.message, textAlign: TextAlign.center),
-              OutlinedButton.icon(
-                onPressed: () => eventBannersCubit.refresh(),
-                icon: const Icon(Icons.refresh_outlined),
-                label: const Text('Refresh'),
-              ),
-            ],
-          ));
-        }
-
-        kLogger.f('coursesProvider', error: e);
-
-        return layout(Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text('Terjadi kesalahan', textAlign: TextAlign.center),
-            OutlinedButton.icon(
-              onPressed: () => eventBannersCubit.refresh(),
-              icon: const Icon(Icons.refresh_outlined),
-              label: const Text('Refresh'),
-            ),
-          ],
-        ));
-      },
+      error: (error) => CommonErrorWidget(
+        error,
+        width: double.maxFinite,
+        height: maxH,
+        action: ElevatedButton.icon(
+          onPressed: () => eventBannersCubit.refresh(),
+          icon: const Icon(Icons.refresh_outlined),
+          label: const Text('Refresh'),
+        ),
+      ),
 
       //
       data: (data) {

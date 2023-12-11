@@ -20,7 +20,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:root_lib/core/entities.dart';
-import 'package:root_lib/interfaces/providers/res/firebase_user_cubit.dart';
+import 'package:root_lib/interfaces/providers/res/auth/firebase_user_cubit.dart';
 import 'package:root_lib/interfaces/router/utils/dialog_page.dart';
 import 'package:root_lib/interfaces/views.dart';
 import 'utils/auth_cubits_listener.dart';
@@ -55,7 +55,12 @@ class AuthRoute extends GoRouteData {
   routes: [
     TypedGoRoute<HomeRoute>(
       path: '/',
-      routes: [TypedGoRoute<CoursesRoute>(path: 'courses')],
+      routes: [
+        TypedGoRoute<CoursesRoute>(
+          path: 'courses',
+          routes: [TypedGoRoute<ExercisesRoute>(path: ':courseId')],
+        ),
+      ],
     ),
     TypedGoRoute<ProfileRoute>(
       path: '/profile',

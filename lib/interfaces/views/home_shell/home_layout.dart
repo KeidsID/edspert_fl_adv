@@ -37,7 +37,7 @@ class HomeLayout extends StatelessWidget {
         providers: [
           BlocProvider(create: (context) => IpaCoursesCubit(context)),
           BlocProvider(create: (context) => IpsCoursesCubit(context)),
-          BlocProvider.value(value: EventBannersCubit()),
+          BlocProvider(create: (_) => EventBannersCubit()),
         ],
         child: child,
       ),
@@ -51,11 +51,7 @@ class HomeLayout extends StatelessWidget {
           );
         }).toList(),
         currentIndex: _currentIndex(context),
-        onTap: (value) {
-          if (value == 1) return const ProfileRoute().go(context);
-
-          return const HomeRoute().go(context);
-        },
+        onTap: _onNavTap(context),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
@@ -72,6 +68,14 @@ class HomeLayout extends StatelessWidget {
     if (currentRoute.startsWith(const ProfileRoute().location)) return 1;
 
     return 0;
+  }
+
+  ValueChanged<int> _onNavTap(BuildContext context) {
+    return (value) {
+      if (value == 1) return const ProfileRoute().go(context);
+
+      return const HomeRoute().go(context);
+    };
   }
 }
 
