@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:root_lib/interfaces/providers.dart';
 import 'package:root_lib/interfaces/router/routes/routes.dart';
 
 const _navs = <_NavDelegate>[
