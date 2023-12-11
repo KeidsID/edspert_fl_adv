@@ -33,14 +33,7 @@ class HomeLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: MultiBlocProvider(
-        providers: [
-          BlocProvider(create: (context) => IpaCoursesCubit(context)),
-          BlocProvider(create: (context) => IpsCoursesCubit(context)),
-          BlocProvider(create: (_) => EventBannersCubit()),
-        ],
-        child: child,
-      ),
+      body: child,
       bottomNavigationBar: BottomNavigationBar(
         items: _navs.map((e) {
           return BottomNavigationBarItem(

@@ -26,6 +26,8 @@ class CoursesRoute extends GoRouteData {
   /// Please provide [SchoolMajor.toString].
   final String major;
 
+  static final GlobalKey<NavigatorState> $parentNavigatorKey = routerNavKey;
+
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return CoursesView(SchoolMajor.fromString(major));
@@ -45,6 +47,8 @@ class ExercisesRoute extends GoRouteData {
   /// Please provide [SchoolMajor.toString].
   final String major;
   final String courseId;
+
+  static final GlobalKey<NavigatorState> $parentNavigatorKey = routerNavKey;
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
