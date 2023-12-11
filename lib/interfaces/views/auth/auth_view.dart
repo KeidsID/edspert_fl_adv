@@ -15,10 +15,12 @@ class AuthView extends StatelessWidget {
       body: SafeArea(
         child: SizedBox.expand(
           child: Builder(builder: (context) {
-            final firebaseCubitHasValue =
-                context.watch<FirebaseUserCubit>().state.hasValue;
+            final firebaseUserCubit = context.watch<FirebaseUserCubit>();
+            final firbaseUserAsync = firebaseUserCubit.state;
 
-            if (!firebaseCubitHasValue) return _SplashView(key: key);
+            if (!firbaseUserAsync.hasValue && !firbaseUserAsync.isError) {
+              return _SplashView(key: key);
+            }
 
             return _LoginView(key: key);
           }),

@@ -5,14 +5,18 @@ import 'package:root_lib/common/constants.dart';
 
 import 'package:root_lib/infrastructures/services/remote/api/errors/common_response_exception.dart';
 
-void dioExceptionHandler(DioException e) {
+Object dioExceptionHandler(Object e) {
+  if (e is! DioException) return e;
+
   final response = e.response;
 
-  kLogger.d('dioExceptionHandler request uri', error: e.requestOptions.uri);
+  kLogger.i('dioExceptionHandler request uri', error: e.requestOptions.uri);
 
-  if (response == null) throw e;
+  if (response == null) return e;
 
   final rawResponseBody = jsonDecode(response.data ?? '');
 
-  throw CommonResponseException.fromJson(rawResponseBody);
+  kLogger.i('dioExceptionHandler response body', error: rawResponseBody);
+
+  return CommonResponseException.fromJson(rawResponseBody);
 }

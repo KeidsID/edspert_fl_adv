@@ -37,9 +37,7 @@ final class CoursesServiceImpl implements CoursesService {
 
       return resBody.data.map((e) => e.toEntity()).toList();
     } catch (e) {
-      if (e is DioException) dioExceptionHandler(e);
-
-      rethrow;
+      throw dioExceptionHandler(e);
     }
   }
 
@@ -63,9 +61,7 @@ final class CoursesServiceImpl implements CoursesService {
 
       return resBody.data.map((e) => e.toEntity()).toList();
     } catch (e) {
-      if (e is DioException) dioExceptionHandler(e);
-
-      rethrow;
+      throw dioExceptionHandler(e);
     }
   }
 }

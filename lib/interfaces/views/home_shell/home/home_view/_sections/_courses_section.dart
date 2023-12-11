@@ -64,43 +64,20 @@ class _CoursesColumn extends StatelessWidget {
         width: double.maxFinite,
         height: minH,
       ),
-      error: (e) {
-        Widget layout(Widget child) {
-          return SizedBox(
-            width: double.maxFinite,
-            height: minH,
-            child: child,
-          );
-        }
 
-        if (e is CommonResponseException) {
-          return layout(Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(e.message, textAlign: TextAlign.center),
-              OutlinedButton.icon(
-                onPressed: () => coursesCubit.refresh(),
-                icon: const Icon(Icons.refresh_outlined),
-                label: const Text('Refresh'),
-              ),
-            ],
-          ));
-        }
+      //
+      error: (error) => CommonErrorWidget(
+        error,
+        width: double.maxFinite,
+        height: minH,
+        action: ElevatedButton.icon(
+          onPressed: () => coursesCubit.refresh(),
+          icon: const Icon(Icons.refresh_outlined),
+          label: const Text('Refresh'),
+        ),
+      ),
 
-        kLogger.f('coursesProvider', error: e);
-
-        return layout(Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text('Terjadi kesalahan', textAlign: TextAlign.center),
-            OutlinedButton.icon(
-              onPressed: () => coursesCubit.refresh(),
-              icon: const Icon(Icons.refresh_outlined),
-              label: const Text('Refresh'),
-            ),
-          ],
-        ));
-      },
+      //
       data: (data) {
         if (data.isEmpty) {
           return SizedBox(

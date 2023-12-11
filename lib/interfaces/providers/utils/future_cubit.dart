@@ -5,6 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'async_value_state.dart';
 
+typedef FutureCubitBuilder<T> = Future<T> Function();
+
 /// {@template lib.interfaces.providers.utils.future_cubit}
 /// Cubit for [Future] value.
 ///
@@ -17,50 +19,23 @@ part 'async_value_state.dart';
 ///
 /// In case you need to rebuild the cubit, just call [refresh].
 ///
-/// Delayed counter cubit example:
-/// ```dart
-/// final class FutureCounterCubit extends FutureCubit<int> {
-///   FutureCounterCubit(int initialValue)
-///       : super(Future.delayed(_delay, () => initialValue));
-///
-///   static const _delay = Duration(seconds: 1);
-///
-///   Future<void> increment() async {
-///     emitLoading();
-///
-///     await Future.delayed(_delay);
-///
-///     emitValue((state.value ?? 0) + 1);
-///   }
-///
-///   Future<void> decrement() async {
-///     emitLoading();
-///
-///     await Future.delayed(_delay);
-///
-///     emitValue((state.value ?? 0) - 1);
-///   }
-/// }
-/// ```
-///
 /// Inspired by [riverpod](https://pub.dev/packages/riverpod) [FutureProvider].
 /// {@endtemplate}
 abstract base class FutureCubit<T> extends Cubit<AsyncValueState<T>> {
   /// {@macro lib.interfaces.providers.utils.future_cubit}
-  FutureCubit(Future<T> value)
-      : _future = value,
+  FutureCubit(FutureCubitBuilder<T> builder)
+      : _futureBuilder = builder,
         super(AsyncValueState<T>()) {
     _build();
   }
 
-  /// Future value to build.
-  final Future<T> _future;
+  final FutureCubitBuilder<T> _futureBuilder;
 
   Future<void> _build() async {
     try {
       emitLoading();
 
-      final value = await _future;
+      final value = await _futureBuilder();
 
       emitValue(value);
     } catch (e) {
