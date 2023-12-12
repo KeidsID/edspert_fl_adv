@@ -19,7 +19,7 @@ Ref:
 ## App Screenshots
 
 <div style="overflow-x: scroll; white-space: nowrap;">
-    <img src="repo-assets/screenshots/v0.4.1-splash.jpg" 
+    <img src="repo-assets/screenshots/v0.4.1-splash.jpg"
       height="400" />
     <img src="repo-assets/screenshots/v0.4.1-login.jpg" 
       height="400" />

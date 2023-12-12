@@ -22,10 +22,14 @@ void main() async {
       BlocProvider.value(value: AuthCubit()),
       BlocProvider.value(value: FirebaseUserCubit()),
       BlocProvider.value(value: UserCacheCubit()),
-      BlocProvider.value(value: ThemeModeCacheCubit()),
+      
+      //
       BlocProvider(create: (context) => IpaCoursesCubit(context)),
       BlocProvider(create: (context) => IpsCoursesCubit(context)),
       BlocProvider(create: (_) => EventBannersCubit()),
+
+      //
+      BlocProvider.value(value: ThemeModeCacheCubit()),
     ],
     child: const MainApp(),
   ));
